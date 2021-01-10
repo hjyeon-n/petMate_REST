@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper interface랑 경로를 똑같이 정함 -->
+<mapper namespace="com.ssd.petMate.dao.mybatis.mapper.GpurchaseLineItemMapper">
+
+  	<!-- 공동구매 lineItem 목록 가져오기  -->
+	<select id="getGpurchaseLineItemList" parameterType="int" resultType="com.ssd.petMate.domain.GpurchaseLineItem">
+		 SELECT *
+		 FROM GLineItem
+		 WHERE orderNum = #{orderNum}
+	</select>
+	
+	<!-- 공동구매 lineItem 삽입하기 -->
+	<insert id="insertGpurchaseLineItem" parameterType="com.ssd.petMate.domain.GpurchaseLineItem">
+ 		INSERT
+ 		INTO GLineItem (orderNum, price, boardNum) VALUES(#{orderNum}, #{price}, #{boardNum})
+ 	</insert>
+	
+</mapper>

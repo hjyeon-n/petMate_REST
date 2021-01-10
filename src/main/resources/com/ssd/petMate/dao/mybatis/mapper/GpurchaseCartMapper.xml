@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper interface랑 경로를 똑같이 정함 -->
+<mapper namespace="com.ssd.petMate.dao.mybatis.mapper.GpurchaseCartMapper">
+  
+	<select id="getGpurchaseCartListByGpurchase" parameterType="String" resultType="com.ssd.petMate.domain.GpurchaseCartCommand">
+		SELECT gc.userID, gc.boardNum, g.userID AS "gpurchase.userID", g.boardNum AS "gpurchase.boardNum", g.price AS "gpurchase.price", g.boardTitle AS "gpurchase.boardTitle"
+		FROM GpurchaseCart gc, Gpurchase g
+		WHERE gc.boardNum = g.boardNum AND gc.userID = #{userID}
+		ORDER BY gc.boardNum
+	</select>
+	
+	<!-- 공동구매 장바구니 추가하기  -->
+	<insert id="insertGpurchaseCart" parameterType="com.ssd.petMate.domain.GpurchaseCart">
+ 		INSERT
+ 		INTO GpurchaseCart(boardNum, userID, likeDate) VALUES(#{boardNum}, #{userID}, SYSDATE)
+ 	</insert>
+	
+	<!-- 공동구매 장바구니 삭제하기  -->
+	<delete id="deleteGpurchaseCart" parameterType="com.ssd.petMate.domain.GpurchaseCart">
+		DELETE
+		FROM GpurchaseCart
+		WHERE boardNum=#{boardNum} and userID=#{userID}
+	</delete>
+	
+	<!-- 게시글에 대한 추천이 몇개인지 -->
+	<select id="countCartByboardNum" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM GpurchaseCart
+		WHERE boardNum = #{boardNum}
+	</select>
+	
+	<!-- 사용자가 장바구니로 담았는지 확인 -->
+	<select id="isCart" resultType="int" parameterType="com.ssd.petMate.domain.GpurchaseCart">
+		SELECT COUNT(*)
+		FROM GpurchaseCart
+		WHERE boardNum=#{boardNum} and userID=#{userID}
+	</select> 
+	
+	<!-- 기간 만료된 공구 카트 삭제 -->
+	<delete id="deleteFinished">
+		DELETE FROM
+		GpurchaseCart
+		WHERE boardNum IN (SELECT boardNum
+                    FROM Gpurchase
+                    WHERE status IS NOT NULL)
+	</delete>
+</mapper>

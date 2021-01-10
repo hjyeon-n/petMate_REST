@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper interface랑 경로를 똑같이 정함 -->
+<mapper namespace="com.ssd.petMate.dao.mybatis.mapper.ReviewReplyMapper">
+  <cache />
+  	<!-- 댓글 리스트 가져오기  일단 페이징 없이 시작 -->
+	<select id="getReplyList" parameterType="int" resultType="com.ssd.petMate.domain.ReviewReply" flushCache="false"
+  		useCache="true">
+		SELECT * 
+		FROM ReviewReply
+		WHERE boardNum = #{boardNum}
+		ORDER BY 
+		CASE 
+			WHEN replyParents = 0 THEN replyNum
+		    ELSE replyParents
+		    END, replyNum
+	</select>
+	
+	<!-- 댓글 삽입하기  -->
+	<insert id="insertReply" parameterType="ReviewReply">
+ 		INSERT 
+		INTO ReviewReply(boardNum, replyContent, userID, replyDate, replyGID, replyOrder, replyParents)
+		VALUES(#{boardNum}, #{replyContent}, #{userID}, TO_DATE(SYSDATE,'yyyy.mm.dd hh24:mi'), #{replyGID}, #{replyOrder}, #{replyParents}) 
+	</insert>
+	
+	<!-- 댓글 수정하기  -->
+	<update id="updateReply" parameterType="com.ssd.petMate.domain.ReviewReply">
+		UPDATE ReviewReply SET
+		replyContent = #{replyContent}
+		WHERE replyNum = #{replyNum}
+	</update>
+	
+	<!-- 댓글 삭제하기  -->
+	<!-- 부모 댓글을 삭제하면 밑에 답글들도 삭제할 수 있도록 or 처리 -->
+	<delete id="deleteReply" parameterType="Integer">
+		DELETE FROM ReviewReply
+		WHERE replyNum = #{replyNum} or replyGID = #{replyGID}
+	</delete>
+
+	<!-- 댓글 상세정보 가져오기  -->
+	<select id="replyDetail" parameterType="Integer" resultType="com.ssd.petMate.domain.ReviewReply">
+		SELECT *
+		FROM ReviewReply
+		WHERE replyNum = #{replyNum}
+	</select>
+	
+	<!-- 게시글에 달린 댓글 수   -->
+	<select id="replyCnt" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*)
+		FROM ReviewReply
+		WHERE boardNum = #{boardNum}
+	</select>
+	
+	<!-- 답글 순서 정하기  -->
+	<!-- 답글 추가 시 이전에 있던 답글들에 order + 1 하기  -->
+	<update id="setReplyOrder" parameterType="hashMap">
+		UPDATE ReviewReply
+		SET replyOrder = replyOrder + 1
+		WHERE replyGID = #{replyGID} and replyOrder > #{replyOrder}
+	</update>
+
+ 
+<!-- 페이징 처리 시 필요 -> 추후 삭제 가능 O -->
+	<!-- 마지막 댓글 ID 찾아오기  -->
+	<!-- 페이징을 위해서 필요  -->
+<!--	<select id="findLastReplyID" resultType="Integer">
+		SELECT replyNum
+		FROM ReviewReply
+		ORDER BY replyNum DESC LIMIT 1;
+	</select>
+	
+	같은 GID를 가진 댓글 수 찾아오기 
+	<select id="countSameGID" resultType="Integer" parameterType="Integer">
+		SELECT COUNT(*)
+		FROM ReviewReply
+		WHERE replyGID = #{replyNum}
+	</select>
+ -->
+</mapper>

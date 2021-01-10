@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper interface랑 경로를 똑같이 정함 -->
+<mapper namespace="com.ssd.petMate.dao.mybatis.mapper.UserMapper">
+	<!-- 회원 정보 가져오기  -->
+	<select id="getUserByUserIDAndPwd" parameterType="com.ssd.petMate.domain.UserList" resultType="com.ssd.petMate.domain.UserList">
+		SELECT *
+		FROM UserList
+		WHERE userID = #{userID} AND pwd = #{pwd}
+	</select>
+	
+	<!-- 회원 리스트  -->
+	<select id="getAllUser" parameterType="com.ssd.petMate.page.BoardSearch" resultType="com.ssd.petMate.domain.UserList">
+		SELECT *
+		FROM (
+            SELECT 
+            ROWNUM AS NUM,
+            userList.*
+            FROM
+            (
+                SELECT 
+                * 
+                FROM 
+                UserList
+                <where>
+					<if test="keyword != null">
+						userID LIKE '%' ||  #{keyword} || '%'
+					</if>
+				</where>
+                ORDER BY userID ASC 
+            )userList)
+		WHERE NUM BETWEEN #{startList} AND #{endList}
+	</select>
+	
+	<!-- 회원 수 가져오기 -->
+	<select id="userCount" resultType="int" parameterType="String">
+	      SELECT COUNT(*)
+	      FROM UserList
+	      <where>
+	         <if test="value != null and value != ''">
+	            userID LIKE '%' ||  #{value} || '%'
+	         </if>
+	      </where>
+	</select>
+	
+  	<!-- 회원 가입  -->
+	<insert id="insertUser" parameterType="com.ssd.petMate.domain.UserList">
+		INSERT
+		INTO UserList (userID, pwd, email, userType, authority)
+		VALUES (#{userID}, #{pwd}, #{email}, #{userType}, #{authority})
+	</insert>
+
+  	<!-- 아이디 중복 확인 -->
+	<select id="countUserByUserID" parameterType="String" resultType="Integer">
+		SELECT COUNT(*)
+		FROM userList
+		WHERE userID = #{userID}
+	</select>
+	
+	<select id="getUserByUserID" parameterType="String" resultType="com.ssd.petMate.domain.UserList">
+		SELECT *
+		FROM userList
+		WHERE userID = #{userID}
+	</select>
+	
+	<select id="getAthorityByUserID" parameterType="String" resultType="String">
+		SELECT authority
+		FROM userList
+		WHERE userID = #{userID}
+	</select>
+	
+	<!-- 회원 정보 수정  -->
+	<update id="updateUser" parameterType="com.ssd.petMate.domain.UserList">
+		UPDATE UserList SET  
+		email = #{email},  
+		pwd = #{pwd},  
+		userType = #{userType}  
+		WHERE userID = #{userID}
+	</update>
+	
+	<!-- 회원 탈퇴  -->
+	<delete id="deleteUser" parameterType="String">
+		DELETE FROM userList
+		WHERE userID = #{userID}
+	</delete>
+	
+	<!-- 펫시터인지 체크 -->
+	<select id="isPetsitter" parameterType="String" resultType="Integer">
+		SELECT userType
+		FROM userList
+		WHERE userID = #{userID}
+	</select>
+</mapper>

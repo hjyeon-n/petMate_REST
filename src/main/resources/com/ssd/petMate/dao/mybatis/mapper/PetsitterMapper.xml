@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssd.petMate.dao.mybatis.mapper.PetsitterMapper">
+	<!-- 게시글 개수 가져오기 -->
+	<select id="boardPageCount" resultType="int" parameterType="HashMap">
+		SELECT COUNT(*)
+		FROM Petsitter
+		<where>
+			<if test="searchType=='boardTitle' and keyword != null and keyword != ''">
+				and boardTitle LIKE CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="searchType=='boardContent' and keyword != null and keyword != ''">
+				and boardContent LIKE CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="searchType=='userID' and keyword != null and keyword != ''">
+				and userID LIKE CONCAT('%',#{keyword},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 게시글 목록 가져오기 -->
+	<select id="getAllBoard" parameterType="com.ssd.petMate.page.BoardSearch" resultType="com.ssd.petMate.domain.Petsitter">
+		SELECT *
+		FROM (
+            SELECT 
+            ROWNUM AS NUM,
+            petsitter.*
+            FROM
+            (
+                SELECT 
+                * 
+                FROM 
+                Petsitter
+                <where>
+		        	<if test="searchType=='boardTitle' and keyword != null and keyword != ''">
+		            	boardTitle LIKE '%' ||  #{keyword} || '%'
+		         	</if>
+		         	<if test="searchType=='boardContent' and keyword != null and keyword != ''">
+		            	boardContent LIKE '%' ||  #{keyword} || '%'
+		         	</if>
+		         	<if test="searchType=='userID' and keyword != null and keyword != ''">
+		            	userID LIKE '%' ||  #{keyword} || '%'
+		         	</if>
+		      	</where>
+                ORDER BY boardNum ASC 
+            )petsitter)                
+		WHERE NUM BETWEEN #{startList} AND #{endList}
+	</select>
+
+	<!-- 게시글 작성 -->
+	<insert id="insertBoard" parameterType="com.ssd.petMate.domain.Petsitter">
+		INSERT 
+		INTO Petsitter(userID, boardTitle, boardContent, replyCnt, boardHit, boardDate, petPrice, petLocal, petDay, petSize, boardLike, petAddress)
+		VALUES(#{userID}, #{boardTitle}, #{boardContent}, #{replyCnt, jdbcType=NUMERIC}, #{boardHit, jdbcType=NUMERIC}, SYSDATE, 
+		#{petPrice, jdbcType=NUMERIC}, #{petLocal, jdbcType=VARCHAR}, #{petDay, jdbcType=VARCHAR}, #{petSize, jdbcType=VARCHAR}, 
+		#{boardLike, jdbcType=NUMERIC}, #{petAddress, jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 게시글 상세보기 -->
+	<select id="boardDetail" parameterType="int" resultType="com.ssd.petMate.domain.Petsitter">
+		SELECT *
+		FROM Petsitter
+		WHERE boardNum = #{boardNum}
+	</select>
+	
+	<!-- 게시글 수정 -->
+	<update id="updateBoard" parameterType="com.ssd.petMate.domain.Petsitter">
+		UPDATE Petsitter SET
+		boardTitle = #{boardTitle},
+		boardContent = #{boardContent},
+		boardDate = SYSDATE,
+		petPrice = #{petPrice, jdbcType=NUMERIC},
+		petLocal = #{petLocal, jdbcType=VARCHAR},
+		petDay = #{petDay, jdbcType=VARCHAR},
+		petSize = #{petSize, jdbcType=VARCHAR},
+		petAddress = #{petAddress, jdbcType=VARCHAR}
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM Petsitter
+		WHERE boardNum = #{boardNum}
+	</delete>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateViews" parameterType="int">
+		UPDATE Petsitter
+		SET boardHit = boardHit + 1
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 필터링기능 -->
+	<select id="filtering" parameterType="com.ssd.petMate.Controller.FilteringCommand" resultType="com.ssd.petMate.domain.Petsitter">
+		SELECT *
+		FROM Petsitter
+	 	<where>
+	 		<if test="petLocal != null">
+	 			petLocal = #{petLocal, jdbcType=VARCHAR}
+	 		</if>
+	 		<if test="petDay != 0">
+	 			AND petDay = #{petDay, jdbcType=VARCHAR}
+	 		</if>
+	 		<if test="petSize != 0">
+	 			AND petSize = #{petSize, jdbcType=VARCHAR}
+	 		</if>
+		 	<if test="petPrice != 0">
+		 		AND
+			 	<if test="petPrice == 1">
+					petPrice Between 15000 AND 17000
+				</if>
+				<if test="petPrice == 2">
+					petPrice Between 17001 AND 19000
+				</if>
+				<if test="petPrice == 3">
+					petPrice Between 19001 AND 21000
+				</if>
+				<if test="petPrice == 4">
+					petPrice Between 21001 AND 23000
+				</if>
+				<if test="petPrice == 5">
+					petPrice Between 23001 AND 25000
+				</if>
+		 	</if>
+		</where>
+		ORDER BY boardNum ASC
+	</select>
+	
+	<!-- 필터링기능 -->
+	<select id="filteringCount" parameterType="com.ssd.petMate.Controller.FilteringCommand" resultType="int">
+		SELECT COUNT(*)
+		FROM Petsitter
+	 	<where>
+	 		<if test="petLocal != null">
+	 			petLocal = #{petLocal, jdbcType=VARCHAR}
+	 		</if>
+	 		<if test="petDay != 0">
+	 			AND petDay = #{petDay, jdbcType=VARCHAR}
+	 		</if>
+	 		<if test="petSize != 0">
+	 			AND petSize = #{petSize, jdbcType=VARCHAR}
+	 		</if>
+		 	<if test="petPrice != 0">
+		 		AND
+			 	<if test="petPrice == 1">
+					petPrice Between 15000 AND 17000
+				</if>
+				<if test="petPrice == 2">
+					petPrice Between 17001 AND 19000
+				</if>
+				<if test="petPrice == 3">
+					petPrice Between 19001 AND 21000
+				</if>
+				<if test="petPrice == 4">
+					petPrice Between 21001 AND 23000
+				</if>
+				<if test="petPrice == 5">
+					petPrice Between 23001 AND 25000
+				</if>
+		 	</if>
+		</where>
+		ORDER BY boardNum ASC
+	</select>
+	
+	<update id="selectPetsitter" parameterType="HashMap">
+		UPDATE Petsitter
+		SET isSelected = #{isSelected}
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 좋아요 업데이트 -->	
+	<update id="updateLike" parameterType="HashMap">
+		UPDATE Petsitter
+		SET boardLike = #{boardLike}
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 댓글 수 업데이트 -->	
+	<update id="updateReplyCnt" parameterType="com.ssd.petMate.domain.Petsitter">
+		UPDATE Petsitter
+		SET replyCnt = #{replyCnt}
+		WHERE boardNum = #{boardNum}
+	</update>
+</mapper>

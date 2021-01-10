@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssd.petMate.dao.mybatis.mapper.InfoMapper">
+	<!-- 게시글 개수 가져오기 -->
+	<select id="boardPageCount" resultType="int" parameterType="HashMap">
+	      SELECT COUNT(*)
+	      FROM Info
+		<where>
+			<if test="searchType=='boardTitle' and keyword != null and keyword != ''">
+				boardTitle LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType=='boardContent' and keyword != null and keyword != ''">
+				boardContent LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType=='userID' and keyword != null and keyword != ''">
+				userID LIKE '%' || #{keyword} || '%'
+			</if>
+		</where>
+	   </select>
+	
+	<!-- 게시글 목록 가져오기 -->
+	<select id="getAllBoard" parameterType="com.ssd.petMate.page.BoardSearch" resultType="com.ssd.petMate.domain.Info">
+		SELECT *
+		FROM (
+            SELECT 
+            ROWNUM AS NUM,
+            info.*
+            FROM
+            (
+                SELECT 
+                * 
+                FROM 
+                Info
+                <where>
+		        	<if test="searchType=='boardTitle' and keyword != null and keyword != ''">
+		            	boardTitle LIKE '%' ||  #{keyword} || '%'
+		         	</if>
+		         	<if test="searchType=='boardContent' and keyword != null and keyword != ''">
+		            	boardContent LIKE '%' ||  #{keyword} || '%'
+		         	</if>
+		         	<if test="searchType=='userID' and keyword != null and keyword != ''">
+		            	userID LIKE '%' ||  #{keyword} || '%'
+		         	</if>
+		      	</where>
+                ORDER BY boardNum ASC 
+            )info)
+            WHERE NUM BETWEEN #{startList} AND #{endList}
+	</select>
+
+	<!-- 게시글 작성 -->
+	<insert id="insertBoard" parameterType="com.ssd.petMate.domain.Info">
+		INSERT 
+		INTO Info(userID, boardTitle, boardContent, replyCnt, boardHit, boardDate, boardLike)
+		VALUES(#{userID}, #{boardTitle}, #{boardContent}, #{replyCnt, jdbcType=NUMERIC}, #{boardHit, jdbcType=NUMERIC}, SYSDATE, #{boardLike, jdbcType=NUMERIC})
+	</insert>
+	
+	<!-- 게시글 상세보기 -->
+	<select id="boardDetail" parameterType="int" resultType="com.ssd.petMate.domain.Info">
+		SELECT *
+		FROM Info
+		WHERE boardNum = #{boardNum}
+	</select>
+	
+	<!-- 게시글 수정 -->
+	<update id="updateBoard" parameterType="com.ssd.petMate.domain.Info">
+		UPDATE Info SET
+		boardTitle = #{boardTitle},
+		boardContent = #{boardContent},
+		boardDate = SYSDATE
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM Info
+		WHERE boardNum = #{boardNum}
+	</delete>
+		
+	<!-- 조회수 증가 -->
+	<update id="updateViews" parameterType="int">
+		UPDATE Info
+		SET boardHit = boardHit + 1
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 좋아요 업데이트 -->	
+	<update id="updateLike" parameterType="com.ssd.petMate.domain.Info">
+		UPDATE Info
+		SET boardLike = #{boardLike}
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 댓글 수 업데이트 -->	
+	<update id="updateReplyCnt" parameterType="com.ssd.petMate.domain.Info">
+		UPDATE Info
+		SET replyCnt = #{replyCnt}
+		WHERE boardNum = #{boardNum}
+	</update>
+</mapper>

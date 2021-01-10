@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper interface랑 경로를 똑같이 정함 -->
+<mapper namespace="com.ssd.petMate.dao.mybatis.mapper.SecondhandMapper">
+
+    <!-- 중고물품 게시글 목록 가져오기  -->
+	<select id="getSecondhandList" parameterType="com.ssd.petMate.page.BoardSearch" resultType="com.ssd.petMate.domain.Secondhand">
+     	SELECT *
+		FROM(
+            SELECT 
+            ROWNUM AS NUM,
+           	secondhand.*
+            FROM
+            (
+                SELECT 
+                * 
+                FROM 
+                secondhand
+                <where>
+		        	<if test="searchType=='boardTitle' and keyword != null and keyword != ''">
+		            	boardTitle LIKE '%' ||  #{keyword} || '%'
+		         	</if>
+		         	<if test="searchType=='boardContent' and keyword != null and keyword != ''">
+		            	boardContent LIKE '%' ||  #{keyword} || '%'
+		         	</if>
+		         	<if test="searchType=='userID' and keyword != null and keyword != ''">
+		            	userID LIKE '%' ||  #{keyword} || '%'
+		         	</if>
+		      	</where>
+                ORDER BY boardNum ASC 
+            )secondhand)
+            WHERE NUM BETWEEN #{startList} AND #{endList}
+	</select>
+	
+	<!-- 중고물품 게시글 수 -->
+	<select id="getSecondhandBoardCount" resultType="int" parameterType="HashMap">
+		SELECT COUNT(*)
+		FROM Secondhand
+		<where>
+			<if test="searchType=='boardTitle' and keyword != null and keyword != ''">
+				boardTitle LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType=='boardContent' and keyword != null and keyword != ''">
+				boardContent LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType=='userID' and keyword != null and keyword != ''">
+				userID LIKE '%' || #{keyword} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 중고물품 게시글 삽입하기  -->
+	<insert id="insertSecondhand" parameterType="com.ssd.petMate.domain.Secondhand">
+ 		INSERT
+ 		INTO Secondhand(userID, boardTitle, boardContent, replyCnt, boardHit, boardDate, price, cartAdded, isSold)
+ 		VALUES(#{userID}, #{boardTitle}, #{boardContent}, #{replyCnt, jdbcType=NUMERIC}, #{boardHit, jdbcType=NUMERIC}, SYSDATE, #{price, jdbcType=NUMERIC}, #{cartAdded, jdbcType=NUMERIC}, #{isSold, jdbcType=NUMERIC})
+ 	</insert>
+	
+	<!-- 중고물품 게시글 수정하기  -->
+	<update id="updateSecondhand" parameterType="com.ssd.petMate.domain.Secondhand">
+		UPDATE Secondhand
+		SET boardTitle = #{boardTitle},
+		boardContent = #{boardContent},
+		boardDate = SYSDATE,
+		price = #{price}
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 중고물품 게시글 삭제하기  -->
+	<delete id="deleteSecondhand" parameterType="int">
+		DELETE FROM Secondhand
+		WHERE boardNum = #{boardNum}
+	</delete>
+
+	<!-- 중고물품 게시글 상세정보 가져오기  -->
+	<select id="getSecondhandDetail" parameterType="int" resultType="com.ssd.petMate.domain.Secondhand">
+		SELECT *
+		FROM Secondhand
+		WHERE boardNum = #{boardNum}
+	</select>
+	
+	<!-- 중고물품 장바구니 업데이트 -->
+	<update id="secondhandCartUpdate" parameterType="com.ssd.petMate.domain.Secondhand">
+		UPDATE secondhand
+		SET cartAdded = #{cartAdded}
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 중고물품 댓글 업데이트 -->
+	<update id="secondhandReplyCntUpdate" parameterType="com.ssd.petMate.domain.Secondhand">
+		UPDATE secondhand
+		SET replyCnt = #{replyCnt}
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 중고물품 조회수 증가 -->
+	<update id="secondhandBoardHitPlus" parameterType="int">
+		UPDATE Secondhand
+		SET boardHit = boardHit + 1
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 중고물품 판매 완료 -->
+	<update id="secondhandIsSold" parameterType="com.ssd.petMate.domain.Secondhand">
+		UPDATE Secondhand
+		SET isSold = + 1,
+		boardTitle = #{boardTitle}
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+</mapper>

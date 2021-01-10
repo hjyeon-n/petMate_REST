@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper interface랑 경로를 똑같이 정함 -->
+<mapper namespace="com.ssd.petMate.dao.mybatis.mapper.AnswerMapper">
+  <cache />
+  		<!-- 댓글 리스트 가져오기 -->
+	<select id="getAnswerList" parameterType="int" resultType="com.ssd.petMate.domain.Answer" flushCache="false"
+  		useCache="true">
+		SELECT * 
+		FROM Answer
+		WHERE boardNum = #{boardNum}
+		ORDER BY 
+		CASE 
+			WHEN replyParents = 0 THEN answerNum
+		    ELSE replyParents
+		    END, answerNum
+	</select>
+	
+	<!-- 답글 삽입하기  -->
+	<insert id="insertAnswer" parameterType="Answer">
+ 		INSERT 
+		INTO Answer(boardNum, answerContent, userID, answerDate, replyGID, replyOrder, replyParents)
+		VALUES(#{boardNum}, #{answerContent}, #{userID}, SYSDATE, #{replyGID}, #{replyOrder}, #{replyParents}) 
+	</insert>
+	
+	<!-- 댓글 수정하기  -->
+	<update id="updateAnswer" parameterType="com.ssd.petMate.domain.Answer">
+		UPDATE Answer SET
+		answerContent = #{answerContent}
+		WHERE answerNum = #{answerNum}
+	</update>
+	
+	<!-- 댓글 채택하기  -->
+	<update id="selectAnswer" parameterType="com.ssd.petMate.domain.Answer">
+		UPDATE Answer SET
+		isSelected = 1
+		WHERE answerNum = #{answerNum}
+	</update>
+	
+	<!-- 답글 삭제하기  -->
+	<!-- 부모 답글을 삭제하면 밑에 대댓글들도 삭제할 수 있도록 or 처리 -->
+	<delete id="deleteAnswer" parameterType="Integer">
+		DELETE FROM Answer
+		WHERE answerNum = #{answerNum} or replyGID = #{replyGID}
+	</delete>
+	
+	<!-- 댓글 상세정보 가져오기  -->
+	<select id="answerDetail" parameterType="Integer" resultType="com.ssd.petMate.domain.Answer">
+		SELECT *
+		FROM Answer
+		WHERE answerNum = #{answerNum}
+	</select>
+	
+	<!-- 게시글에 달린 답글 수   -->
+	<select id="answerCnt" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*)
+		FROM Answer
+		WHERE boardNum = #{boardNum}
+	</select>
+	
+	<!-- 답글 순서 정하기  -->
+	<!-- 답글 추가 시 이전에 있던 답글들에 order + 1 하기  -->
+	<update id="setAnswerOrder" parameterType="hashMap">
+		UPDATE Answer
+		SET replyOrder = replyOrder + 1
+		WHERE replyGID = #{replyGID} and replyOrder > #{replyOrder}
+	</update>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssd.petMate.dao.mybatis.mapper.InfoLikeMapper">
+	<insert id="insertLike" parameterType="com.ssd.petMate.domain.InfoLike">
+		INSERT
+		INTO InfoLike(boardNum, userID, likeDate)
+		VALUES(#{boardNum}, #{userID}, SYSDATE)
+	</insert>
+	
+	<delete id="deleteLike" parameterType="com.ssd.petMate.domain.InfoLike">
+		DELETE
+		FROM InfoLike
+		WHERE boardNum=#{boardNum} and userID=#{userID}	
+	</delete>
+	
+	<select id="countLike" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM InfoLike
+		WHERE boardNum = #{boardNum}
+	</select>
+	
+	<select id="isLike" resultType="int" parameterType="com.ssd.petMate.domain.InfoLike">
+		SELECT COUNT(*)
+		FROM InfoLike
+		WHERE boardNum=#{boardNum} and userID=#{userID}
+	</select> 
+</mapper>

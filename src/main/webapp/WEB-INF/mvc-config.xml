@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+    <context:component-scan base-package="com.ssd.petMate.Controller"/>  
+
+    <mvc:annotation-driven />
+
+	<mvc:default-servlet-handler />
+	
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+    <mvc:resources mapping="/css/**" location="/css/"/>
+    <mvc:resources mapping="/js/**" location="/js/"/>
+	
+	
+	<util:properties id="file" location="classpath:/messages/api.properties" />
+	
+	<!-- TILES VIEW DEFINITIONS -->
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/view/tiles/template/tilesdef.xml</value>
+            </list>
+        </property>
+    </bean>	
+
+	<!-- TILES VIEW RESOLVER -->
+    <bean id="tilesViewResolver"
+		class="org.springframework.web.servlet.view.tiles3.TilesViewResolver">
+        <property name="order" value="1"/>
+    </bean>
+    
+    <bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages.validation</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+    
+	<!-- tiles view가 존재하지 않을 경우 JSP view 이용 -->
+ 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+<!-- 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/> -->
+		<property name="contentType" value="text/html; charset=UTF-8"/>
+		<property name="prefix" value="/WEB-INF/view/"/>
+		<property name="suffix" value=".jsp"/>
+		<property name="order" value="2" />	
+	</bean>  
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/infoForm" />
+			<mvc:mapping path="/inquiryForm" />
+			<mvc:mapping path="/gpurchaseForm" />
+			<mvc:mapping path="/secondhandForm" />
+			<mvc:mapping path="/petsitterForm" />
+			<mvc:mapping path="/reviewForm" />
+				<bean class="com.ssd.petMate.interceptor.LoginCheckInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	</bean>
+</beans>

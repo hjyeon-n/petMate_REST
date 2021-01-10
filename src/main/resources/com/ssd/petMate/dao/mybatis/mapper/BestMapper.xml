@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssd.petMate.dao.mybatis.mapper.BestMapper">
+	<select id="weeklyBestInfo" resultType="com.ssd.petMate.domain.Info" parameterType="Date">
+		<![CDATA[
+		SELECT *
+		FROM Info
+		WHERE boardNum IN 
+		(SELECT boardNum
+         FROM(
+              SELECT COUNT(*), boardNum
+              FROM InfoLike
+              WHERE TO_DATE(likeDate, 'yyyy/mm/dd') >= TO_DATE(#{date} - 7, 'yyyy/mm/dd')
+              GROUP BY boardNum
+              ORDER BY COUNT(*) DESC)
+        WHERE ROWNUM <= 3)
+		]]>
+	</select>
+	
+	<select id="weeklyBestInquiry" resultType="com.ssd.petMate.domain.Inquiry" parameterType="Date">
+		<![CDATA[
+		SELECT *
+		FROM Inquiry
+		WHERE boardNum IN 
+		(SELECT boardNum
+         FROM(
+              SELECT COUNT(*), boardNum
+              FROM InquiryLike
+              WHERE TO_DATE(likeDate, 'yyyy/mm/dd') >= TO_DATE(#{date} - 7, 'yyyy/mm/dd')
+              GROUP BY boardNum
+              ORDER BY COUNT(*) DESC)
+        WHERE ROWNUM <= 3)
+		]]>
+	</select>
+	
+	<select id="weeklyBestReview" resultType="com.ssd.petMate.domain.Review" parameterType="Date">
+		<![CDATA[
+		SELECT *
+		FROM Review
+		WHERE boardNum IN 
+		(SELECT boardNum
+         FROM(
+              SELECT COUNT(*), boardNum
+              FROM ReviewLike
+              WHERE TO_DATE(likeDate, 'yyyy/mm/dd') >= TO_DATE(#{date} - 7, 'yyyy/mm/dd')
+              GROUP BY boardNum
+              ORDER BY COUNT(*) DESC)
+        WHERE ROWNUM <= 3)
+		]]>
+	</select>
+	
+	<select id="weeklyBestGpurchase" resultType="com.ssd.petMate.domain.Gpurchase" parameterType="Date">
+		<![CDATA[
+		SELECT *
+		FROM Gpurchase
+		WHERE boardNum IN 
+		(SELECT boardNum
+         FROM(
+              SELECT COUNT(*), boardNum
+              FROM GpurchaseCart
+              WHERE TO_DATE(likeDate, 'yyyy/mm/dd') >= TO_DATE(#{date} - 7, 'yyyy/mm/dd')
+              GROUP BY boardNum
+              ORDER BY COUNT(*) DESC)
+        WHERE ROWNUM <= 3)
+		]]>
+	</select>
+	
+	<select id="dailyBestInfo" resultType="com.ssd.petMate.domain.Info">
+		<![CDATA[
+		SELECT *
+		FROM Info
+		WHERE boardNum IN 
+		(SELECT boardNum
+         FROM(
+              SELECT COUNT(*), boardNum
+              FROM InfoLike
+              WHERE TO_DATE(likeDate, 'yyyy/mm/dd') = TO_DATE(SYSDATE, 'yyyy/mm/dd')
+              GROUP BY boardNum
+              ORDER BY COUNT(*) DESC)
+        WHERE ROWNUM <= 1)
+		]]>
+	</select>
+	
+	<select id="dailyBestInquiry" resultType="com.ssd.petMate.domain.Inquiry">
+		<![CDATA[
+		SELECT *
+		FROM Inquiry
+		WHERE boardNum IN 
+		(SELECT boardNum
+         FROM(
+              SELECT COUNT(*), boardNum
+              FROM InquiryLike
+              WHERE TO_DATE(likeDate, 'yyyy/mm/dd') = TO_DATE(SYSDATE, 'yyyy/mm/dd')
+              GROUP BY boardNum
+              ORDER BY COUNT(*) DESC)
+        WHERE ROWNUM <= 1)
+		]]>
+	</select>
+	
+	<select id="dailyBestReview" resultType="com.ssd.petMate.domain.Review">
+		<![CDATA[
+		SELECT *
+		FROM Review
+		WHERE boardNum IN 
+		(SELECT boardNum
+         FROM(
+              SELECT COUNT(*), boardNum
+              FROM ReviewLike
+              WHERE TO_DATE(likeDate, 'yyyy/mm/dd') = TO_DATE(SYSDATE, 'yyyy/mm/dd')
+              GROUP BY boardNum
+              ORDER BY COUNT(*) DESC)
+        WHERE ROWNUM <= 1)
+		]]>
+	</select>
+	
+	<select id="dailyBestGpurchase" resultType="com.ssd.petMate.domain.Gpurchase">
+		<![CDATA[
+		SELECT *
+		FROM Gpurchase
+		WHERE boardNum IN 
+		(SELECT boardNum
+         FROM(
+              SELECT COUNT(*), boardNum
+              FROM GpurchaseCart
+              WHERE TO_DATE(likeDate, 'yyyy/mm/dd') = TO_DATE(SYSDATE, 'yyyy/mm/dd')
+              GROUP BY boardNum
+              ORDER BY COUNT(*) DESC)
+        WHERE ROWNUM <= 1)
+		]]>
+	</select>
+</mapper>

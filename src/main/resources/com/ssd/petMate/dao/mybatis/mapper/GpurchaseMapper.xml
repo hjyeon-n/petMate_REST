@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- <typeAlias type="com.ssd.petMate.domain.Gpurchase" alias="Gpurchase" /> -->
+<!-- mapper interface랑 경로를 똑같이 정함 -->
+<mapper namespace="com.ssd.petMate.dao.mybatis.mapper.GpurchaseMapper">
+
+  	<!-- 공동구매 게시글 목록 가져오기  -->
+	<select id="getGpurchaseList" parameterType="com.ssd.petMate.page.BoardSearch" resultType="com.ssd.petMate.domain.Gpurchase">
+      SELECT *
+		FROM(
+            SELECT 
+            ROWNUM AS NUM,
+           	gpurchase.*
+            FROM
+            (
+                SELECT 
+                * 
+                FROM 
+                gpurchase
+                <where>
+		        	<if test="searchType=='boardTitle' and keyword != null and keyword != ''">
+		            	boardTitle LIKE '%' ||  #{keyword} || '%'
+		         	</if>
+		         	<if test="searchType=='boardContent' and keyword != null and keyword != ''">
+		            	boardContent LIKE '%' ||  #{keyword} || '%'
+		         	</if>
+		         	<if test="searchType=='userID' and keyword != null and keyword != ''">
+		            	userID LIKE '%' ||  #{keyword} || '%'
+		         	</if>
+		      	</where>
+                ORDER BY boardNum ASC 
+            )gpurchase)
+            WHERE NUM BETWEEN #{startList} AND #{endList}
+	</select>
+
+	<!-- 공동구매 게시글 수 -->
+	<select id="getGpurchaseBoardCount" resultType="int"
+		parameterType="HashMap">
+		SELECT COUNT(*)
+		FROM Gpurchase
+		<where>
+			<if test="searchType=='boardTitle' and keyword != null and keyword != ''">
+				boardTitle LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType=='boardContent' and keyword != null and keyword != ''">
+				boardContent LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType=='userID' and keyword != null and keyword != ''">
+				userID LIKE '%' || #{keyword} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 공동구매 게시글 삽입하기  -->
+	<insert id="insertGpurchase" parameterType="com.ssd.petMate.domain.Gpurchase">
+	 <selectKey keyProperty="boardNum" resultType="int" order="BEFORE">
+ 		SELECT GBN_SEQ.nextval AS boardNum FROM DUAL
+ 	</selectKey>
+ 		INSERT
+ 		INTO Gpurchase(boardNum, userID, boardTitle, boardContent, replyCnt, boardHit, boardDate,  price, cartAdded, sdate, edate, goalNum, lprice, participant, status, productName)
+ 		VALUES(#{boardNum}, #{userID}, #{boardTitle}, #{boardContent}, #{replyCnt,jdbcType=NUMERIC}, #{boardHit,jdbcType=NUMERIC}, SYSDATE, #{price,jdbcType=NUMERIC}, #{cartAdded,jdbcType=NUMERIC}, TO_DATE(#{sdate},'yyyy.mm.dd hh24:mi'), TO_DATE(#{edate},'yyyy.mm.dd hh24:mi'), #{goalNum,jdbcType=NUMERIC}, #{lprice,jdbcType=NUMERIC}, #{participant,jdbcType=NUMERIC}, #{status,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR})
+ 	</insert>
+	
+	<!-- 공동구매 게시글 수정하기  -->
+	<update id="updateGpurchase" parameterType="com.ssd.petMate.domain.Gpurchase">
+		UPDATE Gpurchase SET 
+		boardTitle = #{boardTitle}, 
+		boardContent = #{boardContent}, 
+		boardDate = SYSDATE, 
+		price = #{price},
+		lprice = #{lprice,jdbcType=NUMERIC},
+		productName = #{productName,jdbcType=VARCHAR}
+		WHERE boardNum = #{boardNum}
+	</update>
+
+	<!-- 공동구매 게시글 삭제하기  -->
+	<delete id="deleteGpurchase" parameterType="int">
+		DELETE FROM Gpurchase
+		WHERE boardNum = #{boardNum}
+	</delete>
+
+	<!-- 공동구매 게시글 상세정보 가져오기  -->
+	<select id="getGpurchaseDetail" parameterType="int" resultType="com.ssd.petMate.domain.Gpurchase">
+		SELECT *
+		FROM Gpurchase
+		WHERE boardNum = #{boardNum}
+	</select>
+	
+	<!-- 공동구매 장바구니 업데이트 -->
+	<update id="gpurchaseCartUpdate" parameterType="com.ssd.petMate.domain.Gpurchase">
+		UPDATE Gpurchase
+		SET cartAdded = #{cartAdded}
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 공동구매 댓글 업데이트 -->
+	<update id="gpurchaseReplyCntUpdate" parameterType="com.ssd.petMate.domain.Gpurchase">
+		UPDATE Gpurchase
+		SET replyCnt = #{replyCnt}
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 공동구매 조회수 증가 -->
+	<update id="gpurchaseBoardHitPlus" parameterType="int">
+		UPDATE Gpurchase
+		SET boardHit = boardHit + 1
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 공동구매 결과 업데이트  -->
+	<update id="updateResult" parameterType="com.ssd.petMate.domain.Gpurchase">
+		UPDATE Gpurchase
+		SET status = #{status}
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 공동구매 참여자 수 업데이트  -->
+	<update id="updateParticipant" parameterType="int">
+		UPDATE Gpurchase
+		SET participant = participant + 1
+		WHERE boardNum = #{boardNum}
+	</update>
+</mapper>

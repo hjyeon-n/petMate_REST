@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper interface랑 경로를 똑같이 정함 -->
+<mapper namespace="com.ssd.petMate.dao.mybatis.mapper.SecondhandCartMapper">
+
+ 	<select id="getSecondhandCartListBySecondhand" parameterType="String" resultType="com.ssd.petMate.domain.SecondhandCartCommand">
+		SELECT sc.userID, sc.boardNum, s.userID AS "secondhand.userID", s.boardNum AS "secondhand.boardNum", s.price AS "secondhand.price", s.boardTitle AS "secondhand.boardTitle"
+		FROM SecondhandCart sc, Secondhand s
+		WHERE sc.boardNum = s.boardNum AND sc.userID = #{userID}
+		ORDER BY sc.boardNum
+	</select>
+	
+	<!-- 공동구매 장바구니 추가하기  -->
+	<insert id="insertSecondhandCart" parameterType="com.ssd.petMate.domain.SecondhandCart">
+ 		INSERT
+ 		INTO SecondhandCart(boardNum, userID) VALUES(#{boardNum}, #{userID})
+ 	</insert>
+	
+	<!-- 공동구매 장바구니 삭제하기  -->
+	<delete id="deleteSecondhandCart" parameterType="com.ssd.petMate.domain.SecondhandCart">
+		DELETE
+		FROM SecondhandCart
+		WHERE boardNum=#{boardNum} and userID=#{userID}
+	</delete>
+	
+	<!-- 게시글에 대한 추천이 몇개인지 -->
+	<select id="countCartByboardNum" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM SecondhandCart
+		WHERE boardNum = #{boardNum}
+	</select>
+	
+	<!-- 사용자가 장바구니로 담았는지 확인 -->
+	<select id="isCart" resultType="int" parameterType="com.ssd.petMate.domain.SecondhandCart">
+		SELECT COUNT(*)
+		FROM SecondhandCart
+		WHERE boardNum=#{boardNum} and userID=#{userID}
+	</select> 
+
+</mapper>

@@ -1,0 +1,69 @@
+
+/*//////////////////////////////////////////////////////////////////
+[ FONT ]*/
+@font-face {
+  font-family: NanumSquare_extraBold;
+  src: url('../../fonts/Nanumsquare/NanumSquare_acEB.ttf'); 
+}
+
+@font-face {
+  font-family: NanumSquare_bold;
+  src: url('../../fonts/Nanumsquare/NanumSquare_acB.ttf'); 
+}
+
+@font-face {
+  font-family: NanumSquare_regular;
+  src: url('../../fonts/Nanumsquare/NanumSquare_acR.ttf'); 
+}
+
+@font-face {
+  font-family: NanumSquare_light;
+  src: url('../../fonts/Nanumsquare/NanumSquare_acL.ttf'); 
+}
+
+/*//////////////////////////////////////////////////////////////////
+/*
+    Image credits:
+    uifaces.com (http://uifaces.com/authorized)
+   	inquiry comment css
+*/
+.dropdown-toggle::after {
+    display:none;
+}
+.box {
+	transform:scale(1.5);
+	width: 100%;
+	margin-top:100px;
+	margin-left:200px;
+    min-height: 600px;
+}
+.reviews {
+    color: #555;    
+    font-weight: bold;
+    margin: 10px auto 20px;
+}
+.media .media-object { max-width: 120px; }
+.media-body { position: relative; }
+.media-date { 
+    position: absolute; 
+    right: 25px;
+    top: 25px;
+}
+.media-date li { padding: 0; }
+.media-date li:first-child:before { content: ''; }
+.media-date li:before { 
+    content: '.'; 
+    margin-left: -2px; 
+    margin-right: 2px;
+}
+.media-comment { margin-bottom: 20px; }
+.media-replied { margin: 0 0 20px 50px; }
+.media-replied .media-heading { padding-left: 6px; }
+.header-top {font-size: 15px;}
+.site-logo {font-size: 35px; margin: 20px;}
+body {	
+  line-height: 1.7;
+  color: gray;
+  font-weight: 300;
+  font-size: 15px;
+  font-family: NanumSquare_regular, sans-serif; }

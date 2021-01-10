@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper interface랑 경로를 똑같이 정함 -->
+<mapper namespace="com.ssd.petMate.dao.mybatis.mapper.SecondhandReplyMapper">
+  <!-- 댓글 리스트 가져오기  -->
+	<select id="getReplyList" parameterType="int" resultType="com.ssd.petMate.domain.SecondhandReply" flushCache="false" useCache="true">
+		SELECT *
+		FROM SecondhandReply
+		WHERE boardNum = #{baordNum}
+		ORDER BY 
+		CASE
+			WHEN replyParents = 0 THEN replyNum
+			ELSE replyParents
+			END, replyNum
+	</select>
+	
+	<!-- 댓글 삽입하기  -->
+	<insert id="insertReply" parameterType="com.ssd.petMate.domain.SecondhandReply">
+ 		INSERT 
+		INTO SecondhandReply(boardNum, replyContent, userID, replyDate, replyGID, replyOrder, replyParents)
+		VALUES(#{boardNum}, #{replyContent}, #{userID}, SYSDATE, #{replyGID, jdbcType=NUMERIC}, #{replyOrder, jdbcType=NUMERIC}, #{replyParents, jdbcType=NUMERIC}) 
+	</insert>
+	
+	<!-- 댓글 수정하기  -->
+	<update id="updateReply" parameterType="com.ssd.petMate.domain.SecondhandReply">
+		UPDATE SecondhandReply SET
+		replyContent = #{replyContent}
+		WHERE replyNum = #{replyNum}
+	</update>
+	
+	<!-- 댓글 삭제하기  -->
+	<!-- 부모 댓글을 삭제하면 밑에 답글들도 삭제할 수 있도록 or 처리 -->
+	<delete id="deleteReply" parameterType="int">
+		DELETE FROM SecondhandReply
+		WHERE replyNum = #{replyNum} or replyGID = #{replyGID}
+	</delete>
+
+	<!-- 댓글 상세정보 가져오기  -->
+	<select id="replyDetail" parameterType="int" resultType="com.ssd.petMate.domain.SecondhandReply">
+		SELECT *
+		FROM SecondhandReply
+		WHERE replyNum = #{replyNum}
+	</select>
+	
+	<!-- 게시글에 달린 댓글 수   -->
+	<select id="replyCnt" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM SecondhandReply
+		WHERE boardNum = #{boardNum}
+	</select>
+	
+	<!-- 답글 순서 정하기  -->
+	<!-- 답글 추가 시 이전에 있던 답글들에 order + 1 하기  -->
+	<update id="setReplyOrder" parameterType="hashMap">
+		UPDATE SecondhandReply
+		SET replyOrder = replyOrder + 1
+		WHERE replyGID = #{replyGID} and replyOrder > #{replyOrder}
+	</update>
+
+</mapper>
