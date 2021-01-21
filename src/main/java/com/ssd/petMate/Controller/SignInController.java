@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ssd.petMate.service.UserImpl;
 
 @Controller
-@RequestMapping("/signIn")
+@RequestMapping("/sign-in")
 public class SignInController {
 
 	@Value("user/signIn")

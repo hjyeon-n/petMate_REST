@@ -27,19 +27,19 @@
                   <div class="ml-md-auto top-social d-none d-lg-inline-block">
                   <c:choose>
                   	<c:when test="${userID eq null}">
-                  		<a href="${pageContext.request.contextPath}/signIn">로그인</a> &nbsp;&nbsp; | &nbsp;&nbsp;
+                  		<a href="${pageContext.request.contextPath}/sign-in">로그인</a> &nbsp;&nbsp; | &nbsp;&nbsp;
                        	<a href="${pageContext.request.contextPath}/signUp">회원가입</a>
                     </c:when>
                     <c:when test="${userID eq 'admin'}">
                     	<div style="margin-top: -45px">관리자 ${userID}</div>
-						<a href="${pageContext.request.contextPath}/signOut">로그아웃</a> &nbsp;&nbsp; | &nbsp;&nbsp;
+						<a href="${pageContext.request.contextPath}/sign-out">로그아웃</a> &nbsp;&nbsp; | &nbsp;&nbsp;
                        	<a href="${pageContext.request.contextPath}/admin">관리자 페이지</a>
                     </c:when>
                     <c:when test="${userID ne null}">
                     	<div style="margin-top: -45px">안녕하세요 ${userID}님
                     		<img src="resources/img/paw.png" width="16px" height="16px"/>
                     	</div>
-						<a href="${pageContext.request.contextPath}/signOut">로그아웃</a> &nbsp;&nbsp; | &nbsp;&nbsp;
+						<a href="${pageContext.request.contextPath}/sign-out">로그아웃</a> &nbsp;&nbsp; | &nbsp;&nbsp;
                        	<a href="${pageContext.request.contextPath}/mypage">마이페이지</a>
                     </c:when>
                   </c:choose>
