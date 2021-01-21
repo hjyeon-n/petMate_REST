@@ -17,11 +17,11 @@
          <div class="container">
             <div class="row align-items-center">
                <div class="col-12 col-lg-6 d-flex">
-               	 <img src="resources/img/dog.png" width="64px" height="64px"/>
+               	 <img src="${pageContext.request.contextPath}/resources/img/dog.png" width="64px" height="64px"/>
                   <a href="${pageContext.request.contextPath}/index" class="site-logo"> PETMATE </a> <a href="#"
                      class="ml-auto d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span
                      class="icon-menu h3"></span></a> 
-                     <img src="resources/img/cat.png" width="64px" height="64px"/>
+                     <img src="${pageContext.request.contextPath}/resources/img/cat.png" width="64px" height="64px"/>
                </div>
                <div class="col-12 col-lg-6 ml-auto d-flex">
                   <div class="ml-md-auto top-social d-none d-lg-inline-block">
@@ -37,7 +37,7 @@
                     </c:when>
                     <c:when test="${userID ne null}">
                     	<div style="margin-top: -45px">안녕하세요 ${userID}님
-                    		<img src="resources/img/paw.png" width="16px" height="16px"/>
+                    		<img src="${pageContext.request.contextPath}/resources/img/paw.png" width="16px" height="16px"/>
                     	</div>
 						<a href="${pageContext.request.contextPath}/sign-out">로그아웃</a> &nbsp;&nbsp; | &nbsp;&nbsp;
                        	<a href="${pageContext.request.contextPath}/mypage">마이페이지</a>
