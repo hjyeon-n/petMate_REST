@@ -120,8 +120,7 @@
 				<c:forEach var="petsitterList" items="${petsitterList}">
 					<tr>
 						<td width=100 style="word-break:break-all">${petsitterList.boardNum}</td>
-						<td width=500 style="word-break:break-all"><a href="<c:url value="/petsitterDetail">
-						<c:param name="boardNum" value="${petsitterList.boardNum}"/>
+						<td width=500 style="word-break:break-all"><a href="<c:url value="/petsitter-detail/${petsitterList.boardNum}">
 						</c:url>">
 						<c:if test="${not empty petsitterList.isSelected}">
 							[매칭완료] &nbsp;
@@ -186,7 +185,7 @@
 	/* 검색을 수행하기 위하여 키워드와 타입을 정한 후 검색 버튼을 클릭하면 링크로 이동 -> 컨트롤러에서 이후의 일을 처리하도록 함 */
 	$(document).on('click', '#btnSearch', function(e) {
 		e.preventDefault();
-		var url = "${pageContext.request.contextPath}/petsitterList";
+		var url = "${pageContext.request.contextPath}/petsitter";
 		url = url + "?searchType=" + $('#searchType').val();
 		url = url + "&keyword=" + $('#keyword').val();
 
@@ -195,7 +194,7 @@
 
 	/* 페이지 인덱스를 누를 때마다 해당 인덱스로 페이지가 전환 */
 	function fn_pagination(pageNum, contentNum, searchType, keyword) {
-		var url = "${pageContext.request.contextPath}/petsitterList";
+		var url = "${pageContext.request.contextPath}/petsitter";
 		url = url + "?pageNum=" + pageNum;
 		url = url + "&contentNum=" + contentNum;
 		url = url + "&searchType=" + searchType;

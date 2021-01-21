@@ -98,7 +98,7 @@
 						</div>
 				</div>
 				<div class="pt-5" align="center">
-					<a href="petsitterList"><input type="button" value="목록" class="btn" /></a>
+					<a href="${pageContext.request.contextPath}/petsitter"><input type="button" value="목록" class="btn" /></a>
 				</div>
 				
 				<!-- comment 작성 부분 -->
@@ -209,7 +209,7 @@ function checkLike() {
 	function del(boardNum) {
 		var chk = confirm("정말 삭제하시겠습니까?");
 		if (chk) {
-			location.href='petsitterDetail/delete?boardNum='+boardNum;
+			location.href='petsitter-detail/delete?boardNum='+boardNum;
 		}
 	}	
 </script>
