@@ -22,8 +22,8 @@
 				<c:forEach var="infoList" items="${infoList}">
 					<tr>
 						<td width=100 style="word-break:break-all">${infoList.boardNum}</td>
-						<td width=500 style="word-break:break-all"><a href="<c:url value="/infoDetail">
-						<c:param name="boardNum" value="${infoList.boardNum}"/>
+						<td width=500 style="word-break:break-all"><a href="<c:url value="/infoDetail/${infoList.boardNum}">
+						<%-- <c:param name="boardNum" value="${infoList.boardNum}"/> --%>
 						</c:url>">${infoList.boardTitle}</a></td>
 						<td width=150 style="word-break:break-all">${infoList.userID}</td>
 						<td>${infoList.replyCnt}</td>

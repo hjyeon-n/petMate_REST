@@ -9,14 +9,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.service.UserImpl;
 
 @Controller
-@RequestMapping("/signIn")
+@RequestMapping("/sign-in")
 public class SignInController {
 
 	@Value("user/signIn")
@@ -32,7 +33,7 @@ public class SignInController {
 	
 //	같은 url로 GET/POST 방식으로 나눠 handler method를 실행함
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@GetMapping
 	public ModelAndView form(ModelAndView mv) {
 		mv.addObject("signInCommand", new SignInCommand());
 		mv.setViewName(formViewName);
@@ -40,7 +41,7 @@ public class SignInController {
 	}
 	
 //	loginCommand 객체도 validation이 필요하기 때문에 @Valid가 필요
-	@RequestMapping(method = RequestMethod.POST)
+	@PostMapping
 	public String submit(@Valid SignInCommand signInCommand, BindingResult result, HttpServletRequest request) {
 //		에러가 나면 폼으로 다시 이동
 		if (result.hasErrors()) {

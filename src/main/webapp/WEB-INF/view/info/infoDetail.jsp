@@ -41,18 +41,18 @@
 				<div class="pt-5" align="center">
 						<c:if test="${sessionScope.userID eq null}">
 							<a href="signIn" onclick="alert('로그인이 필요합니다.')">
-								<img src="resources/img/love.png" border="0" class="zoom">
+								<img src="${pageContext.request.contextPath}/resources/img/love.png" border="0" class="zoom">
 							</a>
 						</c:if>
 						<c:if test="${sessionScope.userID ne null}">
 							<c:if test="${sessionScope.userID ne info.userID}">
 								<a href="javascript:void(0);" onclick="checkLike();">
-									<img src="resources/img/love.png" border="0" class="zoom">
+									<img src="${pageContext.request.contextPath}/resources/img/love.png" border="0" class="zoom">
 								</a>
 							</c:if>
 							<c:if test="${sessionScope.userID eq info.userID}">
 								<a href="#" onclick="alert('자신의 글에는 추천을 누를 수 없습니다.')">
-									<img src="resources/img/love.png" border="0" class="zoom">
+									<img src="${pageContext.request.contextPath}/resources/img/love.png" border="0" class="zoom">
 								</a>
 							</c:if>
 						</c:if>

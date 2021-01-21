@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.domain.Info;
@@ -18,7 +20,7 @@ import com.ssd.petMate.page.BoardSearch;
 import com.ssd.petMate.service.InfoFacade;
 import com.ssd.petMate.service.InfoLikeFacade;
 
-@Controller
+@RestController
 public class InfoController {
 	
 	@Autowired
@@ -27,7 +29,7 @@ public class InfoController {
 	@Autowired
 	private InfoLikeFacade infoLikeFacade;
 	
-	@RequestMapping(value = "/info", method = { RequestMethod.GET, RequestMethod.POST })
+	@GetMapping(value = "/info")
 	public ModelAndView infoBoard(ModelAndView mv, 
 			@RequestParam(required = false, defaultValue = "1") int pageNum,
 			@RequestParam(required = false, defaultValue = "10") int contentNum,
@@ -55,15 +57,15 @@ public class InfoController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "/infoDetail/delete", method = { RequestMethod.GET, RequestMethod.POST })
-	public String petsitterDelete(@RequestParam("boardNum") int boardNum) {
+	@DeleteMapping(value = "/infoDetail/{boardNum}")
+	public String infoDelete(@PathVariable("boardNum") int boardNum) {
 		infoFacade.deleteBoard(boardNum);
 		return "redirect:/info";
 	}
 	
-	@RequestMapping(value = "/infoDetail", method = { RequestMethod.GET, RequestMethod.POST })
+	@GetMapping(value = "/infoDetail/{boardNum}")
 	public ModelAndView infoDetail(ModelAndView mv, 
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("boardNum") int boardNum) {
 		infoFacade.updateViews(boardNum);
 		mv.addObject("info", infoFacade.boardDetail(boardNum));
 		mv.setViewName("info/infoDetail");
@@ -71,10 +73,10 @@ public class InfoController {
 	}
 	
 //	게시글 추천 기능
-	@RequestMapping(value="/infoLike", method = { RequestMethod.GET, RequestMethod.POST })
-	@ResponseBody
+	@RequestMapping(value="/infoLike/{boardNum}", method = { RequestMethod.GET, RequestMethod.POST })
+//	@ResponseBody
 	public HashMap<String, Integer> infoLike(ModelAndView mv, HttpServletRequest request,
-			@RequestParam(required = false) int boardNum) {
+			@PathVariable(required = false) int boardNum) {
 
 		String userID = (String) request.getSession().getAttribute("userID");
 		Info info = infoFacade.boardDetail(boardNum);
