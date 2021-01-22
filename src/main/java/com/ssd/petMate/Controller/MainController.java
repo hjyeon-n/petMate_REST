@@ -7,9 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.domain.Gpurchase;
@@ -18,15 +17,14 @@ import com.ssd.petMate.domain.Inquiry;
 import com.ssd.petMate.domain.Review;
 import com.ssd.petMate.service.BestFacade;
 
-@Controller
+@RestController
 public class MainController {	
 	
 	@Autowired
 	private BestFacade bestFacade;
 	
-	@RequestMapping(value = "/index", method = { RequestMethod.GET, RequestMethod.POST })
+	@GetMapping(value = "/index")
 	public ModelAndView main(ModelAndView mv, HttpServletRequest request) {
-
 //		월요일 날짜 구하기
 		Date mon = new Date();
         try {
@@ -62,10 +60,4 @@ public class MainController {
 		mv.setViewName("index");
 		return mv;
 	}
-
-//	@RequestMapping(value = "/index", method = { RequestMethod.GET, RequestMethod.POST })
-//	public ModelAndView index(ModelAndView mv) {
-//		mv.setViewName("index");
-//		return mv;
-//	}
 }
