@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,22 +30,22 @@ public class InquiryController {
 	@Autowired
 	private InquiryLikeFacade inquiryLikeFacade;
 	
-	@RequestMapping(value = "/inquiryDetail", method = { RequestMethod.GET, RequestMethod.POST })
+	@GetMapping(value = "/inquiry/{boardNum}")
 	public ModelAndView inquiryDetail(ModelAndView mv, 
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("boardNum") int boardNum) {
 		inquiryFacade.updateViews(boardNum);
 		mv.addObject("inquiry", inquiryFacade.boardDetail(boardNum));
 		mv.setViewName("inquiry/inquiryDetail");
 		return mv;
 	}
 	
-	@RequestMapping(value = "/inquiryDelete", method = { RequestMethod.GET, RequestMethod.POST })
-	public String inquiryDelete(@RequestParam("boardNum") int boardNum) {
+	@DeleteMapping(value = "/inquiry/{boardNum}")
+	public String inquiryDelete(@PathVariable("boardNum") int boardNum) {
 		inquiryFacade.deleteBoard(boardNum);
 		return "redirect:/inquiry";
 	}
 	
-	@RequestMapping(value = "/inquiry", method = { RequestMethod.GET, RequestMethod.POST })
+	@GetMapping(value = "/inquiry")
 	public ModelAndView inquiryBoard(ModelAndView mv, 
 			@RequestParam(required = false, defaultValue = "1") int pageNum,
 			@RequestParam(required = false, defaultValue = "10") int contentNum,
@@ -72,10 +74,10 @@ public class InquiryController {
 	}
 
 //	게시글 추천 기능
-	@RequestMapping(value="/inquiryLike", method = { RequestMethod.GET, RequestMethod.POST })
+	@PostMapping(value="/inquiry-like/{boardNum}")
 	@ResponseBody
 	public HashMap<String, Integer> inquiryLike(ModelAndView mv, HttpServletRequest request,
-			@RequestParam(required = false) int boardNum) {
+			@PathVariable(required = false) int boardNum) {
 
 		String userID = (String) request.getSession().getAttribute("userID");
 		Inquiry inquiry = inquiryFacade.boardDetail(boardNum);

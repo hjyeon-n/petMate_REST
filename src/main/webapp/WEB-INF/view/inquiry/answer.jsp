@@ -44,7 +44,7 @@ function answerList(){
 			                }
 		                }
 		                if (value.isSelected == 1)
-               				html +='<img src="resources/img/select.png" align="right">'	
+               				html +='<img src="${pageContext.request.contextPath}/resources/img/select.png" align="right">'	
                			else
                    			html+='<p/>'
 		                html += '<h3>' + value.userID + '</h3>';

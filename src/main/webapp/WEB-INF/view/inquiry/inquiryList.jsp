@@ -22,8 +22,8 @@
 				<c:forEach var="inquiryList" items="${inquiryList}">
 					<tr>
 						<td width=100 style="word-break:break-all">${inquiryList.boardNum}</td>
-						<td width=500 style="word-break:break-all"><a href="<c:url value="/inquiryDetail">
-						<c:param name="boardNum" value="${inquiryList.boardNum}"/>
+						<td width=500 style="word-break:break-all"><a href="<c:url value="/inquiry/${inquiryList.boardNum}">
+						<%-- <c:param name="boardNum" value="${inquiryList.boardNum}"/> --%>
 						</c:url>">
 						<c:if test="${inquiryList.isSelected eq 1}">
 							[채택완료] &nbsp;
