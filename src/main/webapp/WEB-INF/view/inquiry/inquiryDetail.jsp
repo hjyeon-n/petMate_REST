@@ -3,8 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="answer.jsp" %>
-<!-- <link href="resources/css/comment.css" rel="stylesheet"> -->
-<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
 <div class="site-section">
 	<div class="container">
 		<div class="row">
@@ -30,8 +28,8 @@
 						<c:if test="${inquiry.isSelected ne 1}">
 						<c:if test="${sessionScope.userID ne null}">
 							<c:if test="${sessionScope.userID eq inquiry.userID}">
-								<button type="submit" formaction="inquiryForm" class="btn">수정</button>
-								<input type="button" class="btn" value="삭제" onclick="del(${inquiry.boardNum})" />
+								<button type="submit" formaction="post" class="btn">수정</button>
+								<input type="button" class="btn" value="삭제" onclick="del(${inquiry.boardNum})"/>
 							</c:if>
 						</c:if>	
 							<c:if test="${sessionScope.userID eq 'admin'}">
@@ -127,7 +125,15 @@
 	/* function del(boardNum) {
 		var chk = confirm("정말 삭제하시겠습니까?");
 		if (chk) {
-			location.href='inquiry/'+boardNum;
+			$.ajax({
+				url : '${pageContext.request.contextPath}/inquiry/'+boardNum,
+				type : 'delete',
+				data : {'boardNum' : boardNum},
+				dataType : 'json',
+				success : function(data) {
+					console.log('success');
+				}
+			});
 		}
 	} */
 </script>

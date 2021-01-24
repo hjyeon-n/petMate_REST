@@ -44,7 +44,7 @@
 							<a href="signIn" onclick="alert('로그인이 필요합니다.')"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 						<c:if test="${sessionScope.userID ne null}">
-							<a href="inquiryForm"><input type="submit" class="btn" value="글 작성" /></a>
+							<a href="inquiry/post"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 					</td>
 				</tr>
