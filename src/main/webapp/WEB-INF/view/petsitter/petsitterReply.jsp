@@ -44,7 +44,7 @@ function replyList(){
 		                        html += '<a onclick="petsitterSelect(' + value.replyNum + ', \'' + value.boardNum + '\', \'' + value.userID + '\');" class="btn btn-info btn-circle text-uppercase float-right"> 선택 </a>';
 		                }
 						if (value.isSelected == 1)
-							html +='<img src="resources/img/selected.png" align="right">';
+							html +='<img src="${pageContext.request.contextPath}/resources/img/selected.png" align="right">';
 						else
 	             			html+='<p/>';
 		                
