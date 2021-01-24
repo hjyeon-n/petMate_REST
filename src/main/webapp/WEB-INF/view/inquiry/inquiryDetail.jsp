@@ -122,18 +122,23 @@
 		});
 	}
 
-	/* function del(boardNum) {
+	function del(boardNum) {
 		var chk = confirm("정말 삭제하시겠습니까?");
 		if (chk) {
 			$.ajax({
 				url : '${pageContext.request.contextPath}/inquiry/'+boardNum,
 				type : 'delete',
 				data : {'boardNum' : boardNum},
-				dataType : 'json',
+				dataType : 'text',
 				success : function(data) {
-					console.log('success');
-				}
+					if (data == "success") {
+						location.href = "${pageContext.request.contextPath}/inquiry";
+					}
+				},
+				error: function(request,status,error){
+			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			    }
 			});
 		}
-	} */
+	} 
 </script>

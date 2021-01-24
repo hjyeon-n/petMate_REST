@@ -6,13 +6,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.domain.Inquiry;
@@ -21,7 +21,7 @@ import com.ssd.petMate.page.BoardSearch;
 import com.ssd.petMate.service.InquiryFacade;
 import com.ssd.petMate.service.InquiryLikeFacade;
 
-@Controller
+@RestController
 public class InquiryController {
 	
 	@Autowired
@@ -40,9 +40,10 @@ public class InquiryController {
 	}
 	
 	@DeleteMapping(value = "/inquiry/{boardNum}")
+	@ResponseBody
 	public String inquiryDelete(@PathVariable("boardNum") int boardNum) {
 		inquiryFacade.deleteBoard(boardNum);
-		return "redirect:/inquiry";
+		return "success";
 	}
 	
 	@GetMapping(value = "/inquiry")
@@ -108,5 +109,4 @@ public class InquiryController {
 		
 		return map;
 	}
-
 }
