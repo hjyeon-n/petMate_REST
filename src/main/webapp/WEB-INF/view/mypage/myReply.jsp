@@ -241,7 +241,7 @@
 		if (name == '중고게시판')
 			url = url + "secondhandDetail?boardNum=" + boardNum;
 		if (name == '매칭게시판')
-			url = url + "petsitter-detail?boardNum=" + boardNum;
+			url = url + "petsitter?boardNum=" + boardNum;
 		if (name == '후기게시판')
 			url = url + "reviewDetail?boardNum=" + boardNum;
 		location.href = url;

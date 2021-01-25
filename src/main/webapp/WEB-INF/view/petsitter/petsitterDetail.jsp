@@ -14,7 +14,7 @@
 					${petsitter.boardTitle}
 				</h1>
 				<c:if test="${not empty petsitter.isSelected}">
-					<img src="resources/img/lock.png" align="right">
+					<img src="${pageContext.request.contextPath}/resources/img/lock.png" align="right">
 				</c:if>
 				<div class="post-meta d-flex mb-5">
 					<div class="vcard">
@@ -64,7 +64,7 @@
 						<input type="hidden" id="boardNum" name="boardNum" value="${petsitter.boardNum}"/>
 						<c:if test="${sessionScope.userID ne null}">
 							<c:if test="${sessionScope.userID eq petsitter.userID}">
-								<button type="submit" formaction="petsitterForm" class="btn">수정</button>
+								<button type="submit" formaction="post" class="btn">수정</button>
 								<input type="button" class="btn" value="삭제" onclick="del(${petsitter.boardNum})" />
 							</c:if>
 							<c:if test="${sessionScope.userID eq 'admin'}">
@@ -77,19 +77,19 @@
 
 				<div class="pt-5" align="center">
 						<c:if test="${sessionScope.userID eq null}">
-							<a href="signIn" onclick="alert('로그인이 필요합니다.')">
-								<img src="resources/img/love.png" border="0" class="zoom">
+							<a href="${pageContext.request.contextPath}/sign-in" onclick="alert('로그인이 필요합니다.')">
+								<img src="${pageContext.request.contextPath}/resources/img/love.png" border="0" class="zoom">
 							</a>
 						</c:if>
 						<c:if test="${sessionScope.userID ne null}">
 							<c:if test="${sessionScope.userID ne petsitter.userID}">
 								<a href="javascript:void(0);" onclick="checkLike();">
-									<img src="resources/img/love.png" border="0" class="zoom">
+									<img src="${pageContext.request.contextPath}/resources/img/love.png" border="0" class="zoom">
 								</a>
 							</c:if>
 							<c:if test="${sessionScope.userID eq petsitter.userID}">
 								<a href="#" onclick="alert('자신의 글에는 추천을 누를 수 없습니다.')">
-									<img src="resources/img/love.png" border="0" class="zoom">
+									<img src="${pageContext.request.contextPath}/resources/img/love.png" border="0" class="zoom">
 								</a>
 							</c:if>
 						</c:if>
@@ -117,7 +117,7 @@
 					               </div>
 				               </c:if>
 				               <c:if test="${sessionScope.userID eq null}">
-				               		<a href="signIn" onclick="alert('로그인이 필요합니다.')"><input type="button" class="btn" value="등록" /></a>
+				               		<a href="${pageContext.request.contextPath}/sign-in" onclick="alert('로그인이 필요합니다.')"><input type="button" class="btn" value="등록" /></a>
 				               </c:if>
 				            </div>
 				        </form>
@@ -143,7 +143,7 @@
 <script>
 var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 //커스텀 마커 생성
-var imageSrc = 'resources/img/marker.png',
+var imageSrc = '${pageContext.request.contextPath}/resources/img/marker.png',
 	imageSize = new kakao.maps.Size(64, 64), // 마커이미지의 크기입니다
     imageOption = {offset: new kakao.maps.Point(27, 69)};
 var geocoder = new kakao.maps.services.Geocoder();
@@ -188,7 +188,7 @@ geocoder.addressSearch('${petsitter.petAddress}', function(result, status) {
 function checkLike() {
 	var boardNum = '${petsitter.boardNum}';
 	$.ajax({
-		url : '/petMate/petsitterLike',
+		url : '${pageContext.request.contextPath}/petsitter-like/'+boardNum,
 		type : 'post',
 		data : {'boardNum' : boardNum},
 		dataType : 'json',
@@ -206,10 +206,23 @@ function checkLike() {
 }
 
 
-	function del(boardNum) {
-		var chk = confirm("정말 삭제하시겠습니까?");
-		if (chk) {
-			location.href='petsitter-detail/delete?boardNum='+boardNum;
-		}
-	}	
+function del(boardNum) {
+	var chk = confirm("정말 삭제하시겠습니까?");
+	if (chk) {
+		$.ajax({
+			url : '${pageContext.request.contextPath}/petsitter/'+boardNum,
+			type : 'delete',
+			data : {'boardNum' : boardNum},
+			dataType : 'text',
+			success : function(data) {
+				if (data == "success") {
+					location.href = "${pageContext.request.contextPath}/petsitter";
+				}
+			},
+			error: function(request,status,error){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+}
 </script>

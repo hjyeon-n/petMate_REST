@@ -6,7 +6,7 @@
 	<div class="section-title">
 		<h2>매칭게시판</h2>
 </div>
-	<form:form modelAttribute="filtering" action="petsitterList" method="post">
+	<form:form modelAttribute="filtering" action="petsitter" method="post">
 	<table class="table">
 		<tbody>
 			<tr>
@@ -120,7 +120,7 @@
 				<c:forEach var="petsitterList" items="${petsitterList}">
 					<tr>
 						<td width=100 style="word-break:break-all">${petsitterList.boardNum}</td>
-						<td width=500 style="word-break:break-all"><a href="<c:url value="/petsitter-detail/${petsitterList.boardNum}">
+						<td width=500 style="word-break:break-all"><a href="<c:url value="/petsitter/${petsitterList.boardNum}">
 						</c:url>">
 						<c:if test="${not empty petsitterList.isSelected}">
 							[매칭완료] &nbsp;
@@ -138,13 +138,13 @@
 				<tr>
 					<td>
 						<c:if test="${petsitterChk < 0}" >
-							<a href="signIn" onclick="alert('로그인이 필요합니다.')"><input type="submit" class="btn" value="글 작성" /></a>
+							<a href="sign-in" onclick="alert('로그인이 필요합니다.')"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 						<c:if test="${petsitterChk == 1}">
 							<a href="#" onclick="alert('펫시터 회원만 작성할 수 있습니다.')"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 						<c:if test="${petsitterChk == 0}">
-							<a href="petsitterForm"><input type="submit" class="btn" value="글 작성" /></a>
+							<a href="petsitter/post"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 					</td>
 				</tr>
