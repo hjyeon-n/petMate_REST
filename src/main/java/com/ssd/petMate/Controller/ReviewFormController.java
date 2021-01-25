@@ -51,7 +51,7 @@ public class ReviewFormController {
 		}
 	}
 	
-	@PostMapping("/reviewForm")
+	@PostMapping("/review/post")
 	public String reviewInsert(@Valid @ModelAttribute("review") Review review, BindingResult result, 
 	         HttpServletRequest request) {	      
 	      if (review.getBoardTitle().length() > 25) {
@@ -73,7 +73,7 @@ public class ReviewFormController {
 	      return successViewName;
 	   }
 
-	@GetMapping("/reviewForm")
+	@GetMapping("/review/post")
 	public String reviewUpdateForm() {
 		return formViewName;
 	}
