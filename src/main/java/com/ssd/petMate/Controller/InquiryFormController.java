@@ -42,7 +42,7 @@ public class InquiryFormController {
 		else return new Inquiry();
 	}
 	
-	@PostMapping("/inquiryForm")
+	@PostMapping("/inquiry/post")
 	public String inquiryInsert(@Valid @ModelAttribute("inquiry") Inquiry inquiry, BindingResult result, 
 	         SessionStatus sessionStatus, HttpServletRequest request) {
 	      sessionStatus.setComplete();
@@ -67,7 +67,7 @@ public class InquiryFormController {
 	      return successViewName;
 	   }
 
-	@GetMapping("/inquiryForm")
+	@GetMapping("/inquiry/post")
 	public String inquiruUpdateForm() {
 		return formViewName;
 	}

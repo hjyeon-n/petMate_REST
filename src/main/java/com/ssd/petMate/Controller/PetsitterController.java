@@ -71,58 +71,68 @@ public class PetsitterController {
 		return -1;
 	}
 
-	@RequestMapping(value = "/petsitter", method = { RequestMethod.GET, RequestMethod.POST })
+	@GetMapping(value = "/petsitter")
 	public ModelAndView petsitterList(ModelAndView mv, @RequestParam(required = false, defaultValue = "1") int pageNum,
-			@RequestParam(required = false, defaultValue = "10") int contentNum,  @RequestParam(required = false) String searchType,
-			@RequestParam(required = false) String keyword, HttpServletRequest request, @ModelAttribute("filtering") FilteringCommand filter) {
+									  @RequestParam(required = false, defaultValue = "10") int contentNum,  @RequestParam(required = false) String searchType,
+									  @RequestParam(required = false) String keyword, HttpServletRequest request, @ModelAttribute("filtering") FilteringCommand filter) {
 		BoardSearch boardSearch = new BoardSearch();
 		boardSearch.setSearchType(searchType); boardSearch.setKeyword(keyword);
 
-		// 검색한 결과값을 가져오기 위해 map에 키워드와 검색 타입 저장 후 sql 쿼리에 삽입 
+		// 검색한 결과값을 가져오기 위해 map에 키워드와 검색 타입 저장 후 sql 쿼리에 삽입
+		HashMap<String, Object> map = new HashMap<String, Object>(); map.put("keyword", keyword);
+		map.put("searchType", searchType);
+		//GET방식인 경우 (그냥 리스트 출력하거나 검색기능)
+		int totalCount = petsitterFacade.boardPageCount(map);
+		// 페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
+		boardSearch.pageInfo(pageNum, contentNum,totalCount);
+		List<Petsitter> petsitterList = petsitterFacade.getAllBoard(boardSearch);
+		mv.addObject("petsitterList", petsitterList);
+		mv.addObject("boardSearch", boardSearch);
+		mv.setViewName("petsitter/petsitterList");
+		return mv;
+	}
+
+	@PostMapping(value="/petsitter")
+	public ModelAndView filteredList(ModelAndView mv, @RequestParam(required = false, defaultValue = "1") int pageNum,
+									 @RequestParam(required = false, defaultValue = "10") int contentNum,  @RequestParam(required = false) String searchType,
+									 @RequestParam(required = false) String keyword, HttpServletRequest request, @ModelAttribute("filtering") FilteringCommand filter) {
+
+		BoardSearch boardSearch = new BoardSearch();
+		boardSearch.setSearchType(searchType); boardSearch.setKeyword(keyword);
+
+		// 검색한 결과값을 가져오기 위해 map에 키워드와 검색 타입 저장 후 sql 쿼리에 삽입
 		HashMap<String, Object> map = new HashMap<String, Object>(); map.put("keyword", keyword);
 		map.put("searchType", searchType);
 
 		List<Petsitter> petsitterList = null;
-		//GET방식인 경우 (그냥 리스트 출력하거나 검색기능)
-		if (request.getMethod().equals("GET")) {
-			int totalCount = petsitterFacade.boardPageCount(map);
-			// 페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴 
-			boardSearch.pageInfo(pageNum, contentNum,totalCount); 
-			petsitterList = petsitterFacade.getAllBoard(boardSearch);
+		int sizeSum = 0;
+		int daySum = 0;
+		if (filter.getSizeCodes() != null) {
+			for (String s : filter.getSizeCodes()) {
+				sizeSum += Integer.parseInt(s);
+			}
+			filter.setPetSize(Integer.toString(sizeSum));
 		}
 
-		//POST방식인 경우(필터링 사용했을 때)
-		if (request.getMethod().equals("POST")) {
-			int sizeSum = 0;
-			int daySum = 0;
-			if (filter.getSizeCodes() != null) {
-				for (String s : filter.getSizeCodes()) {
-					sizeSum += Integer.parseInt(s);
-				}
-				filter.setPetSize(Integer.toString(sizeSum));
+		if (filter.getDayCodes() != null) {
+			for (String s : filter.getDayCodes()) {
+				daySum += Integer.parseInt(s);
 			}
-
-			if (filter.getDayCodes() != null) {
-				for (String s : filter.getDayCodes()) {
-					daySum += Integer.parseInt(s);
-				}
-				filter.setPetDay(Integer.toString(daySum));
-			}
-
-			petsitterList = petsitterFacade.filtering(filter);
-			int totalCount = petsitterFacade.filteringCount(filter);
-			// 페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴 
-			boardSearch.pageInfo(pageNum, contentNum,totalCount);
-
+			filter.setPetDay(Integer.toString(daySum));
 		}
 
+		petsitterList = petsitterFacade.filtering(filter);
+		int totalCount = petsitterFacade.filteringCount(filter);
+		// 페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
+		boardSearch.pageInfo(pageNum, contentNum,totalCount);
 		mv.addObject("petsitterList", petsitterList);
 		mv.addObject("boardSearch", boardSearch);
-		mv.setViewName("petsitter/petsitterList"); 
-		return mv; 
-	}
+		mv.setViewName("petsitter/petsitterList");
+		return mv;
+}
 
-	@GetMapping(value = "/petsitter-detail/{boardNum}")
+
+	@GetMapping(value = "/petsitter/{boardNum}")
 	public ModelAndView petsitterDetail(ModelAndView mv, @PathVariable("boardNum") int boardNum) {
 		petsitterFacade.updateViews(boardNum);
 		Petsitter view = petsitterFacade.boardDetail(boardNum);
@@ -144,17 +154,18 @@ public class PetsitterController {
 		return mv;
 	}
 
-	@DeleteMapping(value = "/petsitter-detail/{boardNum}")
+	@DeleteMapping(value = "/petsitter/{boardNum}")
+	@ResponseBody
 	public String petsitterDelete(@PathVariable("boardNum") int boardNum) {
 		petsitterFacade.deleteBoard(boardNum);
-		return "redirect:/petsitterList";
+		return "success";
 	}
 
 	//      게시글 추천 기능
-	@RequestMapping(value="/petsitterLike", method = { RequestMethod.GET, RequestMethod.POST })
+	@PostMapping(value="/petsitter-like/{boardNum}")
 	@ResponseBody
 	public HashMap<String, Integer> petsitterLike(ModelAndView mv, HttpServletRequest request,
-			@RequestParam(required = false) int boardNum) {
+			@PathVariable(required = false) int boardNum) {
 
 		String userID = (String) request.getSession().getAttribute("userID");
 		Petsitter petsitter = petsitterFacade.boardDetail(boardNum);

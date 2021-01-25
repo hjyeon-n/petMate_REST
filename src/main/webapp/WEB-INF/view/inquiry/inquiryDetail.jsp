@@ -3,8 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="answer.jsp" %>
-<!-- <link href="resources/css/comment.css" rel="stylesheet"> -->
-<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
 <div class="site-section">
 	<div class="container">
 		<div class="row">
@@ -12,7 +10,7 @@
 				<h1 class="mb-4">
 				<c:if test="${inquiry.isSelected eq 1}">[채택완료] &nbsp;</c:if>${inquiry.boardTitle}</h1>
 				<c:if test="${inquiry.isSelected eq 1}">
-					<img src="resources/img/lock.png" align="right">
+					<img src="${pageContext.request.contextPath}/resources/img/lock.png" align="right">
 				</c:if>
 				<div class="post-meta d-flex mb-5">
 					<div class="vcard">
@@ -30,8 +28,8 @@
 						<c:if test="${inquiry.isSelected ne 1}">
 						<c:if test="${sessionScope.userID ne null}">
 							<c:if test="${sessionScope.userID eq inquiry.userID}">
-								<button type="submit" formaction="inquiryForm" class="btn">수정</button>
-								<input type="button" class="btn" value="삭제" onclick="del(${inquiry.boardNum})" />
+								<button type="submit" formaction="post" class="btn">수정</button>
+								<input type="button" class="btn" value="삭제" onclick="del(${inquiry.boardNum})"/>
 							</c:if>
 						</c:if>	
 							<c:if test="${sessionScope.userID eq 'admin'}">
@@ -45,18 +43,18 @@
 						<!-- 수정 필요 -->
 						<c:if test="${sessionScope.userID eq null}">
 							<a href="signIn" onclick="alert('로그인이 필요합니다.')">
-								<img src="resources/img/love.png" border="0" class="zoom">
+								<img src="${pageContext.request.contextPath}/resources/img/love.png" border="0" class="zoom">
 							</a>
 						</c:if>
 						<c:if test="${sessionScope.userID ne null}">
 							<c:if test="${sessionScope.userID ne inquiry.userID}">
 								<a href="javascript:void(0);" onclick="checkLike();">
-									<img src="resources/img/love.png" border="0" class="zoom">
+									<img src="${pageContext.request.contextPath}/resources/img/love.png" border="0" class="zoom">
 								</a>
 							</c:if>
 							<c:if test="${sessionScope.userID eq inquiry.userID}">
 								<a href="#" onclick="alert('자신의 글에는 추천을 누를 수 없습니다.')">
-									<img src="resources/img/love.png" border="0" class="zoom">
+									<img src="${pageContext.request.contextPath}/resources/img/love.png" border="0" class="zoom">
 								</a>
 							</c:if>
 						</c:if>
@@ -98,42 +96,7 @@
 					<ul class="comment-list">
 						<div id="answerList"></div>
 					</ul>
-<!-- 					<ul class="comment-list">
-						<li class="comment">
-							<div class="comment-body">
-								<div class="well well-lg">
-									<h3> Marco </h3>
-			                		<div class="meta">20140922</div>
-									<p>Great snippet! Thanks for sharing.</p>
-									<a class="btn btn-info btn-circle text-uppercase" href="#" id="reply">
-										Reply
-									</a> <a class="btn btn-warning btn-circle text-uppercase"
-										data-toggle="collapse" href="#replyOne"><span
-										class="glyphicon glyphicon-comment"></span> 2 comments</a>
-									<a class="btn btn-info btn-circle text-uppercase float-right" href="#"
-										id="select">채택</a>
-								</div>
-							</div>
-						</li>
-				
-					<div class="container" id="replyOne">
-						<ul class="media-list">
-							<li class="media media-replied">
-								<div class="media-body">
-						<ul class="children">
-							<li class="comment">
-								
-									<div class="well well-lg">
-									<div class="comment-body">
-										<h3> Marco </h3>
-						                <div class="meta">20140922</div>
-											<p class="media-comment">Great snippet! Thanks for sharing.</p>
-										</div>
-									</div>
-							</li>
-						</ul>
-					</ul>
- -->			</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -142,7 +105,7 @@
 	function checkLike() {
 		var boardNum = '${inquiry.boardNum}';
 		$.ajax({
-			url : '/petMate/inquiryLike',
+			url : '${pageContext.request.contextPath}/inquiry-like/'+boardNum,
 			type : 'post',
 			data : {'boardNum' : boardNum},
 			dataType : 'json',
@@ -162,7 +125,20 @@
 	function del(boardNum) {
 		var chk = confirm("정말 삭제하시겠습니까?");
 		if (chk) {
-			location.href='inquiryDelete?boardNum='+boardNum;
+			$.ajax({
+				url : '${pageContext.request.contextPath}/inquiry/'+boardNum,
+				type : 'delete',
+				data : {'boardNum' : boardNum},
+				dataType : 'text',
+				success : function(data) {
+					if (data == "success") {
+						location.href = "${pageContext.request.contextPath}/inquiry";
+					}
+				},
+				error: function(request,status,error){
+			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			    }
+			});
 		}
-	}
+	} 
 </script>

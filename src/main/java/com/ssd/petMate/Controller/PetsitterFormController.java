@@ -35,7 +35,7 @@ public class PetsitterFormController {
 	@Value("petsitter/petsitterForm")
 	private String formViewName;
 	
-	@Value("redirect:/petsitterList")
+	@Value("redirect:/petsitter")
 	private String successViewName;
 	
 	@ModelAttribute("appkey")
@@ -91,7 +91,7 @@ public class PetsitterFormController {
 		return -1;
 	}
 
-	@PostMapping("/petsitterForm")
+	@PostMapping("/petsitter/post")
 	public String petsitterInsert(@Valid @ModelAttribute("petsitter") Petsitter petsitter, BindingResult result, 
 	         SessionStatus sessionStatus, HttpServletRequest request) {
 	      int sizeSum = 0;
@@ -125,7 +125,7 @@ public class PetsitterFormController {
 	      return successViewName;
 	   }
 
-	@GetMapping("/petsitterForm")
+	@GetMapping("/petsitter/post")
 	public String petsitterUpdateForm() {
 		return formViewName;
 	}

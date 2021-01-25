@@ -14,7 +14,7 @@
 				<div class="section-title mb-5">
 					<h2>펫시터 매칭 폼</h2>
 				</div>
-				<form:form name="form" modelAttribute="petsitter" action="petsitterForm" method="post">
+				<form:form name="form" modelAttribute="petsitter" action="${pageContext.request.contextPath}/petsitter/post" method="post">
 					<input type="hidden" name="size" id="size" value="${petsitter.petSize}" />
 					<input type="hidden" name="day" id="day" value="${petsitter.petDay}" />
 					<input type="hidden" name="local" id="local" value="${petsitter.petLocal}" />
@@ -152,7 +152,7 @@ function searchAddress() {
 	    });
 		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 		//커스텀 마커 생성
-		var imageSrc = 'resources/img/marker.png',
+		var imageSrc = '${pageContext.request.contextPath}/resources/img/marker.png',
 			imageSize = new kakao.maps.Size(64, 64), // 마커이미지의 크기입니다
 		    imageOption = {offset: new kakao.maps.Point(27, 69)};
 		var geocoder = new kakao.maps.services.Geocoder();
@@ -189,7 +189,7 @@ function searchAddress() {
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: oEditors,
 		elPlaceHolder: "boardContent",
-		sSkinURI: "resources/se2/SmartEditor2Skin.html",
+		sSkinURI: "${pageContext.request.contextPath}/resources/se2/SmartEditor2Skin.html",
 		fCreator: "createSEditor2"
 	});
 

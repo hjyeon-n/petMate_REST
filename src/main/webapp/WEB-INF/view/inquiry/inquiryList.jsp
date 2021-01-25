@@ -22,8 +22,8 @@
 				<c:forEach var="inquiryList" items="${inquiryList}">
 					<tr>
 						<td width=100 style="word-break:break-all">${inquiryList.boardNum}</td>
-						<td width=500 style="word-break:break-all"><a href="<c:url value="/inquiryDetail">
-						<c:param name="boardNum" value="${inquiryList.boardNum}"/>
+						<td width=500 style="word-break:break-all"><a href="<c:url value="/inquiry/${inquiryList.boardNum}">
+						<%-- <c:param name="boardNum" value="${inquiryList.boardNum}"/> --%>
 						</c:url>">
 						<c:if test="${inquiryList.isSelected eq 1}">
 							[채택완료] &nbsp;
@@ -44,7 +44,7 @@
 							<a href="signIn" onclick="alert('로그인이 필요합니다.')"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 						<c:if test="${sessionScope.userID ne null}">
-							<a href="inquiryForm"><input type="submit" class="btn" value="글 작성" /></a>
+							<a href="inquiry/post"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 					</td>
 				</tr>
