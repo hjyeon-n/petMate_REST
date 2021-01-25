@@ -6,12 +6,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.domain.Inquiry;
@@ -19,7 +21,7 @@ import com.ssd.petMate.domain.Answer;
 import com.ssd.petMate.service.InquiryFacade;
 import com.ssd.petMate.service.AnswerFacade;
 
-@Controller
+@RestController
 public class AnswerController {
 
 	@Autowired
@@ -29,10 +31,10 @@ public class AnswerController {
 	private InquiryFacade inquiryFacade;
 	
 //	게시글 상세보기를 클릭했을 때 답변 리스트 가져오기
-	@RequestMapping(value = "/answerList", method = { RequestMethod.GET, RequestMethod.POST})
+	@GetMapping(value = "/answer-list/{boardNum}")
 	@ResponseBody
 	public List<Answer> answerList(ModelAndView mv,
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("boardNum") int boardNum) {
 		List<Answer> answerList = answerFacade.getAnswerList(boardNum);
 		return answerList;
 	}	

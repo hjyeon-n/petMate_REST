@@ -19,7 +19,7 @@ $(document).on('click', '#btnAnswer', function(e){
 	   
 //댓글 목록 
 function answerList(){
-	var url = '${pageContext.request.contextPath}/answerList';
+	var url = '${pageContext.request.contextPath}/answer-list/'+boardNum;
     $.ajax({
         url : url,
         type : 'get',
