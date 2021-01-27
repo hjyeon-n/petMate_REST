@@ -63,7 +63,7 @@
 						</div>
 				</div>
 				<div class="pt-5" align="center">
-					<a href="inquiry"><input type="button" value="목록" class="btn" /></a>
+					<a href="${pageContext.request.contextPath}/inquiry"><input type="button" value="목록" class="btn" /></a>
 				</div>
 				
 				<!-- comment 작성 부분 -->
