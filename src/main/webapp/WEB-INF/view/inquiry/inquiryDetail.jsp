@@ -14,7 +14,7 @@
 				</c:if>
 				<div class="post-meta d-flex mb-5">
 					<div class="vcard">
-						<span class="d-block"><a href="<c:url value="/userpage"><c:param name="userID" value="${inquiry.userID}"/></c:url>">${inquiry.userID}</a></span>
+						<span class="d-block"><a href="<c:url value="/user-page"><c:param name="userID" value="${inquiry.userID}"/></c:url>">${inquiry.userID}</a></span>
 						<span class="date-read"><fmt:parseDate var="dateString" value="${inquiry.boardDate}" pattern="yyyy-MM-dd HH:mm:ss" />               
 						<fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd HH:mm"/> 
 						<span class="mx-1">&bullet;</span> 조회 ${inquiry.boardHit} <span class="icon-star2"></span></span>
