@@ -4,23 +4,21 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.domain.UserList;
 import com.ssd.petMate.page.BoardSearch;
 import com.ssd.petMate.service.UserFacade;
 
-@Controller
+@RestController
 public class AdminController {
 	
 	@Autowired
 	private UserFacade userFacade;
 	
 //	관리자 페이지
-	@RequestMapping(value = "/admin", method = { RequestMethod.GET, RequestMethod.POST })
+	@GetMapping(value = "/admin")
 	public ModelAndView admin(ModelAndView mv,
 			@RequestParam(required = false, defaultValue = "1") int pageNum,
 			@RequestParam(required = false, defaultValue = "10") int contentNum,

@@ -75,7 +75,7 @@
 						<input type="hidden" id="boardNum" name="boardNum" value="${review.boardNum}"/>
 						<c:if test="${sessionScope.userID ne null}">
 							<c:if test="${sessionScope.userID eq review.userID}">
-								<button type="submit" formaction="reviewForm" class="btn">수정</button>
+								<button type="submit" formaction="post" class="btn">수정</button>
 								<input type="button" class="btn" value="삭제" onclick="del(${review.boardNum})" />
 							</c:if>
 							<c:if test="${sessionScope.userID eq 'admin'}">
@@ -88,19 +88,19 @@
 				<div class="pt-5" align="center">
 						<!-- 수정 필요 -->
 						<c:if test="${sessionScope.userID eq null}">
-							<a href="signIn" onclick="alert('로그인이 필요합니다.')">
-								<img src="resources/img/love.png" border="0" class="zoom">
+							<a href="${pageContext.request.contextPath}/sign-in" onclick="alert('로그인이 필요합니다.')">
+								<img src="${pageContext.request.contextPath}/resources/img/love.png" border="0" class="zoom">
 							</a>
 						</c:if>
 						<c:if test="${sessionScope.userID ne null}">
 							<c:if test="${sessionScope.userID ne review.userID}">
 								<a href="javascript:void(0);" onclick="checkLike();">
-									<img src="resources/img/love.png" border="0" class="zoom">
+									<img src="${pageContext.request.contextPath}/resources/img/love.png" border="0" class="zoom">
 								</a>
 							</c:if>
 							<c:if test="${sessionScope.userID eq review.userID}">
 								<a href="#" onclick="alert('자신의 글에는 추천을 누를 수 없습니다.')">
-									<img src="resources/img/love.png" border="0" class="zoom">
+									<img src="${pageContext.request.contextPath}/resources/img/love.png" border="0" class="zoom">
 								</a>
 							</c:if>
 						</c:if>
@@ -109,7 +109,7 @@
 						</div>
 				</div>
 				<div class="pt-5" align="center">
-					<a href="review"><input type="button" value="목록" class="btn" /></a>
+					<a href="${pageContext.request.contextPath}/review"><input type="button" value="목록" class="btn" /></a>
 				</div>
 
 				<!-- comment 작성 부분 -->
@@ -152,7 +152,7 @@
 	function checkLike() {
 		var boardNum = '${review.boardNum}';
 		$.ajax({
-			url : '/petMate/reviewLike',
+			url : '${pageContext.request.contextPath}/review-like/'+boardNum,
 			type : 'post',
 			data : {'boardNum' : boardNum},
 			dataType : 'json',
@@ -171,13 +171,26 @@
 	function del(boardNum) {
 		var chk = confirm("정말 삭제하시겠습니까?");
 		if (chk) {
-			location.href='reviewDelete?boardNum='+boardNum;
+			$.ajax({
+				url : '${pageContext.request.contextPath}/review/'+boardNum,
+				type : 'delete',
+				data : {'boardNum' : boardNum},
+				dataType : 'text',
+				success : function(data) {
+					if (data == "success") {
+						location.href = "${pageContext.request.contextPath}/review";
+					}
+				},
+				error: function(request,status,error){
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
 		}
-	}	
+	}
 </script>
 <style>
 	.starR1{
-	    background: url('resources/img/rating.png') no-repeat -52px 0;
+	    background: url('${pageContext.request.contextPath}/resources/img/rating.png') no-repeat -52px 0;
 	    background-size: auto 100%;
 	    width: 15px;
 	    height: 30px;
@@ -186,7 +199,7 @@
 	    cursor: pointer;
 	}
 	.starR2{
-	    background: url('resources/img/rating.png') no-repeat right 0;
+	    background: url('${pageContext.request.contextPath}/resources/img/rating.png') no-repeat right 0;
 	    background-size: auto 100%;
 	    width: 15px;
 	    height: 30px;

@@ -5,13 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.domain.Info;
@@ -57,13 +51,13 @@ public class InfoController {
 		return mv;
 	}
 	
-	@DeleteMapping(value = "/infoDetail/{boardNum}")
+	@DeleteMapping(value = "/info/{boardNum}")
 	public String infoDelete(@PathVariable("boardNum") int boardNum) {
 		infoFacade.deleteBoard(boardNum);
-		return "redirect:/info";
+		return "success";
 	}
 	
-	@GetMapping(value = "/infoDetail/{boardNum}")
+	@GetMapping(value = "/info/{boardNum}")
 	public ModelAndView infoDetail(ModelAndView mv, 
 			@PathVariable("boardNum") int boardNum) {
 		infoFacade.updateViews(boardNum);
@@ -73,7 +67,7 @@ public class InfoController {
 	}
 	
 //	게시글 추천 기능
-	@RequestMapping(value="/infoLike/{boardNum}", method = { RequestMethod.GET, RequestMethod.POST })
+	@PostMapping(value="/info-like/{boardNum}")
 //	@ResponseBody
 	public HashMap<String, Integer> infoLike(ModelAndView mv, HttpServletRequest request,
 			@PathVariable(required = false) int boardNum) {
@@ -104,8 +98,6 @@ public class InfoController {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("count", count);
 		map.put("boardLike", boardLike);
-		System.out.println("infolike : " + mv.getViewName());
-		
 		return map;
 	}
 }

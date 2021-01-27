@@ -9,7 +9,7 @@
 				<div class="section-title mb-5">
 					<h2>리뷰 폼</h2>
 				</div>
-				<form:form modelAttribute="review" action="reviewForm" method="post">
+				<form:form modelAttribute="review" action="${pageContext.request.contextPath}/review/post" method="post">
 					<div class="row">
 						<div class="col-md-6 form-group">
 							<label for="boardTitle">제목</label>
@@ -118,7 +118,7 @@
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: oEditors,
 		elPlaceHolder: "boardContent",
-		sSkinURI: "resources/se2/SmartEditor2Skin.html",
+		sSkinURI: "${pageContext.request.contextPath}/resources/se2/SmartEditor2Skin.html",
 		fCreator: "createSEditor2"
 	});
 	$(document).on('click', '#btn', function(e){
@@ -187,7 +187,7 @@
 </script>
 <style>
 	.starR1{
-	    background: url('resources/img/rating.png') no-repeat -52px 0;
+	    background: url('${pageContext.request.contextPath}/resources/img/rating.png') no-repeat -52px 0;
 	    background-size: auto 100%;
 	    width: 15px;
 	    height: 30px;
@@ -196,7 +196,7 @@
 	    cursor: pointer;
 	}
 	.starR2{
-	    background: url('resources/img/rating.png') no-repeat right 0;
+	    background: url('${pageContext.request.contextPath}/resources/img/rating.png') no-repeat right 0;
 	    background-size: auto 100%;
 	    width: 15px;
 	    height: 30px;

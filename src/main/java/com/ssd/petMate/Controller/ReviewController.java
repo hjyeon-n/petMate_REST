@@ -5,12 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.domain.Review;
@@ -20,7 +15,7 @@ import com.ssd.petMate.service.ReviewLikeFacade;
 import com.ssd.petMate.service.UserImpl;
 import com.ssd.petMate.service.ReviewFacade;
 
-@Controller
+@RestController
 public class ReviewController {
 	
 	@Autowired
@@ -40,22 +35,23 @@ public class ReviewController {
 		return -1;
 	}
 	
-	@RequestMapping(value = "/reviewDelete", method = { RequestMethod.GET, RequestMethod.POST })
-	public String reviewDelete(@RequestParam("boardNum") int boardNum) {
+	@DeleteMapping(value = "/review/{boardNum}")
+	@ResponseBody
+	public String reviewDelete(@PathVariable("boardNum") int boardNum) {
 		reviewFacade.deleteBoard(boardNum);
-		return "redirect:/review";
+		return "success";
 	}
 	
-	@RequestMapping(value = "/reviewDetail", method = { RequestMethod.GET, RequestMethod.POST })
+	@GetMapping(value = "/review/{boardNum}")
 	public ModelAndView reviewDetail(ModelAndView mv, 
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("boardNum") int boardNum) {
 		reviewFacade.updateViews(boardNum);
 		mv.addObject("review", reviewFacade.boardDetail(boardNum));
 		mv.setViewName("review/reviewDetail");
 		return mv;
 	}
 	
-	@RequestMapping(value = "/review", method = { RequestMethod.GET, RequestMethod.POST })
+	@GetMapping(value = "/review")
 	public ModelAndView reviewBoard(ModelAndView mv, HttpServletRequest request,
 			@RequestParam(required = false, defaultValue = "1") int pageNum,
 			@RequestParam(required = false, defaultValue = "10") int contentNum,
@@ -91,7 +87,7 @@ public class ReviewController {
 	}
 	
 //	게시글 추천 기능
-	@RequestMapping(value="/reviewLike", method = { RequestMethod.GET, RequestMethod.POST })
+	@PostMapping(value="/review-like/{boardNum}")
 	@ResponseBody
 	public HashMap<String, Integer> reviewLike(ModelAndView mv, HttpServletRequest request,
 			@RequestParam(required = false) int boardNum) {

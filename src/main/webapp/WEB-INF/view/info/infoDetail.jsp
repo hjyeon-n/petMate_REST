@@ -11,7 +11,7 @@
 				<div class="post-meta d-flex mb-5">
 					<div class="vcard">
 						<span class="d-block">
-							<a href="<c:url value="/userpage">
+							<a href="<c:url value="/user-page">
 							<c:param name="userID" value="${info.userID}"/>
 							</c:url>">${info.userID}</a>
 						</span> 
@@ -28,7 +28,7 @@
 					<input type="hidden" id="boardNum" name="boardNum" value="${info.boardNum}"/>
 					<c:if test="${sessionScope.userID ne null}">
 						<c:if test="${sessionScope.userID eq info.userID}">
-							<button type="submit" formaction="infoForm" class="btn">수정</button>
+							<button type="submit" formaction="post" class="btn">수정</button>
 							<input type="button" class="btn" value="삭제" onclick="del(${info.boardNum})" />
 						</c:if>
 						<c:if test="${sessionScope.userID eq 'admin'}">
@@ -40,7 +40,7 @@
 
 				<div class="pt-5" align="center">
 						<c:if test="${sessionScope.userID eq null}">
-							<a href="signIn" onclick="alert('로그인이 필요합니다.')">
+							<a href="${pageContext.request.contextPath}/sign-in" onclick="alert('로그인이 필요합니다.')">
 								<img src="${pageContext.request.contextPath}/resources/img/love.png" border="0" class="zoom">
 							</a>
 						</c:if>
@@ -61,7 +61,7 @@
 						</div>
 				</div>
 				<div class="pt-5" align="center">
-					<a href="info"><input type="button" value="목록" class="btn" /></a>
+					<a href="${pageContext.request.contextPath}/info"><input type="button" value="목록" class="btn" /></a>
 				</div>
 
 				<!-- comment 작성 부분 -->				
@@ -79,7 +79,7 @@
 					               </div>
 				               </c:if>
 				               <c:if test="${sessionScope.userID eq null}">
-				               		<a href="signIn" onclick="alert('로그인이 필요합니다.')"><input type="button" class="btn" value="등록" /></a>
+				               		<a href="${pageContext.request.contextPath}/sign-in" onclick="alert('로그인이 필요합니다.')"><input type="button" class="btn" value="등록" /></a>
 				               </c:if>
 				            </div>
 				        </form>
@@ -104,7 +104,7 @@
 	function checkLike() {
 		var boardNum = '${info.boardNum}';
 		$.ajax({
-			url : '/petMate/infoLike',
+			url : '/petMate/info-like/'+boardNum,
 			type : 'post',
 			data : {'boardNum' : boardNum},
 			dataType : 'json',
@@ -124,7 +124,20 @@
 	function del(boardNum) {
 		var chk = confirm("정말 삭제하시겠습니까?");
 		if (chk) {
-			location.href='infoDetail/delete?boardNum='+boardNum;
+			$.ajax({
+				url : '${pageContext.request.contextPath}/info/'+boardNum,
+				type : 'delete',
+				data : {'boardNum' : boardNum},
+				dataType : 'text',
+				success : function(data) {
+					if (data == "success") {
+						location.href = "${pageContext.request.contextPath}/info";
+					}
+				},
+				error: function(request,status,error){
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
 		}
 	}
 </script>

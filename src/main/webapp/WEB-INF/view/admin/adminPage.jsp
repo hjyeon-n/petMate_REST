@@ -24,7 +24,7 @@
 					<c:forEach var="userList" items="${userList}">
 					<c:if test="${userList.authority eq 'ROLE_USER'}">
 						<tr>
-							<td width=150 style="word-break:break-all"><a href="<c:url value="/userpage">
+							<td width=150 style="word-break:break-all"><a href="<c:url value="/user-page">
 							<c:param name="userID" value="${userList.userID}"/>
 							</c:url>">${userList.userID}</a></td>
 							<td width=300 style="word-break:break-all">${userList.email}</td>

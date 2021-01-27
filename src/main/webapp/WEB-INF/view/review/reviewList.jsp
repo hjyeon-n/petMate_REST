@@ -22,8 +22,7 @@
 				<c:forEach var="reviewList" items="${reviewList}">
 					<tr>
 						<td width=100 style="word-break:break-all">${reviewList.boardNum}</td>
-						<td width=500 style="word-break:break-all"><a href="<c:url value="/reviewDetail">
-						<c:param name="boardNum" value="${reviewList.boardNum}"/>
+						<td width=500 style="word-break:break-all"><a href="<c:url value="/review/${reviewList.boardNum}">
 						</c:url>">${reviewList.boardTitle}</a></td>
 						<td width=150 style="word-break:break-all">${reviewList.userID}</td>
 						<td>${reviewList.replyCnt}</td>
@@ -37,7 +36,7 @@
 				<tr>
 					<td>
 						<c:if test="${petsitterChk < 0}" >
-							<a href="signIn" onclick="alert('로그인이 필요합니다.')"><input type="submit" class="btn" value="글 작성" /></a>
+							<a href="sign-in" onclick="alert('로그인이 필요합니다.')"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 						<c:if test="${petsitterChk == 0}">
 							<a href="#" onclick="alert('일반 회원만 작성할 수 있습니다.')"><input type="submit" class="btn" value="글 작성" /></a>
@@ -47,7 +46,7 @@
 								<a href="#" onclick="alert('매칭된 회원만 작성할 수 있습니다.')"><input type="submit" class="btn" value="글 작성" /></a>
 							</c:if>
 							<c:if test="${count > 0}">
-								<a href="reviewForm"><input type="submit" class="btn" value="글 작성" /></a>
+								<a href="review/post"><input type="submit" class="btn" value="글 작성" /></a>
 							</c:if>
 						</c:if>
 					</td>
