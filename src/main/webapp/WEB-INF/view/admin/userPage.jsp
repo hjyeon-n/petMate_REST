@@ -93,20 +93,20 @@
           			<li>
 			            <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">사용자가 쓴 글</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu2">
-			                <li><a href="<c:url value="/userInfo"><c:param name="userID" value="${writerID}"/>
+			                <li><a href="<c:url value="/user-info"><c:param name="userID" value="${writerID}"/>
 							</c:url>"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
-			                <li><a href="<c:url value="/userInquiry"><c:param name="userID" value="${writerID}"/>
+			                <li><a href="<c:url value="/user-inquiry"><c:param name="userID" value="${writerID}"/>
 							</c:url>"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
-			                <li><a href="<c:url value="/userGpurchase"><c:param name="userID" value="${writerID}"/>
+			                <li><a href="<c:url value="/user-gpurchase"><c:param name="userID" value="${writerID}"/>
 							</c:url>"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
 			                <li><a href="<c:url value="/userSecondhand"><c:param name="userID" value="${writerID}"/>
 							</c:url>"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
 							<c:if test="${petsitterChk == 0}">
-								<li><a href="<c:url value="/userPetsitter"><c:param name="userID" value="${writerID}"/>
+								<li><a href="<c:url value="/user-petsitter"><c:param name="userID" value="${writerID}"/>
 							</c:url>"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
 							</c:if>
 							<c:if test="${petsitterChk == 1}">
-								<li><a href="<c:url value="/userReview"><c:param name="userID" value="${writerID}"/>
+								<li><a href="<c:url value="/user-review"><c:param name="userID" value="${writerID}"/>
 							</c:url>"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
 							</c:if>
 			            </ul>
@@ -144,17 +144,17 @@
 		var name = '${boardName}';
 		var url = "${pageContext.request.contextPath}/";
 		if (name == '정보게시판')
-			url = url + "infoDetail?boardNum=" + boardNum;
+			url = url + "info/" + boardNum;
 		if (name == '질문게시판')
-			url = url + "inquiryDetail?boardNum=" + boardNum;
+			url = url + "inquiry/" + boardNum;
 		if (name == '공구게시판')
-			url = url + "gpurchaseDetail?boardNum=" + boardNum;
+			url = url + "gpurchase/" + boardNum;
 		if (name == '중고게시판')
-			url = url + "secondhandDetail?boardNum=" + boardNum;
+			url = url + "secondhand/" + boardNum;
 		if (name == '매칭게시판')
-			url = url + "petsitter?boardNum=" + boardNum;
+			url = url + "petsitter/" + boardNum;
 		if (name == '리뷰게시판')
-			url = url + "reviewDetail?boardNum=" + boardNum;
+			url = url + "review/" + boardNum;
 		location.href = url;
 	}
 
@@ -164,17 +164,17 @@
 		var writerID = "${writerID}";
 		var name = '${boardName}';
 		if (name == '정보게시판')
-			url = url + "userInfo";
+			url = url + "user-info";
 		if (name == '질문게시판')
-			url = url + "userInquiry";
+			url = url + "user-inquiry";
 		if (name == '중고게시판')
-			url = url + "userSecondhand";
+			url = url + "user-secondhand";
 		if (name == '공구게시판')
-			url = url + "userGpurchase";
+			url = url + "user-gpurchase";
 		if (name == '매칭게시판')
-			url = url + "userPetsitter";
+			url = url + "user-petsitter";
 		if (name == '리뷰게시판')
-			url = url + "userReview";
+			url = url + "user-review";
 		url = url + "?userID=" + writerID;
 		url = url + "&pageNum=" + pageNum;
 		url = url + "&contentNum=" + contentNum;

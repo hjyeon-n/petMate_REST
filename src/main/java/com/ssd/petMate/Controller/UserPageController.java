@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.domain.Gpurchase;
@@ -21,7 +22,7 @@ import com.ssd.petMate.page.BoardSearch;
 import com.ssd.petMate.service.MyPageFacade;
 import com.ssd.petMate.service.UserFacade;
 
-@Controller
+@RestController
 public class UserPageController {
 	
 	@Autowired
@@ -30,7 +31,7 @@ public class UserPageController {
 	@Autowired
 	private MyPageFacade myPageFacade;
 	
-	@RequestMapping(value = {"/userpage",  "/userInfo", "/userInquiry", "/userGpurchase", "/userSecondhand", "/userPetsitter", "/userReview"})
+	@RequestMapping(value = {"/user-page",  "/user-info", "/user-inquiry", "/user-gpurchase", "/userSecondhand", "/user-petsitter", "/user-review"})
 	public ModelAndView userpage(ModelAndView mv, HttpServletRequest request,
 			@RequestParam(required = false, defaultValue = "1") int pageNum,
 			@RequestParam(required = false, defaultValue = "10") int contentNum,
@@ -52,7 +53,7 @@ public class UserPageController {
 		//펫시터 회원인지 아닌지 판별하기 위함
 		int petsitterChk = userFacade.isPetsitter(userID);
 	
-		if (request.getServletPath().equals("/userpage") || request.getServletPath().equals("/userInfo")) {
+		if (request.getServletPath().equals("/user-page") || request.getServletPath().equals("/user-info")) {
 	//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivateInfoCount(map);
 			boardSearch.pageInfo(pageNum, contentNum, totalCount);
@@ -62,7 +63,7 @@ public class UserPageController {
 			mv.addObject("boardName", "정보게시판");
 		}
 		
-		if (request.getServletPath().equals("/userInquiry")) {
+		if (request.getServletPath().equals("/user-inquiry")) {
 	//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivateInquiryCount(map);
 			boardSearch.pageInfo(pageNum, contentNum, totalCount);
@@ -72,7 +73,7 @@ public class UserPageController {
 			mv.addObject("boardName", "질문게시판");
 		}
 		
-		if (request.getServletPath().equals("/userGpurchase")) {
+		if (request.getServletPath().equals("/user-gpurchase")) {
 		//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivateGpurchaseCount(map);
 			boardSearch.pageInfo(pageNum, contentNum, totalCount);
@@ -82,7 +83,7 @@ public class UserPageController {
 			mv.addObject("boardName", "공구게시판");
 		}
 		
-		if (request.getServletPath().equals("/userSecondhand")) {
+		if (request.getServletPath().equals("/user-secondhand")) {
 		//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivateSecondhandCount(map);
 			boardSearch.pageInfo(pageNum, contentNum, totalCount);	
@@ -92,7 +93,7 @@ public class UserPageController {
 			mv.addObject("boardName", "중고게시판");
 		}	
 
-		if (request.getServletPath().equals("/userPetsitter")) {
+		if (request.getServletPath().equals("/user-petsitter")) {
 		//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivatePetsitterCount(map);
 			boardSearch.pageInfo(pageNum, contentNum, totalCount);	
@@ -102,7 +103,7 @@ public class UserPageController {
 			mv.addObject("boardName", "매칭게시판");
 		}
 	
-		if (request.getServletPath().equals("/userReview")) {
+		if (request.getServletPath().equals("/user-review")) {
 		//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivateReviewCount(map);
 			boardSearch.pageInfo(pageNum, contentNum, totalCount);	
