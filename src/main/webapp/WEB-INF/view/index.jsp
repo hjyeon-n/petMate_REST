@@ -14,8 +14,7 @@
 					<div class="contents">
 						<span class="caption">Today's Best 정보 게시판</span>
 						<h2>
-							<a href="<c:url value="/infoDetail">
-							<c:param name="boardNum" value="${dailyBestInfo.boardNum}"/>
+							<a href="<c:url value="/info/${dailyBestInfo.boardNum}">
 							</c:url>">${dailyBestInfo.boardTitle}</a>
 						</h2>
 						<p class="mb-3">
