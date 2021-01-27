@@ -9,7 +9,7 @@
 				<div class="section-title mb-5">
 					<h2>정보게시판 글쓰기 폼</h2>
 				</div>
-				<form:form modelAttribute="info" action="infoForm" method="post">
+				<form:form modelAttribute="info" action="${pageContext.request.contextPath}/info/post" method="post">
 					<div class="row">
 						<div class="col-md-6 form-group">
 							<label for="boardTitle">제목</label> 
@@ -53,7 +53,7 @@
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: oEditors,
 		elPlaceHolder: "boardContent",
-		sSkinURI: "resources/se2/SmartEditor2Skin.html",
+		sSkinURI: "${pageContext.request.contextPath}/resources/se2/SmartEditor2Skin.html",
 		fCreator: "createSEditor2"
 	});
 	$(document).on('click', '#btn', function(e){

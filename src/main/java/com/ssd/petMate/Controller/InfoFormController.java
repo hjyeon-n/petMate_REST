@@ -42,7 +42,7 @@ public class InfoFormController {
 		else return new Info();
 	}
 	
-	@PostMapping("/infoForm")
+	@PostMapping("/info/post")
 	public String infoInsert(@Valid @ModelAttribute("info") Info info, BindingResult result, SessionStatus sessionStatus, HttpServletRequest request) {		
 		//게시글 제목 길이
 		if (info.getBoardTitle().length() > 25) {
@@ -67,7 +67,7 @@ public class InfoFormController {
 		return successViewName;
 	}
 	
-	@GetMapping("/infoForm")
+	@GetMapping("/info/post")
 	public String infoForm() {
 		return formViewName;
 	}

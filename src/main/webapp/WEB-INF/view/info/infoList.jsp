@@ -22,7 +22,7 @@
 				<c:forEach var="infoList" items="${infoList}">
 					<tr>
 						<td width=100 style="word-break:break-all">${infoList.boardNum}</td>
-						<td width=500 style="word-break:break-all"><a href="<c:url value="/infoDetail/${infoList.boardNum}">
+						<td width=500 style="word-break:break-all"><a href="<c:url value="/info/${infoList.boardNum}">
 						<%-- <c:param name="boardNum" value="${infoList.boardNum}"/> --%>
 						</c:url>">${infoList.boardTitle}</a></td>
 						<td width=150 style="word-break:break-all">${infoList.userID}</td>
@@ -37,10 +37,10 @@
 				<tr>
 					<td>
 						<c:if test="${sessionScope.userID ne null}">
-							<a href="infoForm"><input type="submit" class="btn" value="글 작성" /></a>
+							<a href="info/post"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 						<c:if test="${sessionScope.userID eq null}" >
-							<a href="signIn" onclick="alert('로그인이 필요합니다.')"><input type="submit" class="btn" value="글 작성" /></a>
+							<a href="sign-in" onclick="alert('로그인이 필요합니다.')"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 					</td>
 				</tr>

@@ -14,8 +14,7 @@
 					<div class="contents">
 						<span class="caption">Today's Best 정보 게시판</span>
 						<h2>
-							<a href="<c:url value="/infoDetail">
-							<c:param name="boardNum" value="${dailyBestInfo.boardNum}"/>
+							<a href="<c:url value="/info/${dailyBestInfo.boardNum}">
 							</c:url>">${dailyBestInfo.boardTitle}</a>
 						</h2>
 						<p class="mb-3">
@@ -50,8 +49,7 @@
 					<div class="contents">
 						<span class="caption">Today's Best 질문 게시판</span>
 						<h2>
-							<a href="<c:url value="/inquiryDetail">
-							<c:param name="boardNum" value="${dailyBestInquiry.boardNum}"/>
+							<a href="<c:url value="/inquiry/${dailyBestInquiry.boardNum}">
 							</c:url>">${dailyBestInquiry.boardTitle}</a>
 						</h2>
 						<p class="mb-3">
@@ -85,8 +83,7 @@
 					<div class="contents">
 						<span class="caption">Today's Best 리뷰 게시판</span>
 						<h2>
-							<a href="<c:url value="/reviewDetail">
-							<c:param name="boardNum" value="${dailyBestReview.boardNum}"/>
+							<a href="<c:url value="/review/${dailyBestReview.boardNum}">
 							</c:url>">${dailyBestReview.boardTitle}</a>
 						</h2>
 						<p class="mb-3">
@@ -163,8 +160,7 @@
 						style="background-image: url('resources/img/second.png')"></div> -->
 					<div class="contents">
 						<h2>
-							<a href="<c:url value="/infoDetail">
-						<c:param name="boardNum" value="${infoList.boardNum}"/>
+							<a href="<c:url value="/info/${infoList.boardNum}">
 						</c:url>">${infoList.boardTitle}</a>
 						</h2>
 						<p class="mb-3">
@@ -198,8 +194,7 @@
 							style="background-image: url('resources/img/second.png')"></div> -->
 						<div class="contents">
 							<h2>
-								<a href="<c:url value="/inquiryDetail">
-							<c:param name="boardNum" value="${inquiryList.boardNum}"/>
+								<a href="<c:url value="/inquiry/${inquiryList.boardNum}">
 							</c:url>">${inquiryList.boardTitle}</a>
 							</h2>
 							<p class="mb-3">
@@ -233,8 +228,7 @@
 							style="background-image: url('resources/img/second.png')"></div> -->
 						<div class="contents">
 							<h2>
-								<a href="<c:url value="/reviewDetail">
-							<c:param name="boardNum" value="${reviewList.boardNum}"/>
+								<a href="<c:url value="/review/${reviewList.boardNum}">
 							</c:url>">${reviewList.boardTitle}</a>
 							</h2>
 							<p class="mb-3">
