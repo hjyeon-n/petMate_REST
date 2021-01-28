@@ -6,13 +6,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,7 +31,6 @@ public class AnswerController {
 	
 //	게시글 상세보기를 클릭했을 때 답변 리스트 가져오기
 	@GetMapping(value = "/answer-list/{boardNum}")
-	@ResponseBody
 	public List<Answer> answerList(ModelAndView mv,
 			@PathVariable("boardNum") int boardNum) {
 		List<Answer> answerList = answerFacade.getAnswerList(boardNum);
@@ -40,8 +38,7 @@ public class AnswerController {
 	}	
 	
 //	답변 입력하기
-	@RequestMapping(value = "/insertAnswer", method = RequestMethod.POST)
-	@ResponseBody
+	@PostMapping(value = "/answer")
 	public void insertAnswer(ModelAndView mv, HttpServletRequest request,
 			@ModelAttribute("infoReply") Answer answer) {
 		String userID = (String) request.getSession().getAttribute("userID");
@@ -57,11 +54,10 @@ public class AnswerController {
 	}
 	
 //	답변 수정
-	@RequestMapping(value= "/updateAnswer", method = RequestMethod.POST) 
-    @ResponseBody
+	@PostMapping(value= "/answer/{answerNum}") 
     public void updateInfoReply(ModelAndView mv,
-    		@RequestParam("answerNum") int answerNum,
-			@RequestParam("answerContent") String replyContent) throws Exception{
+    		@PathVariable("answerNum") int answerNum,
+			@RequestParam("answerContent") String replyContent) throws Exception {
 		Answer answer = new Answer();
 		answer.setAnswerNum(answerNum);
 		answer.setAnswerContent(replyContent);
@@ -70,11 +66,10 @@ public class AnswerController {
     }
 	
 //	답변 삭제
-	@RequestMapping(value = "/deleteAnswer", method = { RequestMethod.GET, RequestMethod.POST })
-	@ResponseBody
+	@DeleteMapping(value = "/answer/{answerNum}/{boardNum}")
 	public void deleteAnswer(ModelAndView mv, HttpServletRequest request,
-			@RequestParam("answerNum") int answerNum,
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("answerNum") int answerNum,
+			@PathVariable("boardNum") int boardNum) {
 		
 		answerFacade.deleteAnswer(answerNum); // 실제 답변 없애기 -> 만약 답글이 달린 글이면 답글까지 전부 삭제
 		
@@ -87,19 +82,17 @@ public class AnswerController {
 	}
 	
 //	답변 채택
-	@RequestMapping(value = "/selectAnswer", method = { RequestMethod.GET, RequestMethod.POST })
-	@ResponseBody
+	@PostMapping(value = "/choose/{boardNum}/{answerNum}")
 	public void selectAnswer(ModelAndView mv, HttpServletRequest request,
-			@RequestParam("boardNum") int boardNum,
-			@RequestParam("answerNum") int answerNum)	{
+			@PathVariable("boardNum") int boardNum,
+			@PathVariable("answerNum") int answerNum)	{
 		inquiryFacade.selectInquiry(boardNum); 
 		answerFacade.selectAnswer(answerNum);
 	}
 	
-	@RequestMapping(value = "/answerReply", method = RequestMethod.POST)
-	@ResponseBody
+	@PostMapping(value = "/answer-reply/{answerNum}")
 	public void answerComment(ModelAndView mv, HttpServletRequest request,
-			@RequestParam("answerNum") int answerNum,
+			@PathVariable("answerNum") int answerNum,
 			@RequestParam("answerContent") String answerContent) {
 			
 		String userID = (String) request.getSession().getAttribute("userID");

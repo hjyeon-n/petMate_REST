@@ -140,7 +140,7 @@
 			            <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">장바구니</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu5">
 			                <li><a href="gpurchaseCart"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
-			                <li><a href="secondhandCart"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
+			                <li><a href="secondhand-cart"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
 			            </ul>
 	          		</li>
 	          		<li><a href="myOrderList">내 주문 내역</a></li>
@@ -262,12 +262,12 @@
 			return false;
 		}
 		$.ajax({
-	        url : '${pageContext.request.contextPath}/confirmPwd',
+	        url : '${pageContext.request.contextPath}/confirm/'+pass2,
 	        type : 'post',
-	        data : {'confirmPwd' : pass2},
+/* 	        data : {'confirmPwd' : pass2}, */
 	        success : function(data){
 	        	if (data == 1) {
-	        		location.href="${pageContext.request.contextPath}/signUp";
+	        		location.href="${pageContext.request.contextPath}/sign-up";
 	        	}
 	        	else {
 	        		alert('비밀번호가 틀렸습니다.');

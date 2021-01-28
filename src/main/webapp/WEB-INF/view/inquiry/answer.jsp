@@ -6,6 +6,7 @@
 var boardNum = '${inquiry.boardNum}'; //게시글 번호
 var inId = '${inquiry.userID}'; //게시글 작성자
 var isSelected = '${inquiry.isSelected}'; //게시글 채택 여부
+
 /* 댓글 내용이 없으면 alert창 띄우기  */
 $(document).on('click', '#btnAnswer', function(e){
 	if($("#answerContent").val()==""){
@@ -23,7 +24,7 @@ function answerList(){
     $.ajax({
         url : url,
         type : 'get',
-        data : {"boardNum":boardNum, "inId":inId, "isSelected":isSelected}, 
+        data : {"inId":inId, "isSelected":isSelected}, 
         dataType: 'json',
         success : function(data){
             var html =''; 
@@ -53,7 +54,7 @@ function answerList(){
 	                    /* 로그인한 사용자에게만 적용 */
 	                    if (userID != 'null') {
 	                    	if (value.isSelected != 1)
-	                    	html += '<p><a onclick="insertAnswerReply('+value.answerNum+',\''+ value.boardNum+'\');" class="btn btn-info btn-circle text-uppercase">Reply</a></p>';
+	                    	html += '<p><a onclick="insertAnswerReply('+value.answerNum+');" class="btn btn-info btn-circle text-uppercase">Reply</a></p>';
 	                   		/* 현재 사용자가 댓글 작성자일 때  */
 		                   	if (userID == value.userID) {
 			                   	if (isSelected == 0){
@@ -101,7 +102,7 @@ function answerList(){
 //댓글 등록
 function answerInsert(insertData){
     $.ajax({
-        url : '${pageContext.request.contextPath}/insertAnswer',
+        url : '${pageContext.request.contextPath}/answer',
         type : 'post',
         data : insertData,
         success : function(data){
@@ -110,6 +111,7 @@ function answerInsert(insertData){
         }
     });
 }
+
 //댓글 수정 - 댓글 내용 출력을 input 폼으로 변경 
 function answerUpdate(answerNum, answerContent, userID){
 	var htmls = "";
@@ -135,16 +137,17 @@ function answerUpdateProc(answerNum){
 	}
     var updateContent = $('#editContent').val(); 
     $.ajax({
-        url : '${pageContext.request.contextPath}/updateAnswer',
+        url : '${pageContext.request.contextPath}/answer/'+answerNum,
         type : 'post',
-        data : {"answerNum" : answerNum, "answerContent" : updateContent},
+        data : {"answerContent" : updateContent},
         success : function(data){
         	answerList();
         }
     });
 }
+
 // 답글 작성
-function insertAnswerReply(answerNum, boardNum){
+function insertAnswerReply(answerNum){
 	var htmls = "";
 	htmls += '<form id="answerReplyForm">';
 	htmls += '<ul class="children">';
@@ -159,6 +162,7 @@ function insertAnswerReply(answerNum, boardNum){
 	htmls += '</form>';
 	$("#answerReply" + answerNum).html(htmls);
 }
+
 //답글 저장
 function answerReplyProc(answerNum){
 	if($("#answerReplyContent").val()==""){
@@ -168,9 +172,9 @@ function answerReplyProc(answerNum){
 	}
 	var answerReplyContent = $('#answerReplyContent').val();
     $.ajax({
-        url : '${pageContext.request.contextPath}/answerReply',
+        url : '${pageContext.request.contextPath}/answer-reply/'+answerNum,
         type : 'post',
-        data : {'answerContent' : answerReplyContent, 'answerNum' : answerNum},
+        data : {'answerContent' : answerReplyContent},
         success : function(data){
         	answerList();
         }
@@ -181,9 +185,8 @@ function answerReplyProc(answerNum){
 function answerDelete(answerNum, boardNum){
 	if (confirm('댓글을 삭제하시겠습니까?')) {
 	    $.ajax({
-	        url : '${pageContext.request.contextPath}/deleteAnswer',
-	        data: {"answerNum":answerNum, 'boardNum':boardNum},
-	        type : 'post',
+	        url : '${pageContext.request.contextPath}/answer/'+answerNum+'/'+boardNum,
+	        type : 'delete',
 	        success : function(data){
 	        	answerList(); //댓글 삭제후 목록 출력 
 	        }
@@ -195,12 +198,14 @@ function answerDelete(answerNum, boardNum){
 function answerSelect(answerNum, boardNum){
 	if (confirm('댓글을 채택하시겠습니까?')) {
 	    $.ajax({
-	        url : '${pageContext.request.contextPath}/selectAnswer',
-	        data: {'answerNum':answerNum, 'boardNum':boardNum},
+	        url : '${pageContext.request.contextPath}/choose/'+boardNum+'/'+answerNum,
 	        type : 'post',
 	        success : function(data){
 	       		location.reload();
-	        }
+	        },
+	        error: function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		    }
 	    });
 	}
 }

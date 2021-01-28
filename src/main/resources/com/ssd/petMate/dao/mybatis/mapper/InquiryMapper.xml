@@ -104,7 +104,7 @@
 		WHERE boardNum = #{boardNum}
 	</update>
 	
-	<!-- 댓글 수 업데이트 -->	
+	<!-- 답글 채택 -->	
 	<update id="selectInquiry" parameterType="com.ssd.petMate.domain.Inquiry">
 		UPDATE Inquiry
 		SET isSelected = 1

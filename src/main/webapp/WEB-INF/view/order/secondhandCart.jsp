@@ -248,11 +248,23 @@
 		 
 	 });
 
-
 	function del(boardNum) {
 		var chk = confirm("해당 상품을 삭제하시겠습니까?");
 		if (chk) {
-			location.href='secondhandCartDelete?boardNum='+boardNum;
+			$.ajax({
+				url : '${pageContext.request.contextPath}/secondhand-cart/'+boardNum,
+				type : 'delete',
+				data : {'boardNum' : boardNum},
+				dataType : 'text',
+				success : function(data) {
+					if (data == "success") {
+						location.href = "${pageContext.request.contextPath}/secondhand-cart";
+					}
+				},
+				error: function(request,status,error){
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
 		}
 	}
 	

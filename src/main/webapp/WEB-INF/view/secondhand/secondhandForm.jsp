@@ -9,7 +9,7 @@
 				<div class="section-title mb-5">
 					<h2>중고거래 폼</h2>
 				</div>
-				<form:form modelAttribute="secondhand" action="secondhandForm">
+				<form:form modelAttribute="secondhand" action="${pageContext.request.contextPath}/secondhand/post">
 					<div class="row">
 						<div class="col-md-6 form-group">
 							<label for="boardTitle">제목</label> 
@@ -71,7 +71,7 @@
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: oEditors,
 		elPlaceHolder: "boardContent",
-		sSkinURI: "resources/se2/SmartEditor2Skin.html",
+		sSkinURI: "${pageContext.request.contextPath}/resources/se2/SmartEditor2Skin.html",
 		fCreator: "createSEditor2"
 	});
 

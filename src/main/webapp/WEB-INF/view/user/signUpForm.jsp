@@ -11,7 +11,7 @@
 				<div class="section-title mb-5">
 					<h2>회원가입</h2>
 				</div>
-				<form:form modelAttribute="registerForm" action="signUp" method="post">
+				<form:form modelAttribute="registerForm" action="sign-up" method="post">
 					<div class="row">
 						<div class="col-md-6 form-group">
 							<form:label path="userID">아이디</form:label>
@@ -93,7 +93,7 @@ $(document).ready(function(){
 	    $.ajax({
 	    	async: true,
 	    	type : 'GET',
-	    	url : "/petMate/checkID?userID="+userID,
+	    	url : "${pageContext.request.contextPath}/checkID/"+userID,
 	    	success : function(data) {
 	             if (data == 1) {
 	             	$("#id_check").text("사용 중인 아이디입니다");

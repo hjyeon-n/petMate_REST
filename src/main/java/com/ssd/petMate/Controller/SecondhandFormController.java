@@ -42,7 +42,7 @@ public class SecondhandFormController {
 		}
 	}
 	
-	@PostMapping("/secondhandForm")
+	@PostMapping("/secondhand/post")
 	public String secondhandInsert(@Valid @ModelAttribute("secondhand") Secondhand secondhand, BindingResult result, HttpServletRequest request) {		
 
 		if (result.hasErrors()) {
@@ -60,7 +60,7 @@ public class SecondhandFormController {
 		return successViewName;
 	}
 	
-	@GetMapping("/secondhandForm")
+	@GetMapping("/secondhand/post")
 	public String gpurchaseForm() {
 		return formViewName;
 	}

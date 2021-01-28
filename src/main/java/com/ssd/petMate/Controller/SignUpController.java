@@ -13,10 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -48,18 +46,18 @@ public class SignUpController {
 		}
 	}
 	
-	@GetMapping("/signUp")
+	@GetMapping("/sign-up")
 	public String showForm() {
 		return formViewName;
 	}
 	
-	@RequestMapping(value = "/checkID", method = { RequestMethod.GET, RequestMethod.POST })
+	@GetMapping(value = "/checkID/{userID}")
 	@ResponseBody
-	public int checkID(ModelAndView mv, @RequestParam("userID") String userID) {
+	public int checkID(ModelAndView mv, @PathVariable("userID") String userID) {
 		return userService.countUserByUserID(userID);
 	}
 	
-	@PostMapping("/signUp")
+	@PostMapping("/sign-up")
 	public String onSubmit(
 			HttpServletRequest request, @Valid @ModelAttribute("registerForm") SignUpCommand regCommand,
 			BindingResult result, Model model) throws Exception {
@@ -92,10 +90,10 @@ public class SignUpController {
 	}
 	
 //	패스워드 확인 후 회원정보 수정 가능
-	@RequestMapping(value = "/confirmPwd", method = { RequestMethod.GET, RequestMethod.POST })
+	@PostMapping(value = "/confirm/{pwd}")
 	@ResponseBody
 	public int myPageModify(HttpServletRequest request,
-			@RequestParam("confirmPwd") String confirmPwd) {
+			@PathVariable("pwd") String confirmPwd) {
 		String userID = (String)request.getSession().getAttribute("userID");
 		UserDetails user = userService.loadUserByUsername(userID);
 		if(passwordEncoder.matches(confirmPwd, user.getPassword())) {
