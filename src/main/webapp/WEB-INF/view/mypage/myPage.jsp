@@ -262,12 +262,12 @@
 			return false;
 		}
 		$.ajax({
-	        url : '${pageContext.request.contextPath}/confirmPwd',
+	        url : '${pageContext.request.contextPath}/confirm/'+pass2,
 	        type : 'post',
-	        data : {'confirmPwd' : pass2},
+/* 	        data : {'confirmPwd' : pass2}, */
 	        success : function(data){
 	        	if (data == 1) {
-	        		location.href="${pageContext.request.contextPath}/signUp";
+	        		location.href="${pageContext.request.contextPath}/sign-up";
 	        	}
 	        	else {
 	        		alert('비밀번호가 틀렸습니다.');

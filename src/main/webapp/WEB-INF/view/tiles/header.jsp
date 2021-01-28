@@ -28,7 +28,7 @@
                   <c:choose>
                   	<c:when test="${userID eq null}">
                   		<a href="${pageContext.request.contextPath}/sign-in">로그인</a> &nbsp;&nbsp; | &nbsp;&nbsp;
-                       	<a href="${pageContext.request.contextPath}/signUp">회원가입</a>
+                       	<a href="${pageContext.request.contextPath}/sign-up">회원가입</a>
                     </c:when>
                     <c:when test="${userID eq 'admin'}">
                     	<div style="margin-top: -45px">관리자 ${userID}</div>
