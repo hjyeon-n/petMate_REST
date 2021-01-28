@@ -7,12 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.domain.Secondhand;
@@ -22,7 +17,7 @@ import com.ssd.petMate.page.BoardSearch;
 import com.ssd.petMate.service.SecondhandImpl;
 import com.ssd.petMate.service.UserImpl;
 
-@Controller
+@RestController
 public class SecondhandController {	
 	
 	@Autowired
@@ -31,16 +26,8 @@ public class SecondhandController {
 	@Autowired
 	private UserImpl userService;
 	
-	@ModelAttribute("petsitterChk")
-	public int petsitterChk(HttpServletRequest request) {
-		if (request.getSession().getAttribute("userID") != null) {
-			return userService.isPetsitter(request.getSession().getAttribute("userID").toString());
-		}
-		return -1;
-	}
-	
-	//공구 게시판 목록
-	@RequestMapping(value = "/secondhand", method = { RequestMethod.GET, RequestMethod.POST })
+	//중고 게시판 목록
+	@GetMapping(value = "/secondhand")
 	public ModelAndView secondhandList(ModelAndView mv,
 			@RequestParam(required = false, defaultValue = "1") int pageNum,
 			@RequestParam(required = false, defaultValue = "10") int contentNum,
@@ -68,9 +55,9 @@ public class SecondhandController {
 	}
 	
 	//중고게시판 글 상세보기
-	@RequestMapping(value = "/secondhandDetail", method = { RequestMethod.GET, RequestMethod.POST })
+	@GetMapping(value = "/secondhand/{boardNum}")
 	public ModelAndView secondhandDetail(ModelAndView mv,
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("boardNum") int boardNum) {
 		secondhandImpl.secondhandBoardHitPlus(boardNum);
 		mv.addObject("secondhand", secondhandImpl.getSecondhandDetail(boardNum));
 		mv.setViewName("secondhand/secondhandDetail");
@@ -78,7 +65,7 @@ public class SecondhandController {
 	}
 	
 	//중고게시판 장바구니 목록
-	@GetMapping("/secondhandCart")
+	@GetMapping("/secondhand-cart")
 	public ModelAndView secondhandCartList(ModelAndView mv, HttpServletRequest request) {
 		String userID = (String) request.getSession().getAttribute("userID");
 		List<SecondhandCartCommand> secondhandCartList = secondhandImpl.getSecondhandCartListBySecondhand(userID);
@@ -88,10 +75,10 @@ public class SecondhandController {
 	}
 	
 	//중고게시판 장바구니 담기
-	@RequestMapping(value="/secondhandCartAdded", method = { RequestMethod.GET, RequestMethod.POST })
+	@PostMapping(value="/secondhand-cart/{boardNum}")
 	@ResponseBody
 	public HashMap<String, Integer> secondhandCartAdded(ModelAndView mv, HttpServletRequest request,
-			@RequestParam(required = false) int boardNum) {
+			@PathVariable(required = false) int boardNum) {
 
 		String userID = (String) request.getSession().getAttribute("userID");
 		Secondhand secondhand = secondhandImpl.getSecondhandDetail(boardNum);
@@ -118,8 +105,8 @@ public class SecondhandController {
 	}
 	
 	//중고게시판 장바구니 삭제
-	@GetMapping("/secondhandCartDelete")
-	public String secondhandCartDelete(@RequestParam(required = false) int boardNum, HttpServletRequest request) {
+	@DeleteMapping("/secondhand-cart/{boardNum}")
+	public String secondhandCartDelete(@PathVariable(required = false) int boardNum, HttpServletRequest request) {
 		String userID = (String) request.getSession().getAttribute("userID");
 		Secondhand secondhand = secondhandImpl.getSecondhandDetail(boardNum);
 		SecondhandCart secondhandCart = new SecondhandCart(userID, boardNum);
@@ -131,14 +118,14 @@ public class SecondhandController {
 		secondhand.setCartAdded(cartAdded);
 		secondhandImpl.secondhandCartUpdate(secondhand);
 		
-		return "redirect:/secondhandCart";
+		return "success";
 	}	
 
 	//중고물품 삭제
-	@RequestMapping(value = "secondhandDetail/delete", method = { RequestMethod.GET, RequestMethod.POST })
-	public String secondhandDelete(@RequestParam("boardNum") int boardNum) {
+	@DeleteMapping(value = "secondhand/{boardNum}")
+	public String secondhandDelete(@PathVariable("boardNum") int boardNum) {
 		secondhandImpl.deleteSecondhand(boardNum);
-		return "redirect:/secondhand";
+		return "success";
 	}
 	
 }

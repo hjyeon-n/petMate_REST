@@ -12,7 +12,7 @@
 				<div class="post-meta d-flex mb-5">
 					<div class="vcard">
 						<span class="d-block">
-							<a href="<c:url value="/userpage">
+							<a href="<c:url value="/user-page">
 							<c:param name="userID" value="${secondhand.userID}"/>
 							</c:url>">${secondhand.userID}</a>
 						</span> 
@@ -36,7 +36,7 @@
 					<input type="hidden" id="boardNum" name="boardNum" value="${secondhand.boardNum}"/>
 					<c:if test="${sessionScope.userID ne null}">
 						<c:if test="${sessionScope.userID eq secondhand.userID}">
-							<button type="submit" formaction="secondhandForm" class="btn">수정</button>
+							<button type="submit" formaction="post" class="btn">수정</button>
 							<input type="button" class="btn" value="삭제" onclick="del(${secondhand.boardNum})" />
 						</c:if>
 						<c:if test="${sessionScope.userID eq 'admin'}">
@@ -49,25 +49,25 @@
 				<div class="pt-5" align="center">
 					<c:choose>
 						<c:when test="${sessionScope.userID eq null}">
-							<a href="signIn" onclick="alert('로그인이 필요합니다.')">
-								<img src="resources/img/cart.png" border="0" class="zoom">
+							<a href="${pageContext.request.contextPath}/sign-in" onclick="alert('로그인이 필요합니다.')">
+								<img src="${pageContext.request.contextPath}/resources/img/cart.png" border="0" class="zoom">
 							</a>
 						</c:when>
 						<c:when test="${secondhand.isSold eq 1}">
 								<a href="#" onclick="alert('판매종료 된 상품입니다.')">
-									<img src="resources/img/cart.png" border="0" class="zoom">
+									<img src="${pageContext.request.contextPath}/resources/img/cart.png" border="0" class="zoom">
 								</a>
 						</c:when>
 						<c:when test="${sessionScope.userID ne null}">
 							<c:choose>
 								<c:when test="${sessionScope.userID ne secondhand.userID}">
 									<a href="javascript:void(0);" onclick="checkCart();">
-										<img src="resources/img/cart.png" border="0" class="zoom">
+										<img src="${pageContext.request.contextPath}/resources/img/cart.png" border="0" class="zoom">
 									</a>
 								</c:when>
 								<c:when test="${sessionScope.userID eq secondhand.userID}">
 									<a href="#" onclick="alert('자신의 상품은 담을 수 없습니다.')">
-										<img src="resources/img/cart.png" border="0" class="zoom">
+										<img src="${pageContext.request.contextPath}/resources/img/cart.png" border="0" class="zoom">
 									</a>
 								</c:when>
 							</c:choose>
@@ -79,7 +79,7 @@
 				</div>
 				
 				<div class="pt-5" align="center">
-					<a href="secondhand"><input type="button" value="목록" class="btn" /></a>
+					<a href="${pageContext.request.contextPath}/secondhand"><input type="button" value="목록" class="btn" /></a>
 				</div>
 				<!-- comment 작성 부분 -->
 				<c:if test="${secondhand.isSold ne 1}">
@@ -97,7 +97,7 @@
 						               </div>
 					               </c:if>
 					               <c:if test="${sessionScope.userID eq null}">
-					               		<a href="signIn" onclick="alert('로그인이 필요합니다.')"><input type="button" class="btn" value="글 작성" /></a>
+					               		<a href="${pageContext.request.contextPath}/sign-in" onclick="alert('로그인이 필요합니다.')"><input type="button" class="btn" value="글 작성" /></a>
 					               </c:if>
 					            </div>
 					        </form>
@@ -123,7 +123,7 @@
 	function checkCart() {
 		var boardNum = '${secondhand.boardNum}';
 		$.ajax({
-			url : '/petMate/secondhandCartAdded',
+			url : '${pageContext.request.contextPath}/secondhand-cart/'+boardNum,
 			type : 'post',
 			data : {'boardNum' : boardNum},
 			dataType : 'json',
@@ -143,7 +143,20 @@
 	function del(boardNum) {
 		var chk = confirm("정말 삭제하시겠습니까?");
 		if (chk) {
-			location.href='secondhandDetail/delete?boardNum='+boardNum;
+			$.ajax({
+				url : '${pageContext.request.contextPath}/secondhand/'+boardNum,
+				type : 'delete',
+				data : {'boardNum' : boardNum},
+				dataType : 'text',
+				success : function(data) {
+					if (data == "success") {
+						location.href = "${pageContext.request.contextPath}/secondhand";
+					}
+				},
+				error: function(request,status,error){
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
 		}
 	}
 </script>

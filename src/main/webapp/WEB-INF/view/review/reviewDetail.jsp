@@ -10,7 +10,7 @@
 				<h1 class="mb-4">${review.boardTitle}</h1>
 				<div class="post-meta d-flex mb-5">
 					<div class="vcard">
-						<span class="d-block"><a href="<c:url value="/userpage"><c:param name="userID" value="${review.userID}"/></c:url>">${review.userID}</a></span>  
+						<span class="d-block"><a href="<c:url value="/user-page"><c:param name="userID" value="${review.userID}"/></c:url>">${review.userID}</a></span>
 						<span class="date-read"><fmt:parseDate var="dateString" value="${review.boardDate}" pattern="yyyy-MM-dd HH:mm:ss" />               
 						<fmt:formatDate value="${dateString}" pattern="yyyy-MM-dd HH:mm"/> 
 						<span class="mx-1">&bullet;</span>조회 ${review.boardHit} <span class="icon-star2"></span></span>

@@ -14,7 +14,6 @@
 						<th>글 제목</th>
 						<th>작성자</th>
 						<th>담은수</th>
-						<th>추천수</th>
 						<th>조회수</th>
 					</tr>
 				</thead>
@@ -22,11 +21,9 @@
 				<c:forEach var="secondhandList" items="${secondhandList}">
 					<tr>
 						<td width=100 style="word-break:break-all">${secondhandList.boardNum}</td>
-						<td width=500 style="word-break:break-all"><a href="<c:url value="/secondhandDetail">
-						<c:param name="boardNum" value="${secondhandList.boardNum}"/>
+						<td width=500 style="word-break:break-all"><a href="<c:url value="/secondhand/${secondhandList.boardNum}">
 						</c:url>">${secondhandList.boardTitle}</a></td>
 						<td width=150 style="word-break:break-all">${secondhandList.userID}</td>
-						<td>${secondhandList.replyCnt}</td>
 						<td>${secondhandList.cartAdded}</td>
 						<td width=60 style="word-break:break-all">${secondhandList.boardHit}</td>
 					</tr>
@@ -37,10 +34,10 @@
 				<tr>
 					<td>
 						<c:if test="${sessionScope.userID ne null}">
-							<a href="secondhandForm"><input type="submit" class="btn" value="글 작성" /></a>
+							<a href="secondhand/post"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 						<c:if test="${sessionScope.userID eq null}" >
-							<a href="signIn" onclick="alert('로그인이 필요합니다.')"><input type="submit" class="btn" value="글 작성" /></a>
+							<a href="sign-in" onclick="alert('로그인이 필요합니다.')"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 					</td>
 				</tr>
