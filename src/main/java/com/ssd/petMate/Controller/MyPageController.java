@@ -6,11 +6,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.domain.Gpurchase;
@@ -26,7 +26,7 @@ import com.ssd.petMate.page.BoardSearch;
 import com.ssd.petMate.service.MyPageFacade;
 import com.ssd.petMate.service.UserImpl;
 
-@Controller
+@RestController
 public class MyPageController {
 
 	@Autowired
@@ -44,7 +44,7 @@ public class MyPageController {
 	 }
 	
 	//겹치는 코드가 많아 다중매핑
-	@RequestMapping(value = {"/mypage", "/mypageInfo", "/mypageInquiry", "/mypageGpurchase", "/mypageSecondhand", "/mypagePetsitter", "/mypageReview"})
+	@RequestMapping(value = {"/mypage", "/mypage-info", "/mypage-inquiry", "/mypage-gpurchase", "/mypage-secondhand", "/mypage-petsitter", "/mypage-review"})
 	public ModelAndView mypage(ModelAndView mv, HttpServletRequest request,
 			@RequestParam(required = false, defaultValue = "1") int pageNum,
 			@RequestParam(required = false, defaultValue = "10") int contentNum,
@@ -65,7 +65,7 @@ public class MyPageController {
 		boardSearch.setKeyword(keyword);
 		boardSearch.setUserID(userID);
 		
-		if (request.getServletPath().equals("/mypage") || request.getServletPath().equals("/mypageInfo")) {
+		if (request.getServletPath().equals("/mypage") || request.getServletPath().equals("/mypage-info")) {
 	//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivateInfoCount(map);
 			System.out.println(totalCount);
@@ -75,7 +75,7 @@ public class MyPageController {
 			mv.addObject("boardName", "정보게시판");
 		}
 		
-		if (request.getServletPath().equals("/mypageInquiry")) {
+		if (request.getServletPath().equals("/mypage-inquiry")) {
 	//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivateInquiryCount(map);
 			System.out.println(totalCount);
@@ -85,7 +85,7 @@ public class MyPageController {
 			mv.addObject("boardName", "질문게시판");
 		}
 		
-		if (request.getServletPath().equals("/mypageGpurchase")) {
+		if (request.getServletPath().equals("/mypage-gpurchase")) {
 	//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivateGpurchaseCount(map);
 			System.out.println(totalCount);
@@ -95,7 +95,7 @@ public class MyPageController {
 			mv.addObject("boardName", "공구게시판");
 		}
 		
-		if (request.getServletPath().equals("/mypageSecondhand")) {
+		if (request.getServletPath().equals("/mypage-secondhand")) {
 	//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivateSecondhandCount(map);
 			System.out.println(totalCount);
@@ -105,7 +105,7 @@ public class MyPageController {
 			mv.addObject("boardName", "중고게시판");
 		}
 		
-		if (request.getServletPath().equals("/mypagePetsitter")) {
+		if (request.getServletPath().equals("/mypage-petsitter")) {
 			//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 					int totalCount = myPageFacade.getPrivatePetsitterCount(map);
 					System.out.println(totalCount);
@@ -115,7 +115,7 @@ public class MyPageController {
 					mv.addObject("boardName", "매칭게시판");
 		}
 		
-		if (request.getServletPath().equals("/mypageReview")) {
+		if (request.getServletPath().equals("/mypage-review")) {
 			//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 					int totalCount = myPageFacade.getPrivateReviewCount(map);
 					System.out.println(totalCount);
@@ -130,7 +130,8 @@ public class MyPageController {
 		return mv;
 	}
 	
-	@RequestMapping(value = {"/myReply", "/myReplyInfo", "/myReplyInquiry", "/myReplyGpurchase", "/myReplySecondhand", "/myReplyPetsitter", "/myReplyReview"})
+	@RequestMapping(value = {"/myreply", "/myreply-info", "/myreply-inquiry", "/myreply-gpurchase", 
+			"/myreply-secondhand", "/myreply-petsitter", "/myreply-review"})
 	public ModelAndView myReply(ModelAndView mv, HttpServletRequest request,
 			@RequestParam(required = false, defaultValue = "1") int pageNum,
 			@RequestParam(required = false, defaultValue = "10") int contentNum,
@@ -151,7 +152,7 @@ public class MyPageController {
 		boardSearch.setKeyword(keyword);
 		boardSearch.setUserID(userID);
 		
-		if (request.getServletPath().equals("/myReply") || request.getServletPath().equals("/myReplyInfo")) {
+		if (request.getServletPath().equals("/myreply") || request.getServletPath().equals("/myreply-info")) {
 			//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivateInfoReplyCount(map);
 			System.out.println(totalCount);
@@ -161,7 +162,7 @@ public class MyPageController {
 			mv.addObject("boardName", "정보게시판");
 		}
 		
-		if (request.getServletPath().equals("/myReplyInquiry")) {
+		if (request.getServletPath().equals("/myreply-inquiry")) {
 			//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivateInquiryReplyCount(map);
 			System.out.println(totalCount);
@@ -181,7 +182,7 @@ public class MyPageController {
 			mv.addObject("boardName", "공구게시판");
 		}
 		
-		if (request.getServletPath().equals("/myReplySecondhand")) {
+		if (request.getServletPath().equals("/myreply-secondhand")) {
 			//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivateSecondhandReplyCount(map);
 			System.out.println(totalCount);
@@ -191,7 +192,7 @@ public class MyPageController {
 			mv.addObject("boardName", "중고게시판");
 		}
 		
-		if (request.getServletPath().equals("/myReplyPetsitter")) {
+		if (request.getServletPath().equals("/myreply-petsitter")) {
 			//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivatePetsitterReplyCount(map);
 			System.out.println(totalCount);
@@ -201,7 +202,7 @@ public class MyPageController {
 			mv.addObject("boardName", "구인게시판");
 		}
 		
-		if (request.getServletPath().equals("/myReplyReview")) {
+		if (request.getServletPath().equals("/myreply-review")) {
 			//		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
 			int totalCount = myPageFacade.getPrivateReviewReplyCount(map);
 			System.out.println(totalCount);
@@ -253,7 +254,7 @@ public class MyPageController {
 		return mv;
 	}
 	
-	@RequestMapping(value = {"/myInfoLike", "/myInquiryLike", "/myReviewLike", "/myPetsitterLike"})
+	@RequestMapping(value = {"/mylike-info", "/mylike-inquiry", "/mylike-review", "/mylike-petsitter"})
 	public ModelAndView myLike(ModelAndView mv, HttpServletRequest request,
 			@RequestParam(required = false, defaultValue = "1") int pageNum,
 			@RequestParam(required = false, defaultValue = "10") int contentNum,
@@ -274,7 +275,7 @@ public class MyPageController {
 		boardSearch.setUserID(userID);
 		
 //		페이징과 검색 기능이 적용된 후의 리스트를 가지고 옴
-		if (request.getServletPath().equals("/myInfoLike")) {
+		if (request.getServletPath().equals("/mylike-info")) {
 			int totalCount = myPageFacade.getPrivateInfoLikeCount(map);
 			boardSearch.pageInfo(pageNum, contentNum, totalCount);
 			List<Info> myboardList = myPageFacade.getPrivateInfoLike(boardSearch);
@@ -282,7 +283,7 @@ public class MyPageController {
 			mv.addObject("boardName", "정보게시판");
 		}
 		
-		if (request.getServletPath().equals("/myInquiryLike")) {
+		if (request.getServletPath().equals("/mylike-inquiry")) {
 			int totalCount = myPageFacade.getPrivateInquiryLikeCount(map);
 			boardSearch.pageInfo(pageNum, contentNum, totalCount);
 			List<Inquiry> myboardList = myPageFacade.getPrivateInquiryLike(boardSearch);
@@ -290,7 +291,7 @@ public class MyPageController {
 			mv.addObject("boardName", "질문게시판");
 		}
 		
-		if (request.getServletPath().equals("/myReviewLike")) {
+		if (request.getServletPath().equals("/mylike-review")) {
 			int totalCount = myPageFacade.getPrivateReviewLikeCount(map);
 			boardSearch.pageInfo(pageNum, contentNum, totalCount);
 			List<Review> myboardList = myPageFacade.getPrivateReviewLike(boardSearch);
@@ -298,7 +299,7 @@ public class MyPageController {
 			mv.addObject("boardName", "리뷰게시판");
 		}
 		
-		if (request.getServletPath().equals("/myPetsitterLike")) {
+		if (request.getServletPath().equals("/mylike-petsitter")) {
 			int totalCount = myPageFacade.getPrivatePetsitterLikeCount(map);
 			boardSearch.pageInfo(pageNum, contentNum, totalCount);
 			List<Petsitter> myboardList = myPageFacade.getPrivatePetsitterLike(boardSearch);
