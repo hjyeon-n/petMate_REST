@@ -7,11 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.domain.Review;
@@ -29,16 +25,16 @@ public class ReviewReplyController {
 	private ReviewFacade reviewFacade;
 	
 //	게시글 상세보기를 클릭했을 때 댓글 리스트 가져오기
-	@RequestMapping(value = "/reviewReplyList", method = { RequestMethod.GET, RequestMethod.POST})
+	@GetMapping(value = "/review/reply-list/{boardNum}")
 	@ResponseBody
 	public List<ReviewReply> reviewReplyList(ModelAndView mv,
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("boardNum") int boardNum) {
 		List<ReviewReply> replyList = reviewReplyFacade.getReplyList(boardNum);
 		return replyList;
 	}	
 	
 //	댓글 입력하기
-	@RequestMapping(value = "/insertReviewReply", method = RequestMethod.POST)
+	@PostMapping(value = "/review/reply")
 	@ResponseBody
 	public void insertReviewReply(ModelAndView mv, HttpServletRequest request,
 			@ModelAttribute("reviewReply") ReviewReply reviewReply) {
@@ -56,10 +52,10 @@ public class ReviewReplyController {
 	}
 	
 //	댓글 수정
-	@RequestMapping(value= "/updateReviewReply", method = RequestMethod.POST) 
+	@PostMapping(value= "/review/reply/{replyNum}")
     @ResponseBody
     public void updateReviewReply(ModelAndView mv,
-    		@RequestParam("replyNum") int replyNum,
+    		@PathVariable("replyNum") int replyNum,
 			@RequestParam("replyContent") String replyContent) throws Exception{
         
 		ReviewReply reply = new ReviewReply();
@@ -70,11 +66,11 @@ public class ReviewReplyController {
     }
 	
 //	댓글 삭제
-	@RequestMapping(value = "/deleteReviewReply", method = { RequestMethod.GET, RequestMethod.POST })
+	@DeleteMapping(value = "/review/reply/{replyNum}/{boardNum}")
 	@ResponseBody
 	public void deleteReviewReply(ModelAndView mv, HttpServletRequest request,
-			@RequestParam("replyNum") int replyNum,
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("replyNum") int replyNum,
+			@PathVariable("boardNum") int boardNum) {
 		
 		reviewReplyFacade.deleteReply(replyNum); // 실제 댓글 없애기 -> 만약 답글이 달린 글이면 답글까지 전부 삭제
 		
@@ -84,10 +80,10 @@ public class ReviewReplyController {
 		reviewFacade.updateReplyCnt(review);
 	}
 	
-	@RequestMapping(value = "/reviewReReply", method = RequestMethod.POST)
+	@PostMapping(value = "/review/re-reply/{replyNum}")
 	@ResponseBody
 	public void reviewReplyComment(ModelAndView mv, HttpServletRequest request,
-			@RequestParam("replyNum") int replyNum,
+			@PathVariable("replyNum") int replyNum,
 			@RequestParam("replyContent") String replyContent) {
 		
 		String userID = (String) request.getSession().getAttribute("userID");
