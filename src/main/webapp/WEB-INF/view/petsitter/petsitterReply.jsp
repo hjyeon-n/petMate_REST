@@ -133,7 +133,7 @@ function replyUpdateProc(replyNum){
 	}
     var updateContent = $('#editContent').val(); 
     $.ajax({
-        url : '${pageContext.request.contextPath}//petsitter/reply/'+replyNum,
+        url : '${pageContext.request.contextPath}/petsitter/reply/'+replyNum,
         type : 'post',
         data : {"replyContent" : updateContent},
         success : function(data){
