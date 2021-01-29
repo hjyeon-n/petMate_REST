@@ -20,11 +20,11 @@ $(document).on('click', '#btnReply', function(e){
 	   
 //댓글 목록 
 function replyList(){
-	var url = '${pageContext.request.contextPath}/petsitterReplyList';
+	var url = '${pageContext.request.contextPath}/petsitter/reply-list/'+boardNum;
     $.ajax({
         url : url,
         type : 'get',
-        data : {"boardNum":boardNum, "petId":petId, "isSelected":isSelected},
+        data : {"petId":petId, "isSelected":isSelected},
         dataType: 'json',
         success : function(data){
             var html =''; 
@@ -98,7 +98,7 @@ function replyList(){
 //댓글 등록
 function replyInsert(insertData){
     $.ajax({
-        url : '${pageContext.request.contextPath}/insertPetsitterReply',
+        url : '${pageContext.request.contextPath}/petsitter/reply',
         type : 'post',
         data : insertData,
         success : function(data){
@@ -133,9 +133,9 @@ function replyUpdateProc(replyNum){
 	}
     var updateContent = $('#editContent').val(); 
     $.ajax({
-        url : '${pageContext.request.contextPath}/updatePetsitterReply',
+        url : '${pageContext.request.contextPath}//petsitter/reply/'+replyNum,
         type : 'post',
-        data : {"replyNum" : replyNum, "replyContent" : updateContent},
+        data : {"replyContent" : updateContent},
         success : function(data){
              replyList();
         }
@@ -167,9 +167,9 @@ function reReplyProc(replyNum){
 	}
 	var reReplyContent = $('#reReplyContent').val();
     $.ajax({
-        url : '${pageContext.request.contextPath}/petsitterReReply',
+        url : '${pageContext.request.contextPath}/petsitter/re-reply/'+replyNum,
         type : 'post',
-        data : {'replyContent' : reReplyContent, 'replyNum' : replyNum},
+        data : {'replyContent' : reReplyContent},
         success : function(data){
             replyList();
         }
@@ -180,9 +180,8 @@ function reReplyProc(replyNum){
 function replyDelete(replyNum, boardNum){
 	if (confirm('댓글을 삭제하시겠습니까?')) {
 	    $.ajax({
-	        url : '${pageContext.request.contextPath}/deletePetsitterReply',
-	        data: {"replyNum":replyNum, 'boardNum':boardNum},
-	        type : 'post',
+	        url : '${pageContext.request.contextPath}/petsitter/reply/'+replyNum+'/'+boardNum,
+	        type : 'delete',
 	        success : function(data){
 	          	replyList(); //댓글 삭제후 목록 출력 
 	        }
@@ -194,8 +193,7 @@ function replyDelete(replyNum, boardNum){
 function petsitterSelect(replyNum, boardNum, userID){
 	if (confirm('해당 사용자를 선택하시겠습니까?')) {
 	    $.ajax({
-	        url : '${pageContext.request.contextPath}/selectPetsitter',
-	        data: {'replyNum':replyNum, 'boardNum':boardNum, 'userID':userID},
+	        url : '${pageContext.request.contextPath}/petsitter/select/'+boardNum+'/'+replyNum+'?userID='+userID,
 	        type : 'post',
 	        success : function(data){
 	       		location.reload();

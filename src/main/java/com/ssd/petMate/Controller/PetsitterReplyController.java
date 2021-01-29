@@ -7,11 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.domain.Petsitter;
@@ -29,16 +25,16 @@ public class PetsitterReplyController {
 	private PetsitterFacade petsitterFacade;
 	
 //	게시글 상세보기를 클릭했을 때 댓글 리스트 가져오기
-	@RequestMapping(value = "/petsitterReplyList", method = { RequestMethod.GET, RequestMethod.POST})
+	@GetMapping(value = "/petsitter/reply-list/{boardNum}")
 	@ResponseBody
 	public List<PetsitterReply> petsitterReplyList(ModelAndView mv,
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("boardNum") int boardNum) {
 		List<PetsitterReply> replyList = replyFacade.getReplyList(boardNum);
 		return replyList;
 	}	
 	
 //	댓글 입력하기
-	@RequestMapping(value = "/insertPetsitterReply", method = RequestMethod.POST)
+	@PostMapping(value = "/petsitter/reply")
 	@ResponseBody
 	public void insertPetsitterReply(ModelAndView mv, HttpServletRequest request,
 			@ModelAttribute("petsitterReply") PetsitterReply petsitterReply) {
@@ -56,10 +52,10 @@ public class PetsitterReplyController {
 	}
 	
 //	댓글 수정
-	@RequestMapping(value= "/updatePetsitterReply", method = RequestMethod.POST) 
+	@PostMapping(value= "/petsitter/reply/{replyNum}")
     @ResponseBody
     public void updatePetsitterReply(ModelAndView mv,
-    		@RequestParam("replyNum") int replyNum,
+    		@PathVariable("replyNum") int replyNum,
 			@RequestParam("replyContent") String replyContent) throws Exception{
         
 		PetsitterReply reply = new PetsitterReply();
@@ -70,11 +66,11 @@ public class PetsitterReplyController {
     }
 	
 //	댓글 삭제
-	@RequestMapping(value = "/deletePetsitterReply", method = { RequestMethod.GET, RequestMethod.POST })
+	@DeleteMapping(value = "/petsitter/reply/{replyNum}/{boardNum}")
 	@ResponseBody
 	public void deletePetsitterReply(ModelAndView mv, HttpServletRequest request,
-			@RequestParam("replyNum") int replyNum,
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("replyNum") int replyNum,
+			@PathVariable("boardNum") int boardNum) {
 		
 		replyFacade.deleteReply(replyNum); // 실제 댓글 없애기 -> 만약 답글이 달린 글이면 답글까지 전부 삭제
 		
@@ -84,10 +80,10 @@ public class PetsitterReplyController {
 		petsitterFacade.updateReplyCnt(petsitter);
 	}
 	
-	@RequestMapping(value = "/petsitterReReply", method = RequestMethod.POST)
+	@PostMapping(value = "/petsitter/re-reply/{replyNum}")
 	@ResponseBody
 	public void movieReplyComment(ModelAndView mv, HttpServletRequest request,
-			@RequestParam("replyNum") int replyNum,
+			@PathVariable("replyNum") int replyNum,
 			@RequestParam("replyContent") String replyContent) {
 		
 		String userID = (String) request.getSession().getAttribute("userID");
@@ -122,11 +118,11 @@ public class PetsitterReplyController {
 		petsitterFacade.updateReplyCnt(petsitter);
 	}
 	
-	@RequestMapping(value="/selectPetsitter", method = { RequestMethod.GET, RequestMethod.POST })
+	@PostMapping(value="/petsitter/select/{boardNum}/{replyNum}")
 	@ResponseBody
 	public void selecetPetsitter(ModelAndView mv, HttpServletRequest request, 
-			@RequestParam("boardNum") int boardNum,
-			@RequestParam("replyNum") int replyNum, @RequestParam("userID") String userID) {
+			@PathVariable("boardNum") int boardNum,
+			@PathVariable("replyNum") int replyNum, @RequestParam("userID") String userID) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("boardNum", boardNum);
 		map.put("isSelected", userID);
