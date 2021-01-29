@@ -7,11 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import com.ssd.petMate.domain.Secondhand;
 import com.ssd.petMate.domain.SecondhandReply;
@@ -28,16 +24,16 @@ public class SecondhandReplyController {
 	private SecondhandFacade secondhandFacade;
 	
 //	게시글 상세보기를 클릭했을 때 댓글 리스트 가져오기
-	@RequestMapping(value = "/secondhandReplyList", method = { RequestMethod.GET, RequestMethod.POST})
+	@GetMapping(value = "/secondhand/reply-list/{boardNum}")
 	@ResponseBody
 	public List<SecondhandReply> secondhandReplyList(ModelAndView mv,
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("boardNum") int boardNum) {
 		List<SecondhandReply> secondhandReplyList = secondhandReplyFacade.getReplyList(boardNum);
 		return secondhandReplyList;
 	}
 	
 //	댓글 입력하기
-	@RequestMapping(value = "/insertSecondhandReply", method = RequestMethod.POST)
+	@PostMapping(value = "/secondhand/reply")
 	@ResponseBody
 	public void insertSecondhandReply(ModelAndView mv, HttpServletRequest request,
 			@ModelAttribute("secondhandReply") SecondhandReply secondhandReply) {
@@ -56,10 +52,10 @@ public class SecondhandReplyController {
 	}
 	
 //	댓글 수정
-	@RequestMapping(value= "/updateSecondhandReply", method = RequestMethod.POST) 
+	@PostMapping(value= "/secondhand/reply/{replyNum}")
     @ResponseBody
     public void updateSecondhandReply(ModelAndView mv,
-    		@RequestParam("replyNum") int replyNum,
+    		@PathVariable("replyNum") int replyNum,
 			@RequestParam("replyContent") String replyContent) throws Exception{
         
 		SecondhandReply reply = new SecondhandReply();
@@ -70,11 +66,11 @@ public class SecondhandReplyController {
     }
 	
 //	댓글 삭제
-	@RequestMapping(value = "/deleteSecondhandReply", method = { RequestMethod.GET, RequestMethod.POST })
+	@DeleteMapping(value = "/secondhand/reply/{replyNum}/{boardNum}")
 	@ResponseBody
 	public void deleteSecondhandReply(ModelAndView mv, HttpServletRequest request,
-			@RequestParam("replyNum") int replyNum,
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("replyNum") int replyNum,
+			@PathVariable("boardNum") int boardNum) {
 		
 		secondhandReplyFacade.deleteReply(replyNum); // 실제 댓글 없애기 -> 만약 답글이 달린 글이면 답글까지 전부 삭제
 		
@@ -85,10 +81,10 @@ public class SecondhandReplyController {
 	}
 	
 	//대댓글
-	@RequestMapping(value = "/secondhandReReply", method = RequestMethod.POST)
+	@PostMapping(value = "/secondhand/re-reply/{replyNum}")
 	@ResponseBody
 	public void movieReplyComment(ModelAndView mv, HttpServletRequest request,
-			@RequestParam("replyNum") int replyNum,
+			@PathVariable("replyNum") int replyNum,
 			@RequestParam("replyContent") String replyContent) {
 		
 		String userID = (String) request.getSession().getAttribute("userID");
