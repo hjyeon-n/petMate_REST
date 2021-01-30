@@ -3,8 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="resources/css/util.css">
-<link rel="stylesheet" type="text/css" href="resources/css/main.css">
+<link rel="stylesheet" type="text/css" href="{pageContext.request.contextPath}/resources/css/util.css">
+<link rel="stylesheet" type="text/css" href="{pageContext.request.contextPath}/resources/css/main.css">
 <div class="section-title">
 	<div class="container">
 		<h2>주문 상세 내역</h2>
@@ -20,9 +20,8 @@
 								<table class="table table-striped">
 									<c:forEach var="gLineItem" items="${gOrder.gLineItems}">
 									<tr>
-										<td ><a href="<c:url value="/gpurchaseDetail">
-											<c:param name="boardNum" value="${gLineItem.boardNum}"/></c:url>">
-											<img src="resources/img/dog-food.png" border="0"> &nbsp;
+										<td ><a href="<c:url value="/gpurchase/${gLineItem.boardNum}"></c:url>">
+											<img src="{pageContext.request.contextPath}/resources/img/dog-food.png" border="0"> &nbsp;
 											${gLineItem.boardTitle}</a>
 										</td>
 										<td>수량 : 1</td>
@@ -63,7 +62,7 @@
 										<tr>
 											<td ><a href="<c:url value="/secondhandDetail">
 												<c:param name="boardNum" value="${sLineItem.boardNum}"/></c:url>">
-												<img src="resources/img/dog-food.png" border="0"> &nbsp;
+												<img src="{pageContext.request.contextPath}/resources/img/dog-food.png" border="0"> &nbsp;
 												${sLineItem.boardTitle}</a>
 											</td>
 											<td>수량 : 1</td>
@@ -110,45 +109,45 @@
           			<li>
 			            <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">내가 쓴 글</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu2">
-			                <li><a href="mypageInfo"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
-			                <li><a href="mypageInquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
-			                <li><a href="mypageGpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
-			                <li><a href="mypageSecondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
+			                <li><a href="mypage-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
+			                <li><a href="mypage-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
+			                <li><a href="mypage-gpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
+			                <li><a href="mypage-secondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
 							<c:if test="${petsitterChk == 0}">
-								<li><a href="mypagePetsitter"><span class="fa fa-chevron-right mr-2"></span>구인 게시판</a></li>
+								<li><a href="mypage-petsitter"><span class="fa fa-chevron-right mr-2"></span>구인 게시판</a></li>
 							</c:if>
 							<c:if test="${petsitterChk == 1}">
-								<li><a href="mypageReview"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
+								<li><a href="mypage-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
 							</c:if>
 			            </ul>
 	          		</li>
 	          		<li>
 			            <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">내가 쓴 댓글</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu3">
-			                <li><a href="myReplyInquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
-			                <li><a href="myReplyInfo"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
-			                <li><a href="myReplyGpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
-			                <li><a href="myReplySecondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
-			                <li><a href="myReplyPetsitter"><span class="fa fa-chevron-right mr-2"></span>구인 게시판</a></li>
-			                <li><a href="myReplyReview"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
+			               <li><a href="myreply-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
+			               <li><a href="myreply-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
+			               <li><a href="myreply-gpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
+			               <li><a href="myreply-secondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
+			               <li><a href="myreply-petsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
+			               <li><a href="myreply-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
 			            </ul>
 	          		</li>
 	          		<li>
 			            <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">북마크</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu4">
-			                <li><a href="myInfoLike"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
-			                <li><a href="myInquiryLike"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
-			                <li><a href="myReviewLike"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
-			                <li><a href="myPetsitterLike"><span class="fa fa-chevron-right mr-2"></span>구인 게시판</a></li>
+			                <li><a href="mylike-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
+			                <li><a href="mylike-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
+			                <li><a href="mylike-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
+			                <li><a href="mylike-petsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
 			            </ul>
 	          		<li>
 			            <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">장바구니</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu5">
-			                <li><a href="gpurchaseCart"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
-			                <li><a href="secondhandCart"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
+			                <li><a href="gpurchase-cart"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
+			                <li><a href="secondhand-cart"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
 			            </ul>
 	          		</li>
-	          		<li><a href="myOrderList">내 주문 내역</a></li>
+	          		<li><a href="myorder">내 주문 내역</a></li>
 				</ul>
 				</ul>
 			</div>
@@ -209,28 +208,30 @@
 		url = url + "&keyword=" + keyword;
 		location.href = url;
 	}
-	
-	$("#btnConfirm").on("click", function(){
+
+	$(document).on('click', '#btnConfirm', function(e){
 		var pass1 = $("#pwd").val();
 		var pass2 = $("#confirmPwd").val();
-		alert(pass1);
-		alert(pass2);
+		if (pass1 == "" || pass2 == "") {
+			alert("비밀번호를 입력하세요.");
+			$("#pwd").focus();
+			return false;
+		}
 		if(pass1 != pass2) {
 			alert("비밀번호가 일치하지 않습니다.");
 			$("#confirmPwd").focus();
 			return false;
 		}
-		var confirmPwd = $("#pwd").val();
 		$.ajax({
-	        url : '${pageContext.request.contextPath}/confirmPwd',
+	        url : '${pageContext.request.contextPath}/confirm/'+pass2,
 	        type : 'post',
-	        data : {'confirmPwd' : confirmPwd},
 	        success : function(data){
 	        	if (data == 1) {
-	        		location.href="${pageContext.request.contextPath}/signUp";
+	        		location.href="${pageContext.request.contextPath}/sign-up";
 	        	}
 	        	else {
 	        		alert('비밀번호가 틀렸습니다.');
+	        		return false;
 		        }
 	        }
 	    });
