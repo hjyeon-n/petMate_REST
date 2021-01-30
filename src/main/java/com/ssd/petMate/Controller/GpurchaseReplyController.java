@@ -6,12 +6,16 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.domain.Gpurchase;
@@ -19,7 +23,7 @@ import com.ssd.petMate.domain.GpurchaseReply;
 import com.ssd.petMate.service.GpurchaseFacade;
 import com.ssd.petMate.service.GpurchaseReplyFacade;
 
-@Controller
+@RestController
 public class GpurchaseReplyController {
 
 	@Autowired
@@ -29,17 +33,15 @@ public class GpurchaseReplyController {
 	private GpurchaseFacade gpurchaseFacade;
 	
 //	게시글 상세보기를 클릭했을 때 댓글 리스트 가져오기
-	@RequestMapping(value = "/gpurchaseReplyList", method = { RequestMethod.GET, RequestMethod.POST})
-	@ResponseBody
+	@GetMapping(value = "/gpurchase/reply-list/{boardNum}")
 	public List<GpurchaseReply> gpurchaseReplyList(ModelAndView mv,
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("boardNum") int boardNum) {
 		List<GpurchaseReply> gpurchaseReplyList = gpurchaseReplyFacade.getReplyList(boardNum);
 		return gpurchaseReplyList;
 	}
 	
 //	댓글 입력하기
-	@RequestMapping(value = "/insertGpurchaseReply", method = RequestMethod.POST)
-	@ResponseBody
+	@PostMapping(value = "/gpurchase/reply")
 	public void insertGpurchaseReply(ModelAndView mv, HttpServletRequest request,
 			@ModelAttribute("gpurhcaseReply") GpurchaseReply gpurchaseReply) {
 		String userID = (String) request.getSession().getAttribute("userID");
@@ -56,10 +58,10 @@ public class GpurchaseReplyController {
 	}
 	
 //	댓글 수정
-	@RequestMapping(value= "/updateGpurchaseReply", method = RequestMethod.POST) 
+	@PostMapping(value= "/gpurchase/reply/{replyNum}") 
     @ResponseBody
     public void updateGpurchaseReply(ModelAndView mv,
-    		@RequestParam("replyNum") int replyNum,
+    		@PathVariable("replyNum") int replyNum,
 			@RequestParam("replyContent") String replyContent) throws Exception{
         
 		GpurchaseReply reply = new GpurchaseReply();
@@ -70,11 +72,11 @@ public class GpurchaseReplyController {
     }
 	
 //	댓글 삭제
-	@RequestMapping(value = "/deleteGpurchaseReply", method = { RequestMethod.GET, RequestMethod.POST })
+	@DeleteMapping(value = "/gpurchase/reply/{replyNum}/{boardNum}")
 	@ResponseBody
 	public void deleteGpurchaseReply(ModelAndView mv, HttpServletRequest request,
-			@RequestParam("replyNum") int replyNum,
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("replyNum") int replyNum,
+			@PathVariable("boardNum") int boardNum) {
 		
 		gpurchaseReplyFacade.deleteReply(replyNum); // 실제 댓글 없애기 -> 만약 답글이 달린 글이면 답글까지 전부 삭제
 		
@@ -85,10 +87,10 @@ public class GpurchaseReplyController {
 	}
 	
 	//대댓글
-	@RequestMapping(value = "/gpurchaseReReply", method = RequestMethod.POST)
+	@RequestMapping(value = "/gpurchase/re-reply/{replyNum}", method = RequestMethod.POST)
 	@ResponseBody
 	public void movieReplyComment(ModelAndView mv, HttpServletRequest request,
-			@RequestParam("replyNum") int replyNum,
+			@PathVariable("replyNum") int replyNum,
 			@RequestParam("replyContent") String replyContent) {
 		
 		String userID = (String) request.getSession().getAttribute("userID");
@@ -122,16 +124,4 @@ public class GpurchaseReplyController {
 		
 		gpurchaseFacade.gpurchaseReplyCntUpdate(gpurchase);
 	}
-	
-////	답변 채택
-//	@RequestMapping(value = "/selectAnswer", method = { RequestMethod.GET, RequestMethod.POST })
-//	@ResponseBody
-//	public void selectAnswer(ModelAndView mv, HttpServletRequest request,
-//			@RequestParam("boardNum") int boardNum,
-//			@RequestParam("answerNum") int answerNum)	{
-//		inquiryFacade.selectInquiry(boardNum); 
-//		answerFacade.selectAnswer(answerNum);
-//	}
-//	
-
 }

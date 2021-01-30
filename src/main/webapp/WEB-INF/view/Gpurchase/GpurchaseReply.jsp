@@ -18,7 +18,7 @@ $(document).on('click', '#btnReply', function(e){
 	   
 //댓글 목록 
 function replyList(){
-	var url = '${pageContext.request.contextPath}/gpurchaseReplyList';
+	var url = '${pageContext.request.contextPath}/gpurchase/reply-list/'+boardNum;
     $.ajax({
         url : url,
         type : 'get',
@@ -82,7 +82,7 @@ function replyList(){
 //댓글 등록
 function replyInsert(insertData){
     $.ajax({
-        url : '${pageContext.request.contextPath}/insertGpurchaseReply',
+        url : '${pageContext.request.contextPath}/gpurchase/reply',
         type : 'post',
         data : insertData,
         success : function(data){
@@ -117,7 +117,7 @@ function replyUpdateProc(replyNum){
 	}
     var updateContent = $('#editContent').val(); 
     $.ajax({
-        url : '${pageContext.request.contextPath}/updateGpurchaseReply',
+        url : '${pageContext.request.contextPath}/gpurchase/reply/'+replyNum+'/'+replyContent,
         type : 'post',
         data : {"replyNum" : replyNum, "replyContent" : updateContent},
         success : function(data){
@@ -151,7 +151,7 @@ function reReplyProc(replyNum){
 	}
 	var reReplyContent = $('#reReplyContent').val();
     $.ajax({
-        url : '${pageContext.request.contextPath}/gpurchaseReReply',
+        url : '${pageContext.request.contextPath}/gpurchase/re-reply',
         type : 'post',
         data : {'replyContent' : reReplyContent, 'replyNum' : replyNum},
         success : function(data){

@@ -11,11 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -29,19 +29,18 @@ import com.ssd.petMate.service.GLineItemFacade;
 import com.ssd.petMate.service.GpurchaseFacade;
 import com.ssd.petMate.service.OrderFacade;
 
-
 @Controller
 @SessionAttributes({"cartList", "price"})
 public class OrderController {	
 	
 	@Autowired
-	private OrderFacade orderImpl;
+	private OrderFacade orderFacade;
 	
 	@Autowired
-	private GLineItemFacade gLineItemImpl;
+	private GLineItemFacade gLineItemFacade;
 	
 	@Autowired
-	private GpurchaseFacade gpurchaseImpl;
+	private GpurchaseFacade gpurchaseFacade;
 	
 	@ModelAttribute("gpurchaseOrder")
 	public Order formBacking(HttpServletRequest request) {
@@ -70,8 +69,29 @@ public class OrderController {
 		return bankList;
 	}
 	
+	//공구게시판 장바구니 삭제
+	@Transactional
+	@ResponseBody
+	@DeleteMapping("/gpurchase-cart/{boardNum}")
+	public String gpurchaseCartDelete(HttpServletRequest request,
+			@PathVariable(required = false) int boardNum) {
+		String userID = (String) request.getSession().getAttribute("userID");
+		Gpurchase gpurchase = gpurchaseFacade.getGpurchaseDetail(boardNum);
+		GpurchaseCart gpurchaseCart = new GpurchaseCart(userID, boardNum);
+		
+		gpurchaseFacade.deleteGpurchaseCart(gpurchaseCart);
+		
+//		좋아요 개수 가지고 오기
+		int cartAdded = gpurchaseFacade.countCartByboardNum(boardNum);
+//		좋아요 개수 update
+		gpurchase.setCartAdded(cartAdded);
+		gpurchaseFacade.gpurchaseCartUpdate(gpurchase);
+		
+		return "success";
+	}	
+	
 	//장바구니 -> 오더 주문 리스트 이동
-	@RequestMapping(value = "/gpurchaseCartToOrder", produces="application/text; charset=utf8", method = RequestMethod.POST)
+	@PostMapping(value = "/gpurchase-cart/order", produces="application/text; charset=utf8")
 	@ResponseBody
 	public String gpurchaseCartToOrder(@RequestParam(value = "gpurchaseCartList[]") List<String> gpurchaseCartList, @RequestParam(value = "price") Integer price, Model model) {
 		int i;
@@ -79,7 +99,7 @@ public class OrderController {
 		List<Gpurchase> cartList = new ArrayList<Gpurchase>();
 		int size = cartList.size();
 		for(i = 0; i < size; i++) {
-			gpurchase = gpurchaseImpl.getGpurchaseDetail(Integer.parseInt(gpurchaseCartList.get(i)));
+			gpurchase = gpurchaseFacade.getGpurchaseDetail(Integer.parseInt(gpurchaseCartList.get(i)));
 			cartList.add(gpurchase);
 		}
 		model.addAttribute("cartList", cartList);
@@ -88,14 +108,14 @@ public class OrderController {
 		return result;
 	}
 	
-	@GetMapping("/gpurchaseOrderForm")
+	@GetMapping("/gpurchase/order")
 	public String gpurchaseOrderForm() {
 		return "order/GpaymentForm";
 	}
 	
 	//공구게시판 주문
 	@Transactional
-	@PostMapping("/gpurchaseOrder")
+	@PostMapping("/gpurchase/order")
 	public String gpurchaseOrder(@Valid @ModelAttribute("gpurchaseOrder") Order order, BindingResult result,
 			@ModelAttribute("cartList") List<Gpurchase> cartList, HttpServletRequest request, SessionStatus status) {
 			
@@ -109,7 +129,7 @@ public class OrderController {
 			Gpurchase gpurchase;
 			
 			//order 생성
-			orderImpl.insertOrder(order);
+			orderFacade.insertOrder(order);
 			int orderNum = order.getOrderNum();
 			
 			//orderNum에 대한 lineItem 매칭
@@ -117,8 +137,8 @@ public class OrderController {
 			
 			for(int i = 0; i < cartList.size(); i++) {
 				gLineItem.CartToLineItem(cartList.get(i), orderNum);
-				gLineItemImpl.insertGpurchaseLineItem(gLineItem);
-				gpurchaseImpl.updateParticipant(cartList.get(i).getBoardNum());
+				gLineItemFacade.insertGpurchaseLineItem(gLineItem);
+				gpurchaseFacade.updateParticipant(cartList.get(i).getBoardNum());
 			}
 			
 			//cart제거(주문한 상품 장바구니에서 제거)
@@ -126,16 +146,15 @@ public class OrderController {
 //				해당하는 cart 정보 가져오기
 				gpurchaseCart = new GpurchaseCart(userID, cartList.get(i).getBoardNum());
 //				cart 정보 삭제 
-				gpurchaseImpl.deleteGpurchaseCart(gpurchaseCart);
+				gpurchaseFacade.deleteGpurchaseCart(gpurchaseCart);
 //				해당 boardNum에서 장바구니 담은 수 조정
-				gpurchase = gpurchaseImpl.getGpurchaseDetail(cartList.get(i).getBoardNum());
-				int cartAdded = gpurchaseImpl.countCartByboardNum(cartList.get(i).getBoardNum());
+				gpurchase = gpurchaseFacade.getGpurchaseDetail(cartList.get(i).getBoardNum());
+				int cartAdded = gpurchaseFacade.countCartByboardNum(cartList.get(i).getBoardNum());
 				gpurchase.setCartAdded(cartAdded);
-				gpurchaseImpl.gpurchaseCartUpdate(gpurchase);
+				gpurchaseFacade.gpurchaseCartUpdate(gpurchase);
 			}
 			
 			status.setComplete();
 		return "order/commit";
 	}	
-
 }

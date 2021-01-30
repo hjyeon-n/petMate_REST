@@ -9,7 +9,7 @@
 				<div class="section-title mb-5">
 					<h2>공동구매 폼</h2>
 				</div>
-				<form:form modelAttribute="gpurchase" action="gpurchaseForm">
+				<form:form modelAttribute="gpurchase" action="post">
 					<div class="row">
 						<div class="col-md-6 form-group">
 							<label for="boardTitle">제목</label> 
@@ -105,7 +105,7 @@ var oEditors = [];
 nhn.husky.EZCreator.createInIFrame({
 	oAppRef: oEditors,
 	elPlaceHolder: "boardContent",
-	sSkinURI: "resources/se2/SmartEditor2Skin.html",
+	sSkinURI: "${pageContext.request.contextPath}/resources/se2/SmartEditor2Skin.html",
 	fCreator: "createSEditor2"
 });
 
@@ -191,7 +191,7 @@ nhn.husky.EZCreator.createInIFrame({
  	 	 	        html += '<div>';
  	 	 	        html += '<p>';
  	 	 	        if (data[i].image == "") {
- 	 	 	 	        html += '<img src="resources/img/noImage.PNG" width="80" height="100">'; // 이미지가 없는 경우 기본 이미지로 대체
+ 	 	 	 	        html += '<img src="${pageContext.request.contextPath}/resources/img/noImage.PNG" width="80" height="100">'; // 이미지가 없는 경우 기본 이미지로 대체
  	 	 	 	    }
  	 	 	        else {
  	 					html += '<img src="' + data[i].image + '" width="70" height="100">';

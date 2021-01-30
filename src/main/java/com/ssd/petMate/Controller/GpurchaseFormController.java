@@ -51,7 +51,7 @@ public class GpurchaseFormController {
 		}
 	}
 	
-	@PostMapping("/gpurchaseForm")
+	@PostMapping("/gpurchase/post")
 	public String gpurchaseInsert(@Valid @ModelAttribute("gpurchase") Gpurchase gpurchase, 
 			BindingResult result, HttpServletRequest request) {				
 		if (result.hasErrors()) {
@@ -77,7 +77,7 @@ public class GpurchaseFormController {
 		return successViewName;
 	}
 	
-	@GetMapping("/gpurchaseForm")
+	@GetMapping("/gpurchase/post")
 	public String gpurchaseForm() {
 		return formViewName;
 	}
