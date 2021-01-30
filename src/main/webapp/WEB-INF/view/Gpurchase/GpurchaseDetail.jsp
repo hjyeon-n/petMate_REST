@@ -59,7 +59,7 @@
 				<c:if test="${gpurchase.status eq null}">
 					<div class="pt-5" align="center">
 							<c:if test="${sessionScope.userID eq null}">
-								<a href="signIn" onclick="alert('로그인이 필요합니다.')">
+								<a href="${pageContext.request.contextPath}/sign-in" onclick="alert('로그인이 필요합니다.')">
 									<img src="${pageContext.request.contextPath}/resources/img/cart.png" border="0" class="zoom">
 								</a>
 							</c:if>
@@ -112,7 +112,7 @@
 					               </div>
 				               </c:if>
 				               <c:if test="${sessionScope.userID eq null}">
-				               		<a href="signIn" onclick="alert('로그인이 필요합니다.')"><input type="button" class="btn" value="글 작성" /></a>
+				               		<a href="${pageContext.request.contextPath}/sign-in" onclick="alert('로그인이 필요합니다.')"><input type="button" class="btn" value="글 작성" /></a>
 				               </c:if>
 				            </div>
 				        </form>
