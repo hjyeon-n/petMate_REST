@@ -40,7 +40,7 @@
 				<tr>
 					<td>
 						<c:if test="${sessionScope.userID eq null}" >
-							<a href="signIn" onclick="alert('로그인이 필요합니다.')"><input type="submit" class="btn" value="글 작성" /></a>
+							<a href="${pageContext.request.contextPath}/sign-in" onclick="alert('로그인이 필요합니다.')"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 						<c:if test="${sessionScope.userID ne null}">
 							<a href="inquiry/post"><input type="submit" class="btn" value="글 작성" /></a>

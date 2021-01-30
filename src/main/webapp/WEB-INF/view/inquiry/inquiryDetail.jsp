@@ -42,7 +42,7 @@
 				<div class="pt-5" align="center">
 						<!-- 수정 필요 -->
 						<c:if test="${sessionScope.userID eq null}">
-							<a href="signIn" onclick="alert('로그인이 필요합니다.')">
+							<a href="${pageContext.request.contextPath}/sign-in" onclick="alert('로그인이 필요합니다.')">
 								<img src="${pageContext.request.contextPath}/resources/img/love.png" border="0" class="zoom">
 							</a>
 						</c:if>
