@@ -138,7 +138,6 @@ public class PetsitterController {
 		Petsitter view = petsitterFacade.boardDetail(boardNum);
 		String size;
 		String day;
-		System.out.println(view);
 
 		int sizeNum = Integer.parseInt(view.getPetSize());
 		size = view.sizeCheck(sizeNum);

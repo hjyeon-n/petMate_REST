@@ -73,7 +73,6 @@ public class MybatisPetsitterDao implements PetsitterDao{
 
 	@Override
 	public int filteringCount(FilteringCommand filter) throws DataAccessException {
-		System.out.println(filter);
 		return petsitterMapper.filteringCount(filter);
 	}
 }
