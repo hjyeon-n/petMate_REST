@@ -67,7 +67,7 @@ public class SOrderController {
 	}
 	
 	//장바구니 -> 오더
-	@RequestMapping(value = "/secondhandCartToOrder", produces="application/text; charset=utf8", method = RequestMethod.POST)
+	@PostMapping(value = "/secondhand-cart/order", produces="application/text; charset=utf8")
 	@ResponseBody
 	public String secondhandCartToOrder(@RequestParam(value = "secondhandCartList[]") List<String> secondhandCartList, @RequestParam(value = "sprice") Integer sprice, Model model) {
 		System.out.println("orderForm enter;");
@@ -88,16 +88,15 @@ public class SOrderController {
 		return result;
 	}
 	
-	@GetMapping("/secondhandOrderForm")
+	@GetMapping("/secondhand/order")
 	public String secondhandOrderForm(@ModelAttribute("sCartList") List<Secondhand> sCartList) {
-		System.out.println(sCartList.toString());
 		return "order/SpaymentForm";
 	}
 	
 	
 	//공구게시판 주문
 	@Transactional
-	@PostMapping("/secondhandOrder")
+	@PostMapping("/secondhand/order")
 	public String secondhandOrder(@Valid @ModelAttribute("secondhandOrder") Order order, BindingResult result ,@ModelAttribute("sCartList") List<Secondhand> sCartList, HttpServletRequest request, SessionStatus status) {
 			
 			if (result.hasErrors()) {
