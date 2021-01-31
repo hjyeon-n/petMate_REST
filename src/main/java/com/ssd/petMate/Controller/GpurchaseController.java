@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,17 +27,6 @@ public class GpurchaseController {
 	
 	@Autowired
 	private GpurchaseFacade gpurchaseFacade;
-	
-//	@Autowired
-//	private UserImpl userService;
-	
-//	@ModelAttribute("petsitterChk")
-//	public int petsitterChk(HttpServletRequest request) {
-//		if (request.getSession().getAttribute("userID") != null) {
-//			return userService.isPetsitter(request.getSession().getAttribute("userID").toString());
-//		}
-//		return -1;
-//	}
 	
 	//공구 게시판 목록
 	@GetMapping(value = "/gpurchase")

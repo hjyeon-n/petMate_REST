@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.ssd.petMate.domain.Gpurchase;
 import com.ssd.petMate.page.BoardSearch;
-import com.ssd.petMate.page.pageMaker;
 
 public interface GpurchaseMapper {
 	

@@ -117,7 +117,7 @@ function replyUpdateProc(replyNum){
 	}
     var updateContent = $('#editContent').val(); 
     $.ajax({
-        url : '${pageContext.request.contextPath}/gpurchase/reply/'+replyNum+'/'+replyContent,
+        url : '${pageContext.request.contextPath}/gpurchase/reply/'+replyNum,
         type : 'post',
         data : {"replyNum" : replyNum, "replyContent" : updateContent},
         success : function(data){
@@ -151,7 +151,7 @@ function reReplyProc(replyNum){
 	}
 	var reReplyContent = $('#reReplyContent').val();
     $.ajax({
-        url : '${pageContext.request.contextPath}/gpurchase/re-reply',
+        url : '${pageContext.request.contextPath}/gpurchase/re-reply/'+replyNum,
         type : 'post',
         data : {'replyContent' : reReplyContent, 'replyNum' : replyNum},
         success : function(data){
@@ -164,11 +164,10 @@ function reReplyProc(replyNum){
 function replyDelete(replyNum, boardNum){
 	if (confirm('댓글을 삭제하시겠습니까?')) {
 	    $.ajax({
-	        url : '${pageContext.request.contextPath}/deleteGpurchaseReply',
-	        data: {"replyNum":replyNum, 'boardNum':boardNum},
-	        type : 'post',
+	        url : '${pageContext.request.contextPath}/gpurchase/reply/'+replyNum+'/'+boardNum,
+	        type : 'delete',
 	        success : function(data){
-	          	replyList(); //댓글 삭제후 목록 출력 
+	        	replyList(); //댓글 삭제후 목록 출력 
 	        }
 	    });
 	}
