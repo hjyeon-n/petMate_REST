@@ -12,7 +12,7 @@
 				<div class="post-meta d-flex mb-5">
 					<div class="vcard">
 						<span class="d-block">
-							<a href="<c:url value="/userpage">
+							<a href="<c:url value="/user-page">
 							<c:param name="userID" value="${gpurchase.userID}"/>
 							</c:url>">${gpurchase.userID}</a>
 						</span> 
