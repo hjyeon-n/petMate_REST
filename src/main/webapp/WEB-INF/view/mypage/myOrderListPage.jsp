@@ -4,8 +4,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"%>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="resources/css/util.css">
-<link rel="stylesheet" type="text/css" href="resources/css/main.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/util.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main.css">
 <div class="section-title">
 	<div class="container">
 		<h2>주문 내역</h2>
@@ -73,45 +73,45 @@
 					<li>
 			            <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">내가 쓴 글</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu2">
-			                <li><a href="mypage-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
-			                <li><a href="mypage-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
-			                <li><a href="mypage-gpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
-			                <li><a href="mypage-secondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/mypage-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/mypage-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/mypage-gpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/mypage-secondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
 							<c:if test="${petsitterChk == 0}">
-								<li><a href="mypage-petsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
+								<li><a href="${pageContext.request.contextPath}/mypage-petsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
 							</c:if>
 							<c:if test="${petsitterChk == 1}">
-								<li><a href="mypage-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
+								<li><a href="${pageContext.request.contextPath}/mypage-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
 							</c:if>
 			            </ul>
 	          		</li>
 	          		<li>
 			            <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">내가 쓴 댓글</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu3">
-			            	<li><a href="myreply-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
-			                <li><a href="myreply-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
-			                <li><a href="myreply-gpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
-			                <li><a href="myreply-secondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
-			                <li><a href="myreply-petsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
-			                <li><a href="myreply-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
+			            	<li><a href="${pageContext.request.contextPath}/myreply-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/myreply-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/myreply-gpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/myreply-secondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/myreply-petsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/myreply-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
 			            </ul>
 	          		</li>
 	          		<li>
 			            <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">북마크</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu4">
-			                 <li><a href="mylike-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
-			                <li><a href="mylike-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
-			                <li><a href="mylike-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
-			                <li><a href="mylike-petsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
+			                 <li><a href="${pageContext.request.contextPath}/mylike-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/mylike-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/mylike-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/mylike-petsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
 			            </ul>
 	          		<li>
 			            <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">장바구니</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu5">
-			                <li><a href="gpurchase-cart"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
-			                <li><a href="secondhand-cart"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/gpurchase-cart"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/secondhand-cart"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
 			            </ul>
 	          		</li>
-	          		<li><a href="myorder">내 주문 내역</a></li>
+	          		<li><a href="${pageContext.request.contextPath}/myorder">내 주문 내역</a></li>
 				</ul>
 			</div>
 		</nav>

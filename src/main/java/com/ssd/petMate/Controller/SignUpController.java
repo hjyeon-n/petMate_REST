@@ -94,6 +94,7 @@ public class SignUpController {
 	@ResponseBody
 	public int myPageModify(HttpServletRequest request,
 			@PathVariable("pwd") String confirmPwd) {
+		System.out.println("In!!!");
 		String userID = (String)request.getSession().getAttribute("userID");
 		UserDetails user = userService.loadUserByUsername(userID);
 		if(passwordEncoder.matches(confirmPwd, user.getPassword())) {
