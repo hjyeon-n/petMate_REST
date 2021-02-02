@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,7 +14,7 @@ import com.ssd.petMate.domain.ReviewReply;
 import com.ssd.petMate.service.ReviewFacade;
 import com.ssd.petMate.service.ReviewReplyFacade;
 
-@Controller
+@RestController
 public class ReviewReplyController {
 
 	@Autowired

@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,16 +14,12 @@ import com.ssd.petMate.domain.SecondhandCart;
 import com.ssd.petMate.domain.SecondhandCartCommand;
 import com.ssd.petMate.page.BoardSearch;
 import com.ssd.petMate.service.SecondhandImpl;
-import com.ssd.petMate.service.UserImpl;
 
 @RestController
 public class SecondhandController {	
 	
 	@Autowired
 	private SecondhandImpl secondhandImpl;
-	
-	@Autowired
-	private UserImpl userService;
 	
 	//중고 게시판 목록
 	@GetMapping(value = "/secondhand")
