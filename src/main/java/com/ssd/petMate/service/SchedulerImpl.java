@@ -28,8 +28,7 @@ public class SchedulerImpl implements SchedulerFacade {
 		Runnable updateTableRunner = new Runnable() {	
 			// anonymous class 정의
 			@Override
-			public void run() {   // 스케쥴러에 의해 미래의 특정 시점에 실행될 작업을 정의			
-				System.out.println("update!!");
+			public void run() {   // 스케쥴러에 의해 미래의 특정 시점에 실행될 작업을 정의
 				Gpurchase gpurchase = gpurchaseDao.getGpurchaseDetail(boardNum);
 				String boardTitle = gpurchase.getBoardTitle();
 				String newTitle = "";
@@ -49,8 +48,6 @@ public class SchedulerImpl implements SchedulerFacade {
 			}
 		};
 		// 스케줄 생성: edate에 updateTableRunner.run() 메소드 실행
-		scheduler.schedule(updateTableRunner, edate);  
-		
-		System.out.println("updateTableRunner has been scheduled to execute at " + edate);
+		scheduler.schedule(updateTableRunner, edate);
 	}
 }

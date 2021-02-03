@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.ssd.petMate.domain.GpurchaseReply;
-import com.ssd.petMate.domain.InfoReply;
-import com.ssd.petMate.page.pageMaker;
 
 public interface GpurchaseReplyMapper {
 
@@ -26,5 +24,4 @@ public interface GpurchaseReplyMapper {
 	int findLastReplyID(int replyNum);
 	
 	int countSameGID(int replyNum);
-	
 }

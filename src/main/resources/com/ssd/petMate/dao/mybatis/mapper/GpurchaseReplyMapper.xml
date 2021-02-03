@@ -8,7 +8,7 @@
 	<select id="getReplyList" parameterType="int" resultType="com.ssd.petMate.domain.GpurchaseReply" flushCache="false" useCache="true">
 		SELECT *
 		FROM GpurchaseReply
-		WHERE boardNum = #{baordNum}
+		WHERE boardNum = #{boardNum}
 		ORDER BY 
 		CASE
 			WHEN replyParents = 0 THEN replyNum
@@ -34,7 +34,7 @@
 	<!-- 부모 댓글을 삭제하면 밑에 답글들도 삭제할 수 있도록 or 처리 -->
 	<delete id="deleteReply" parameterType="int">
 		DELETE FROM GpurchaseReply
-		WHERE replyNum = #{replyNum} or replyGID = #{replyGID}
+		WHERE replyNum = #{replyNum} or replyGID = #{replyNum}
 	</delete>
 
 	<!-- 댓글 상세정보 가져오기  -->

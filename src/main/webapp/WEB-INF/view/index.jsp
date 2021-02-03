@@ -117,8 +117,7 @@
 					<div class="contents">
 						<span class="caption">Today's Best 공구 게시판</span>
 						<h2>
-							<a href="<c:url value="/gpurchaseDetail">
-							<c:param name="boardNum" value="${dailyBestGpurchase.boardNum}"/>
+							<a href="<c:url value="/gpurchase/${dailyBestGpurchase.boardNum}">
 							</c:url>">${dailyBestGpurchase.boardTitle}</a>
 						</h2>
 						<p class="mb-3">
@@ -262,8 +261,7 @@
 							style="background-image: url('resources/img/second.png')"></div> -->
 						<div class="contents">
 							<h2>
-								<a href="<c:url value="/gpurchaseDetail">
-							<c:param name="boardNum" value="${gpurchaseList.boardNum}"/>
+								<a href="<c:url value="/gpurchase/${gpurchaseList.boardNum}">
 							</c:url>">${gpurchaseList.boardTitle}</a>
 							</h2>
 							<p class="mb-3">

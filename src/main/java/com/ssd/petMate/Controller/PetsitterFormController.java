@@ -48,7 +48,6 @@ public class PetsitterFormController {
 		if (request.getMethod().equalsIgnoreCase("GET")) {
 			Petsitter petsitter;
 			if (request.getParameter("boardNum") != null) {
-				System.out.println(request.getParameter("boardNum"));
 				petsitter = petsitterFacade.boardDetail(Integer.valueOf(request.getParameter("boardNum")));
 			}
 			else {

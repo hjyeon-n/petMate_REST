@@ -95,7 +95,10 @@
 			</tr>
 			<tr>
 				<td align="center" colspan="2">
-					<input type="submit" value="선택한 조건으로 검색하기" class="btn">
+					<input type="submit" value="선택한 조건으로 검색하기" class="btn"> &nbsp;&nbsp;&nbsp;
+					<a href="<c:url value="petsitter">
+						</c:url>"><input type="button" value="되돌리기" class="btn">
+					</a>
 				</td>
 			</tr>
 		</tbody>

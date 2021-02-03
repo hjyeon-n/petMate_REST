@@ -1,11 +1,7 @@
 package com.ssd.petMate.dao.mybatis.mapper;
 
-import java.util.HashMap;
 import java.util.List;
-
 import com.ssd.petMate.domain.GpurchaseLineItem;
-import com.ssd.petMate.page.BoardSearch;
-import com.ssd.petMate.page.pageMaker;
 
 public interface GpurchaseLineItemMapper {
 	

@@ -28,9 +28,8 @@
 					<c:forEach var="gpurchaseCart" items="${gpurchaseCartList}">
 						<tr>
 							<td><input type="checkbox" id="box" name ="box" class="check" value="${gpurchaseCart.gpurchase.boardNum}"/></td>
-							<td ><a href="<c:url value="/gpurchaseDetail">
-										<c:param name="boardNum" value="${gpurchaseCart.boardNum}"/></c:url>">
-										<img src="resources/img/dog-food.png" border="0"> &nbsp;
+							<td ><a href="<c:url value="/gpurchase/${gpurchaseCart.boardNum}"></c:url>">
+										<img src="${pageContext.request.contextPath}/resources/img/dog-food.png" border="0"> &nbsp;
 										${gpurchaseCart.gpurchase.boardTitle}</a></td>
 							<td>${gpurchaseCart.gpurchase.price}</td>
 							<td>1</td>
@@ -74,49 +73,49 @@
 				<!-- <span style="color:black"><h5>Categories</h5></span> -->
 				<ul class="list-unstyled components mb-5">
 					<li><a href="#" data-toggle="modal" data-target="#myModal">회원 정보 수정</a></li>
-          			<li>
+ 					<li>
 			            <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">내가 쓴 글</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu2">
-			                <li><a href="mypageInfo"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
-			                <li><a href="mypageInquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
-			                <li><a href="mypageGpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
-			                <li><a href="mypageSecondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
+			                <li><a href="mypage-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
+			                <li><a href="mypage-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
+			                <li><a href="mypage-gpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
+			                <li><a href="mypage-secondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
 							<c:if test="${petsitterChk == 0}">
-								<li><a href="mypagePetsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
+								<li><a href="mypage-petsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
 							</c:if>
 							<c:if test="${petsitterChk == 1}">
-								<li><a href="mypageReview"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
+								<li><a href="mypage-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
 							</c:if>
 			            </ul>
 	          		</li>
 	          		<li>
 			            <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">내가 쓴 댓글</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu3">
-			           		<li><a href="myReplyInfo"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
-			                <li><a href="myReplyInquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
-			                <li><a href="myReplyGpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
-			                <li><a href="myReplySecondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
-			                <li><a href="myReplyPetsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
-			                <li><a href="myReplyReview"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
+			                <li><a href="myreply-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
+			                <li><a href="myreply-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
+			                <li><a href="myreply-gpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
+			                <li><a href="myreply-secondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
+			                <li><a href="myreply-petsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
+			                <li><a href="myReply-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
 			            </ul>
 	          		</li>
 	          		<li>
 			            <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">북마크</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu4">
-			                <li><a href="myInfoLike"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
-			                <li><a href="myInquiryLike"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
-			                <li><a href="myReviewLike"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
-			                <li><a href="myPetsitterLike"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
+			                <li><a href="mylike-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
+			                <li><a href="mylike-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
+			                <li><a href="mylike-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
+			                <li><a href="mylike-petsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
 			            </ul>
 	          		</li>
 	          		<li>
 			            <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">장바구니</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu5">
-			                <li><a href="gpurchaseCart"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
-			                <li><a href="secondhandCart"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
+			                <li><a href="gpurchase-cart"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
+			                <li><a href="secondhand-cart"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
 			            </ul>
-			        </li>
-	          		<li><a href="myOrderList">내 주문 내역</a></li>
+	          		</li>
+	          		<li><a href="myorder">내 주문 내역</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -157,28 +156,30 @@
 	</div>
 </div>  
 <script>
-	
-	$("#btnConfirm").on("click", function(){
+	$(document).on('click', '#btnConfirm', function(e){
 		var pass1 = $("#pwd").val();
 		var pass2 = $("#confirmPwd").val();
-		alert(pass1);
-		alert(pass2);
+		if (pass1 == "" || pass2 == "") {
+			alert("비밀번호를 입력하세요.");
+			$("#pwd").focus();
+			return false;
+		}
 		if(pass1 != pass2) {
 			alert("비밀번호가 일치하지 않습니다.");
 			$("#confirmPwd").focus();
 			return false;
 		}
-		var confirmPwd = $("#pwd").val();
 		$.ajax({
-	        url : '${pageContext.request.contextPath}/confirmPwd',
+	        url : '${pageContext.request.contextPath}/confirm/'+confirmPwd,
 	        type : 'post',
-	        data : {'confirmPwd' : confirmPwd},
+	        data : {'confirmPwd' : pass2},
 	        success : function(data){
 	        	if (data == 1) {
-	        		location.href="${pageContext.request.contextPath}/signUp";
+	        		location.href="${pageContext.request.contextPath}/sign-up";
 	        	}
 	        	else {
 	        		alert('비밀번호가 틀렸습니다.');
+	        		return false;
 		        }
 	        }
 	    });
@@ -199,13 +200,12 @@
 	    price = $("#expectPrice").val();
 	    
 	    $.ajax({
-	        url: '${pageContext.request.contextPath}/gpurchaseCartToOrder',
+	        url: '${pageContext.request.contextPath}/gpurchase-cart/order',
 	        type: 'post',
-	        data: { gpurchaseCartList : checkArr,
-		        	price : price },
+	        data: { gpurchaseCartList : checkArr, price : price },
 	    	success : function(result) {
 				alert(result);
-				location.href = "${pageContext.request.contextPath}/gpurchaseOrderForm";
+				location.href = "${pageContext.request.contextPath}/gpurchase/order";
 			}
 	    });
 	});
@@ -229,24 +229,40 @@
 				if (chk == true) { // 그 i 번째 input text의 값을 가져온다.
 					fabric_seq = parseInt($('table tr').eq(i).find('input[name=price]').val());
 				}
-				html += fabric_seq;
-				html2 = html + 2500;
-				$("#expectPrice").val(html2);
-				$("#totalPrice").html(html + '₩');
-				$("#expectPrice").html(html2 + '₩');
+					html += fabric_seq;
+					html2 = html + 2500;
+					$("#expectPrice").val(html2);
+					$("#totalPrice").html(html + '₩');
+					$("#expectPrice").html(html2 + '₩');
 				}
 		  });
 
 		 
 	 });
-
+/* 
+	function del(boardNum) {
+		var chk = confirm("해당 상품을 삭제하시겠습니까?");
+		if (chk) {
+			location.href='gpurchase-cart/'+boardNum;
+		}
+	} */
 
 	function del(boardNum) {
 		var chk = confirm("해당 상품을 삭제하시겠습니까?");
 		if (chk) {
-			location.href='gpurchaseCartDelete?boardNum='+boardNum;
+			$.ajax({
+				url : '${pageContext.request.contextPath}/gpurchase-cart/'+boardNum,
+				type : 'delete',
+				dataType : 'text',
+				success : function(data) {
+					if (data == "success") {
+						location.href = "${pageContext.request.contextPath}/gpurchase-cart";
+					}
+				},
+				error: function(request,status,error){
+			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			    }
+			});
 		}
-	}
-	
-
+	} 
 </script>

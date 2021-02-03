@@ -19,9 +19,8 @@
 						<table class="table table-striped">
 							<c:forEach var="cart" items="${sCartList}">
 								<tr>
-									<td ><a href="<c:url value="/secondhandDetail">
-										<c:param name="boardNum" value="${cart.boardNum}"/></c:url>">
-										<img src="resources/img/dog-food.png" border="0"> &nbsp;
+									<td ><a href="<c:url value="/secondhand/${cart.boardNum}"></c:url>">
+										<img src="${pageContext.request.contextPath}/resources/img/dog-food.png" border="0"> &nbsp;
 										${cart.boardTitle}</a>
 									</td>
 									<td>수량 : 1</td>
@@ -36,7 +35,7 @@
 				<a data-toggle="collapse" data-target="#od"><span style="color:black">결제 정보 ▼</span><span class="caret"></span></a><br />
 				<br />
 				<div class="table-wrapper collapse show" id="od">
-					<form:form modelAttribute="secondhandOrder" action="secondhandOrder">
+					<form:form modelAttribute="secondhandOrder" action="order">
 						
 						<div class="row">
 							<div class="col-md-6 form-group">

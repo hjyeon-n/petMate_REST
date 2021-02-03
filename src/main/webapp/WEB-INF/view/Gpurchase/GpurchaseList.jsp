@@ -22,8 +22,7 @@
 				<c:forEach var="gpurchaseList" items="${gpurchaseList}">
 					<tr>
 						<td width=100 style="word-break:break-all">${gpurchaseList.boardNum}</td>
-						<td width=500 style="word-break:break-all"><a href="<c:url value="/gpurchaseDetail">
-						<c:param name="boardNum" value="${gpurchaseList.boardNum}"/>
+						<td width=500 style="word-break:break-all"><a href="<c:url value="/gpurchase/${gpurchaseList.boardNum}">
 						</c:url>">${gpurchaseList.boardTitle}</a></td>
 						<td width=150 style="word-break:break-all">${gpurchaseList.userID}</td>
 						<td>${gpurchaseList.replyCnt}</td>
@@ -37,10 +36,10 @@
 				<tr>
 					<td>
 						<c:if test="${sessionScope.userID ne null}">
-							<a href="gpurchaseForm"><input type="submit" class="btn" value="글 작성" /></a>
+							<a href="gpurchase/post"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 						<c:if test="${sessionScope.userID eq null}" >
-							<a href="signIn" onclick="alert('로그인이 필요합니다.')"><input type="submit" class="btn" value="글 작성" /></a>
+							<a href="sign-in" onclick="alert('로그인이 필요합니다.')"><input type="submit" class="btn" value="글 작성" /></a>
 						</c:if>
 					</td>
 				</tr>

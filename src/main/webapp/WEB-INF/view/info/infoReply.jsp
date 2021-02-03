@@ -18,11 +18,10 @@ $(document).on('click', '#btnReply', function(e){
 	   
 //댓글 목록 
 function replyList(){
-	var url = '${pageContext.request.contextPath}/infoReplyList';
+	var url = '${pageContext.request.contextPath}/info/reply-list/'+boardNum;
     $.ajax({
         url : url,
         type : 'get',
-        data : {"boardNum":boardNum},
         dataType: 'json',
         success : function(data){
             var html =''; 
@@ -37,7 +36,7 @@ function replyList(){
 		            	html += '<li class="comment">';
 		                html += '<div class="comment-body" id="replyNum' + this.replyNum + '">'
 		                html += '<h3>' + value.userID + '</h3>';
-		                html += '<div class="meta">' + value.replyDate + '</div>';
+		                html += '<div class="meta">' + dateFormat(value.replyDate) + '</div>';
 	                    html += '<p>' + value.replyContent + '</p>';
 	                    	                    
 	                    /* 로그인한 사용자에게만 적용 */
@@ -59,7 +58,7 @@ function replyList(){
 		            		html += '<li class="comment">';
 			                html += '<div class="comment-body" id="replyNum' + this.replyNum + '">'
 			                html += '<h3>' + value.userID + '</h3>';
-			                html += '<div class="meta">' + value.replyDate + '</div>';
+			                html += '<div class="meta">' + dateFormat(value.replyDate) + '</div>';
 		                    html += '<p>' + value.replyContent + '</p>';
 		                    /* 로그인한 사용자에게만 적용 */
 		                    if (userID != 'null') {
@@ -83,7 +82,7 @@ function replyList(){
 //댓글 등록
 function replyInsert(insertData){
     $.ajax({
-        url : '${pageContext.request.contextPath}/insertInfoReply',
+        url : '${pageContext.request.contextPath}/info/reply',
         type : 'post',
         data : insertData,
         success : function(data){
@@ -118,9 +117,9 @@ function replyUpdateProc(replyNum){
 	}
     var updateContent = $('#editContent').val(); 
     $.ajax({
-        url : '${pageContext.request.contextPath}/updateInfoReply',
+        url : '${pageContext.request.contextPath}/info/reply/'+replyNum,
         type : 'post',
-        data : {"replyNum" : replyNum, "replyContent" : updateContent},
+        data : {"replyContent" : updateContent},
         success : function(data){
              replyList();
         }
@@ -152,22 +151,46 @@ function reReplyProc(replyNum){
 	}
 	var reReplyContent = $('#reReplyContent').val();
     $.ajax({
-        url : '${pageContext.request.contextPath}/infoReReply',
+        url : '${pageContext.request.contextPath}/info/re-reply/'+replyNum,
         type : 'post',
-        data : {'replyContent' : reReplyContent, 'replyNum' : replyNum},
+        data : {'replyContent' : reReplyContent},
         success : function(data){
             replyList();
         }
     });
+}
+
+// 댓글 시간 포맷
+function dateFormat (replyDate) {
+    var date = new Date(replyDate);
+    var form =
+        leadingZeros(date.getFullYear(), 4) + '-' +
+        leadingZeros(date.getMonth() + 1, 2) + '-' +
+        leadingZeros(date.getDate(), 2) + ' ' +
+
+        leadingZeros(date.getHours(), 2) + ':' +
+        leadingZeros(date.getMinutes(), 2);
+
+    return form;
+}
+
+function leadingZeros(n, digits) {
+    var zero = '';
+    n = n.toString();
+
+    if (n.length < digits) {
+        for (var i = 0; i < digits - n.length; i++)
+            zero += '0';
+    }
+    return zero + n;
 }
  
 //댓글 삭제 
 function replyDelete(replyNum, boardNum){
 	if (confirm('댓글을 삭제하시겠습니까?')) {
 	    $.ajax({
-	        url : '${pageContext.request.contextPath}/deleteInfoReply',
-	        data: {"replyNum":replyNum, 'boardNum':boardNum},
-	        type : 'post',
+	        url : '${pageContext.request.contextPath}/info/reply/'+replyNum+'/'+boardNum,
+	        type : 'delete',
 	        success : function(data){
 	          	replyList(); //댓글 삭제후 목록 출력 
 	        }

@@ -64,5 +64,4 @@ public class SecondhandFormController {
 	public String gpurchaseForm() {
 		return formViewName;
 	}
-		
 }

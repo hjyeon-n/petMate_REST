@@ -6,12 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssd.petMate.domain.Info;
@@ -19,7 +14,7 @@ import com.ssd.petMate.domain.InfoReply;
 import com.ssd.petMate.service.InfoFacade;
 import com.ssd.petMate.service.InfoReplyFacade;
 
-@Controller
+@RestController
 public class InfoReplyController {
 
 	@Autowired
@@ -29,16 +24,16 @@ public class InfoReplyController {
 	private InfoFacade infoFacade;
 	
 //	게시글 상세보기를 클릭했을 때 댓글 리스트 가져오기
-	@RequestMapping(value = "/infoReplyList", method = { RequestMethod.GET, RequestMethod.POST})
+	@GetMapping(value = "/info/reply-list/{boardNum}")
 	@ResponseBody
 	public List<InfoReply> infoReplyList(ModelAndView mv,
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("boardNum") int boardNum) {
 		List<InfoReply> replyList = replyFacade.getReplyList(boardNum);
 		return replyList;
 	}	
 	
 //	댓글 입력하기
-	@RequestMapping(value = "/insertInfoReply", method = RequestMethod.POST)
+	@PostMapping(value = "/info/reply")
 	@ResponseBody
 	public void insertInfoReply(ModelAndView mv, HttpServletRequest request,
 			@ModelAttribute("infoReply") InfoReply infoReply) {
@@ -56,10 +51,10 @@ public class InfoReplyController {
 	}
 	
 //	댓글 수정
-	@RequestMapping(value= "/updateInfoReply", method = RequestMethod.POST) 
+	@RequestMapping(value= "/info/reply/{replyNum}", method = RequestMethod.POST)
     @ResponseBody
     public void updateInfoReply(ModelAndView mv,
-    		@RequestParam("replyNum") int replyNum,
+    		@PathVariable("replyNum") int replyNum,
 			@RequestParam("replyContent") String replyContent) throws Exception{
         
 		InfoReply reply = new InfoReply();
@@ -70,11 +65,11 @@ public class InfoReplyController {
     }
 	
 //	댓글 삭제
-	@RequestMapping(value = "/deleteInfoReply", method = { RequestMethod.GET, RequestMethod.POST })
+	@DeleteMapping(value = "/info/reply/{replyNum}/{boardNum}")
 	@ResponseBody
 	public void deleteInfoReply(ModelAndView mv, HttpServletRequest request,
-			@RequestParam("replyNum") int replyNum,
-			@RequestParam("boardNum") int boardNum) {
+			@PathVariable("replyNum") int replyNum,
+			@PathVariable("boardNum") int boardNum) {
 		
 		replyFacade.deleteReply(replyNum); // 실제 댓글 없애기 -> 만약 답글이 달린 글이면 답글까지 전부 삭제
 		
@@ -84,10 +79,10 @@ public class InfoReplyController {
 		infoFacade.updateReplyCnt(info);
 	}
 	
-	@RequestMapping(value = "/infoReReply", method = RequestMethod.POST)
+	@PostMapping(value = "/info/re-reply/{replyNum}")
 	@ResponseBody
 	public void movieReplyComment(ModelAndView mv, HttpServletRequest request,
-			@RequestParam("replyNum") int replyNum,
+			@PathVariable("replyNum") int replyNum,
 			@RequestParam("replyContent") String replyContent) {
 		
 		String userID = (String) request.getSession().getAttribute("userID");

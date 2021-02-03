@@ -127,7 +127,7 @@
 					               </div>
 				               </c:if>
 				               <c:if test="${sessionScope.userID eq null}">
-				               		<a href="signIn" onclick="alert('로그인이 필요합니다.')"><input type="button" class="btn" value="글 작성" /></a>
+				               		<a href="${pageContext.request.contextPath}/sign-in" onclick="alert('로그인이 필요합니다.')"><input type="button" class="btn" value="글 작성" /></a>
 				               </c:if>
 				            </div>
 				        </form>

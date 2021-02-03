@@ -39,7 +39,6 @@ public class ReviewFormController {
 			Review review;
 			if (request.getParameter("boardNum") != null) {
 				review = reviewFacade.boardDetail(Integer.valueOf(request.getParameter("boardNum")));
-				System.out.println(review.getPetsitterName());
 			}
 			else {
 				review = new Review();

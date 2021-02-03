@@ -12,7 +12,7 @@
 				<div class="post-meta d-flex mb-5">
 					<div class="vcard">
 						<span class="d-block">
-							<a href="<c:url value="/userpage">
+							<a href="<c:url value="/user-page">
 							<c:param name="userID" value="${gpurchase.userID}"/>
 							</c:url>">${gpurchase.userID}</a>
 						</span> 
@@ -46,7 +46,7 @@
 					<input type="hidden" id="boardNum" name="boardNum" value="${gpurchase.boardNum}"/>
 					<c:if test="${sessionScope.userID ne null and gpurchase.status eq null}">
 						<c:if test="${sessionScope.userID eq gpurchase.userID}">
-							<button type="submit" formaction="gpurchaseForm" class="btn">수정</button>
+							<button type="submit" formaction="post" class="btn">수정</button>
 							<input type="button" class="btn" value="삭제" onclick="del(${gpurchase.boardNum})" />
 						</c:if>
 						<c:if test="${sessionScope.userID eq 'admin'}">
@@ -59,19 +59,19 @@
 				<c:if test="${gpurchase.status eq null}">
 					<div class="pt-5" align="center">
 							<c:if test="${sessionScope.userID eq null}">
-								<a href="signIn" onclick="alert('로그인이 필요합니다.')">
-									<img src="resources/img/cart.png" border="0" class="zoom">
+								<a href="${pageContext.request.contextPath}/sign-in" onclick="alert('로그인이 필요합니다.')">
+									<img src="${pageContext.request.contextPath}/resources/img/cart.png" border="0" class="zoom">
 								</a>
 							</c:if>
 							<c:if test="${sessionScope.userID ne null}">
 								<c:if test="${sessionScope.userID ne gpurchase.userID}">
 									<a href="javascript:void(0);" onclick="checkCart();">
-										<img src="resources/img/cart.png" border="0" class="zoom">
+										<img src="${pageContext.request.contextPath}/resources/img/cart.png" border="0" class="zoom">
 									</a>
 								</c:if>
 								<c:if test="${sessionScope.userID eq gpurhcase.userID}">
 									<a href="#" onclick="alert('자신의 상품은 담을 수 없습니다.')">
-										<img src="resources/img/cart.png" border="0" class="zoom">
+										<img src="${pageContext.request.contextPath}/resources/img/cart.png" border="0" class="zoom">
 									</a>
 								</c:if>
 							</c:if>
@@ -83,18 +83,18 @@
 				<c:if test="${gpurchase.status eq 'success'}">
 					<div class="pt-5" align="center">
 						<p style="color:red">결제가 성공하였습니다!</p>
-						<img src="resources/img/success.png">
+						<img src="${pageContext.request.contextPath}/resources/img/success.png">
 					</div>
 				</c:if>
 				<c:if test="${gpurchase.status eq 'fail'}">
 					<div class="pt-5" align="center">
 						<p style="color:red">결제가 실패하였습니다!</p>	
-						<img src="resources/img/fail.png">
+						<img src="${pageContext.request.contextPath}/resources/img/fail.png">
 					</div>
 				</c:if>
 
 				<div class="pt-5" align="center">
-					<a href="gpurchase"><input type="button" value="목록" class="btn" /></a>
+					<a href="${pageContext.request.contextPath}/gpurchase"><input type="button" value="목록" class="btn" /></a>
 				</div>
 
 				<!-- comment 작성 부분 -->		
@@ -112,7 +112,7 @@
 					               </div>
 				               </c:if>
 				               <c:if test="${sessionScope.userID eq null}">
-				               		<a href="signIn" onclick="alert('로그인이 필요합니다.')"><input type="button" class="btn" value="글 작성" /></a>
+				               		<a href="${pageContext.request.contextPath}/sign-in" onclick="alert('로그인이 필요합니다.')"><input type="button" class="btn" value="글 작성" /></a>
 				               </c:if>
 				            </div>
 				        </form>
@@ -138,7 +138,7 @@
 	function checkCart() {
 		var boardNum = '${gpurchase.boardNum}';
 		$.ajax({
-			url : '/petMate/gpurchaseCartAdded',
+			url : '${pageContext.request.contextPath}/gpurchase-cart',
 			type : 'post',
 			data : {'boardNum' : boardNum},
 			dataType : 'json',
@@ -148,7 +148,7 @@
 					alert('장바구니에 추가되었습니다.');
 					var con_test = confirm("장바구니로 이동하시겠습니까?");
 					if(con_test == true){
-						location.href='${pageContext.request.contextPath}/gpurchaseCart';
+						location.href='${pageContext.request.contextPath}/gpurchase-cart';
 					}
 					else if(con_test == false){
 					  return false;
@@ -165,9 +165,21 @@
 	function del(boardNum) {
 		var chk = confirm("정말 삭제하시겠습니까?");
 		if (chk) {
-			location.href='gpurchaseDetail/delete?boardNum='+boardNum;
+			$.ajax({
+				url : '${pageContext.request.contextPath}/gpurchase/'+boardNum,
+				type : 'delete',
+				dataType : 'text',
+				success : function(data) {
+					if (data == "success") {
+						location.href = "${pageContext.request.contextPath}/gpurchase";
+					}
+				},
+				error: function(request,status,error){
+			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			    }
+			});
 		}
-	}
+	} 
 </script>
 <style>
 hr.dashed {

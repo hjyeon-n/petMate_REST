@@ -190,7 +190,6 @@ function checkLike() {
 	$.ajax({
 		url : '${pageContext.request.contextPath}/petsitter-like/'+boardNum,
 		type : 'post',
-		data : {'boardNum' : boardNum},
 		dataType : 'json',
 		success : function(data) {
 			var html = ''; 

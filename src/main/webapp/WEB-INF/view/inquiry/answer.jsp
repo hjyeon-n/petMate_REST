@@ -49,7 +49,7 @@ function answerList(){
                			else
                    			html+='<p/>'
 		                html += '<h3>' + value.userID + '</h3>';
-		                html += '<div class="meta">' + value.answerDate + '</div>';
+		                html += '<div class="meta">' + dateFormat(value.answerDate) + '</div>';
 	                    html += '<p>' + value.answerContent + '</p>';
 	                    /* 로그인한 사용자에게만 적용 */
 	                    if (userID != 'null') {
@@ -75,7 +75,7 @@ function answerList(){
 			                html += '<div class="comment-body" id="answerNum' + this.answerNum + '">';
 			                html += '<div class="well well-lg">';
 			                html += '<h3>' + value.userID + '</h3>';
-			                html += '<div class="meta">' + value.answerDate + '</div>';
+			                html += '<div class="meta">' + dateFormat(value.answerDate) + '</div>';
 		                    html += '<p>' + value.answerContent + '</p>';
 		                    /* 로그인한 사용자에게만 적용 */
 		                    if (userID != 'null') {
@@ -110,6 +110,31 @@ function answerInsert(insertData){
             $('#answerContent').val('');
         }
     });
+}
+
+// 댓글 시간 포맷
+function dateFormat (answerDate) {
+    var date = new Date(answerDate);
+    var form =
+        leadingZeros(date.getFullYear(), 4) + '-' +
+        leadingZeros(date.getMonth() + 1, 2) + '-' +
+        leadingZeros(date.getDate(), 2) + ' ' +
+
+        leadingZeros(date.getHours(), 2) + ':' +
+        leadingZeros(date.getMinutes(), 2);
+
+    return form;
+}
+
+function leadingZeros(n, digits) {
+    var zero = '';
+    n = n.toString();
+
+    if (n.length < digits) {
+        for (var i = 0; i < digits - n.length; i++)
+            zero += '0';
+    }
+    return zero + n;
 }
 
 //댓글 수정 - 댓글 내용 출력을 input 폼으로 변경 

@@ -101,49 +101,48 @@
 				<!-- <span style="color:black"><h5>Categories</h5></span> -->
 				<ul class="list-unstyled components mb-5">
 					<li><a href="#" data-toggle="modal" data-target="#myModal">회원 정보 수정</a></li>
- 					<li>
+					<li>
 			            <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">내가 쓴 글</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu2">
-			                <li><a href="mypageInfo"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
-			                <li><a href="mypageInquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
-			                <li><a href="mypageGpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
-			                <li><a href="mypageSecondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/mypage-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/mypage-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/mypage-gpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/mypage-secondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
 							<c:if test="${petsitterChk == 0}">
-								<li><a href="mypagePetsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
+								<li><a href="${pageContext.request.contextPath}/mypage-petsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
 							</c:if>
 							<c:if test="${petsitterChk == 1}">
-								<li><a href="mypageReview"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
+								<li><a href="${pageContext.request.contextPath}/mypage-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
 							</c:if>
 			            </ul>
 	          		</li>
 	          		<li>
 			            <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">내가 쓴 댓글</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu3">
-			           		<li><a href="myReplyInfo"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
-			                <li><a href="myReplyInquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
-			                <li><a href="myReplyGpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
-			                <li><a href="myReplySecondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
-			                <li><a href="myReplyPetsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
-			                <li><a href="myReplyReview"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
+			            	<li><a href="${pageContext.request.contextPath}/myreply-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/myreply-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/myreply-gpurchase"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/myreply-secondhand"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/myreply-petsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/myreply-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
 			            </ul>
 	          		</li>
 	          		<li>
 			            <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">북마크</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu4">
-			                <li><a href="myInfoLike"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
-			                <li><a href="myInquiryLike"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
-			                <li><a href="myReviewLike"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
-			                <li><a href="myPetsitterLike"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
+			                 <li><a href="${pageContext.request.contextPath}/mylike-info"><span class="fa fa-chevron-right mr-2"></span>정보 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/mylike-inquiry"><span class="fa fa-chevron-right mr-2"></span>질문 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/mylike-review"><span class="fa fa-chevron-right mr-2"></span>리뷰 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/mylike-petsitter"><span class="fa fa-chevron-right mr-2"></span>매칭 게시판</a></li>
 			            </ul>
-	          		</li>
 	          		<li>
 			            <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">장바구니</a>
 			            <ul class="collapse list-unstyled" id="pageSubmenu5">
-			                <li><a href="gpurchaseCart"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
-			                <li><a href="secondhand-cart"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/gpurchase-cart"><span class="fa fa-chevron-right mr-2"></span>공구 게시판</a></li>
+			                <li><a href="${pageContext.request.contextPath}/secondhand-cart"><span class="fa fa-chevron-right mr-2"></span>중고 게시판</a></li>
 			            </ul>
 	          		</li>
-	          		<li><a href="myOrderList">내 주문 내역</a></li>
+	          		<li><a href="${pageContext.request.contextPath}/myorder">내 주문 내역</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -189,17 +188,17 @@
 		var url = "${pageContext.request.contextPath}/";
 		var name = '${boardName}';
 		if (name == '정보게시판')
-			url = url + "mypageInfo";
+			url = url + "mypage-info";
 		if (name == '질문게시판')
-			url = url + "mypageInquiry";
+			url = url + "mypage-inquiry";
 		if (name == '중고게시판')
-			url = url + "mypageSecondhand";
+			url = url + "mypage-secondhand";
 		if (name == '공구게시판')
-			url = url + "mypageGpurchase";
+			url = url + "mypage-gpurchase";
 		if (name == '매칭게시판')
-			url = url + "mypagePetsitter";
+			url = url + "mypage-petsitter";
 		if (name == '리뷰게시판')
-			url = url + "mypageReview";
+			url = url + "mypage-review";
 		
 		url = url + "?searchType=" + $('#searchType').val();
 		url = url + "&keyword=" + $('#keyword').val();
@@ -212,17 +211,17 @@
 		var name = '${boardName}';
 		var url = "${pageContext.request.contextPath}/";
 		if (name == '정보게시판')
-			url = url + "mypageInfo";
+			url = url + "mypage-info";
 		if (name == '질문게시판')
-			url = url + "mypageInquiry";
+			url = url + "mypage-inquiry";
 		if (name == '중고게시판')
-			url = url + "mypageSecondhand";
+			url = url + "mypage-secondhand";
 		if (name == '공구게시판')
-			url = url + "mypageGpurchase";
+			url = url + "mypage-gpurchase";
 		if (name == '매칭게시판')
-			url = url + "mypagePetsitter";
+			url = url + "mypage-petsitter";
 		if (name == '리뷰게시판')
-			url = url + "mypageReview";
+			url = url + "mypage-review";
 		url = url + "?pageNum=" + pageNum;
 		url = url + "&contentNum=" + contentNum;
 		url = url + "&searchType=" + searchType;
@@ -234,17 +233,17 @@
 		var name = '${boardName}';
 		var url = "${pageContext.request.contextPath}/";
 		if (name == '정보게시판')
-			url = url + "infoDetail?boardNum=" + boardNum;
+			url = url + "info/" + boardNum;
 		if (name == '질문게시판')
-			url = url + "inquiryDetail?boardNum=" + boardNum;
+			url = url + "inquiry/" + boardNum;
 		if (name == '공구게시판')
-			url = url + "gpurchaseDetail?boardNum=" + boardNum;
+			url = url + "gpurchase/" + boardNum;
 		if (name == '중고게시판')
-			url = url + "secondhandDetail?boardNum=" + boardNum;
+			url = url + "secondhand/" + boardNum;
 		if (name == '매칭게시판')
-			url = url + "petsitterboardNum=" + boardNum;
+			url = url + "petsitter/" + boardNum;
 		if (name == '리뷰게시판')
-			url = url + "reviewDetail?boardNum=" + boardNum;
+			url = url + "review/" + boardNum;
 		location.href = url;
 	}
 	
@@ -264,7 +263,6 @@
 		$.ajax({
 	        url : '${pageContext.request.contextPath}/confirm/'+pass2,
 	        type : 'post',
-/* 	        data : {'confirmPwd' : pass2}, */
 	        success : function(data){
 	        	if (data == 1) {
 	        		location.href="${pageContext.request.contextPath}/sign-up";
