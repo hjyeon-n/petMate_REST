@@ -297,5 +297,4 @@ public class MyPageController {
 		mv.setViewName("mypage/myLike");
 		return mv;
 	}
-	
 }
