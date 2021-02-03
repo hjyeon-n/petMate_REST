@@ -21,7 +21,7 @@
 	<insert id="insertReply" parameterType="ReviewReply">
  		INSERT 
 		INTO ReviewReply(boardNum, replyContent, userID, replyDate, replyGID, replyOrder, replyParents)
-		VALUES(#{boardNum}, #{replyContent}, #{userID}, TO_DATE(SYSDATE,'yyyy.mm.dd hh24:mi'), #{replyGID}, #{replyOrder}, #{replyParents}) 
+		VALUES(#{boardNum}, #{replyContent}, #{userID}, SYSDATE, #{replyGID}, #{replyOrder}, #{replyParents})
 	</insert>
 	
 	<!-- 댓글 수정하기  -->
