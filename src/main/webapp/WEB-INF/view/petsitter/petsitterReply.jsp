@@ -40,8 +40,13 @@ function replyList(){
 		                html += '<div class="comment-body" id="replyNum' + this.replyNum + '">';
 		                html += '<div class="well well-lg">';
 		                if (petId == userID) {
-			                if (isSelected == 0)
-		                        html += '<a onclick="petsitterSelect(' + value.replyNum + ', \'' + value.boardNum + '\', \'' + value.userID + '\');" class="btn btn-info btn-circle text-uppercase float-right"> 선택 </a>';
+		                    if (value.userID == petId) {
+                                html+='<p/>';
+                            }
+		                    else {
+                                if (isSelected == 0)
+                                    html += '<a onclick="petsitterSelect(' + value.replyNum + ', \'' + value.boardNum + '\', \'' + value.userID + '\');" class="btn btn-info btn-circle text-uppercase float-right"> 선택 </a>';
+                            }
 		                }
 						if (value.isSelected == 1)
 							html +='<img src="${pageContext.request.contextPath}/resources/img/selected.png" align="right">';
