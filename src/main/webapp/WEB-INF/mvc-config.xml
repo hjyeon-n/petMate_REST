@@ -53,16 +53,24 @@
 		<property name="prefix" value="/WEB-INF/view/"/>
 		<property name="suffix" value=".jsp"/>
 		<property name="order" value="2" />	
-	</bean>  
-	
+	</bean>
+
+
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/infoForm" />
-			<mvc:mapping path="/inquiryForm" />
-			<mvc:mapping path="/gpurchaseForm" />
-			<mvc:mapping path="/secondhandForm" />
-			<mvc:mapping path="/petsitterForm" />
-			<mvc:mapping path="/reviewForm" />
+			<mvc:mapping path="/info/post" />
+			<mvc:mapping path="/info-like/*" />
+			<mvc:mapping path="/inquiry/post" />
+			<mvc:mapping path="/inquiry-like/*" />
+			<mvc:mapping path="/gpurchase/post" />
+			<mvc:mapping path="/gpurchase-cart" />
+			<mvc:mapping path="/secondhand/post" />
+			<mvc:mapping path="/secondhand-cart" />
+			<mvc:mapping path="/petsitter/post" />
+			<mvc:mapping path="/petsitter-like/*" />
+			<mvc:mapping path="/review/post" />
+			<mvc:mapping path="/review-like/*" />
+			<mvc:mapping path="/mypage" />
 				<bean class="com.ssd.petMate.interceptor.LoginCheckInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
