@@ -4,8 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="resources/css/util.css">
-<link rel="stylesheet" type="text/css" href="resources/css/main.css?new">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/util.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main.css?new">
 </head>
 <body>
 	<div class="limiter">
