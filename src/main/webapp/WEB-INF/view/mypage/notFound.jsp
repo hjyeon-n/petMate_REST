@@ -9,7 +9,7 @@
     <br/><br/><br/>
     <img src="${pageContext.request.contextPath}/resources/img/alert.png" width="200" height="200" border="0"> <br/><br/><br/>
     페이지를 찾을 수 없습니다! <br/><br/>
-    <a href="${pageContext.request.contextPath}/myorder"><input type="button" value="돌아가기" class="btn" /></a> <br/><br/><br/>
+    <input type="button" value="돌아가기" class="btn" onclick="history.back()" /><br/><br/><br/>
 </div>
 <script>
 </script>

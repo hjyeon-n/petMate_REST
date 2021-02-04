@@ -61,8 +61,16 @@ public class InfoController {
 	public ModelAndView infoDetail(ModelAndView mv, 
 			@PathVariable("boardNum") int boardNum) {
 		infoFacade.updateViews(boardNum);
-		mv.addObject("info", infoFacade.boardDetail(boardNum));
-		mv.setViewName("info/infoDetail");
+		
+		Info info = infoFacade.boardDetail(boardNum);
+		
+		if (info == null) {
+			mv.setViewName("mypage/notFound");
+		}
+		else {
+			mv.addObject("info", info);
+			mv.setViewName("info/infoDetail");
+		}
 		return mv;
 	}
 	
