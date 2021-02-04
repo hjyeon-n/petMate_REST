@@ -55,8 +55,25 @@
 		<property name="order" value="2" />	
 	</bean>
 
+<!--	<mvc:interceptors>
+		<mvc:interceptor>
 
-	<mvc:interceptors>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/index"/>
+			<mvc:exclude-mapping path="/info"/>
+			<mvc:exclude-mapping path="/info/*"/>
+			<mvc:exclude-mapping path="/inquiry"/>
+			<mvc:exclude-mapping path="/gpurchase"/>
+			<mvc:exclude-mapping path="/secondhand"/>
+			<mvc:exclude-mapping path="/petsitter"/>
+			<mvc:exclude-mapping path="/review"/>
+			<mvc:exclude-mapping path="/sign-up"/>
+			<mvc:exclude-mapping path="/sign-in"/>
+			<bean class="com.ssd.petMate.interceptor.LoginCheckInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>-->
+
+<!--	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/info/post" />
 			<mvc:mapping path="/info-like/*" />
@@ -73,7 +90,7 @@
 			<mvc:mapping path="/mypage" />
 				<bean class="com.ssd.petMate.interceptor.LoginCheckInterceptor" />
 		</mvc:interceptor>
-	</mvc:interceptors>
+	</mvc:interceptors>-->
 	
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
