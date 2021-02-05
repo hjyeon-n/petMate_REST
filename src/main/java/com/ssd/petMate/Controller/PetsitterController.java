@@ -139,17 +139,22 @@ public class PetsitterController {
 		String size;
 		String day;
 
-		int sizeNum = Integer.parseInt(view.getPetSize());
-		size = view.sizeCheck(sizeNum);
-
-		int dayNum = Integer.parseInt(view.getPetDay());
-		day = view.dayCheck(dayNum);
-
-		mv.addObject("appkey", appkey);
-		mv.addObject("petsitter", petsitterFacade.boardDetail(boardNum));
-		mv.setViewName("petsitter/petsitterDetail");
-		mv.addObject("size", size);
-		mv.addObject("day", day);
+		if (view == null) {
+			mv.setViewName("mypage/notFound");
+		}
+		else {
+			int sizeNum = Integer.parseInt(view.getPetSize());
+			size = view.sizeCheck(sizeNum);
+	
+			int dayNum = Integer.parseInt(view.getPetDay());
+			day = view.dayCheck(dayNum);
+	
+			mv.addObject("appkey", appkey);
+			mv.addObject("petsitter", petsitterFacade.boardDetail(boardNum));
+			mv.setViewName("petsitter/petsitterDetail");
+			mv.addObject("size", size);
+			mv.addObject("day", day);
+		}
 		return mv;
 	}
 

@@ -54,8 +54,15 @@ public class SecondhandController {
 	public ModelAndView secondhandDetail(ModelAndView mv,
 			@PathVariable("boardNum") int boardNum) {
 		secondhandImpl.secondhandBoardHitPlus(boardNum);
-		mv.addObject("secondhand", secondhandImpl.getSecondhandDetail(boardNum));
-		mv.setViewName("secondhand/secondhandDetail");
+		Secondhand secondhand = secondhandImpl.getSecondhandDetail(boardNum);
+		
+		if (secondhand == null) {
+			mv.setViewName("mypage/notFound");
+		}
+		else {
+			mv.addObject("secondhand", secondhand);
+			mv.setViewName("secondhand/secondhandDetail");
+		}
 		return mv;
 	}
 	

@@ -46,8 +46,15 @@ public class ReviewController {
 	public ModelAndView reviewDetail(ModelAndView mv, 
 			@PathVariable("boardNum") int boardNum) {
 		reviewFacade.updateViews(boardNum);
-		mv.addObject("review", reviewFacade.boardDetail(boardNum));
-		mv.setViewName("review/reviewDetail");
+		Review review = reviewFacade.boardDetail(boardNum);
+		
+		if (review == null) {
+			mv.setViewName("mypage/notFound");
+		}
+		else {
+			mv.addObject("review", review);
+			mv.setViewName("review/reviewDetail");
+		}
 		return mv;
 	}
 	

@@ -62,8 +62,14 @@ public class GpurchaseController {
 	public ModelAndView gpurchaseDetail(ModelAndView mv,
 			@PathVariable("boardNum") int boardNum) {
 		gpurchaseFacade.gpurchaseBoardHitPlus(boardNum);
-		mv.addObject("gpurchase", gpurchaseFacade.getGpurchaseDetail(boardNum));
-		mv.setViewName("Gpurchase/GpurchaseDetail");
+		Gpurchase gpurchase = gpurchaseFacade.getGpurchaseDetail(boardNum);
+		if (gpurchase == null) {
+			mv.setViewName("mypage/notFound");
+		}
+		else {
+			mv.addObject("gpurchase", gpurchase);
+			mv.setViewName("Gpurchase/GpurchaseDetail");
+		}
 		return mv;
 	}
 
