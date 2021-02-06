@@ -34,8 +34,15 @@ public class InquiryController {
 	public ModelAndView inquiryDetail(ModelAndView mv, 
 			@PathVariable("boardNum") int boardNum) {
 		inquiryFacade.updateViews(boardNum);
-		mv.addObject("inquiry", inquiryFacade.boardDetail(boardNum));
-		mv.setViewName("inquiry/inquiryDetail");
+		Inquiry inquiry = inquiryFacade.boardDetail(boardNum);
+		
+		if (inquiry == null) {
+			mv.setViewName("mypage/notFound");
+		}
+		else {
+			mv.addObject("inquiry", inquiry);
+			mv.setViewName("inquiry/inquiryDetail");
+		}
 		return mv;
 	}
 	

@@ -60,8 +60,7 @@
 									<table class="table table-striped">
 										<c:forEach var="sLineItem" items="${sOrder.sLineItems}">
 										<tr>
-											<td ><a href="<c:url value="/secondhandDetail">
-												<c:param name="boardNum" value="${sLineItem.boardNum}"/></c:url>">
+											<td ><a href="<c:url value="/secondhand/${sLineItem.boardNum}"></c:url>">
 												<img src="${pageContext.request.contextPath}/resources/img/dog-food.png" border="0"> &nbsp;
 												${sLineItem.boardTitle}</a>
 											</td>
@@ -96,7 +95,7 @@
 				</c:choose>
 				
 				<div class="pt-5" align="center">
-					<a href="myOrderList"><input type="button" value="목록" class="btn" /></a>
+					<a href="${pageContext.request.contextPath}/myorder"><input type="button" value="목록" class="btn" /></a>
 				</div>
 				
 				
@@ -188,26 +187,6 @@
 	</div>
 </div>  
 <script>
-	/* 검색을 수행하기 위하여 키워드와 타입을 정한 후 검색 버튼을 클릭하면 링크로 이동 -> 컨트롤러에서 이후의 일을 처리하도록 함 */
-	$(document).on('click', '#btnSearch', function(e) {
-		e.preventDefault();
-		var url = "${pageContext.request.contextPath}/myCommentGpurchase";
-		url = url + "?searchType=" + $('#searchType').val();
-		url = url + "&keyword=" + $('#keyword').val();
-
-		location.href = url;
-	});
-
-	/* 페이지 인덱스를 누를 때마다 해당 인덱스로 페이지가 전환 */
-	function fn_pagination(pageNum, contentNum, searchType, keyword) {
-		var url = "${pageContext.request.contextPath}/myCommentGpurchase";
-		url = url + "?pageNum=" + pageNum;
-		url = url + "&contentNum=" + contentNum;
-		url = url + "&searchType=" + searchType;
-		url = url + "&keyword=" + keyword;
-		location.href = url;
-	}
-
 	$(document).on('click', '#btnConfirm', function(e){
 		var pass1 = $("#pwd").val();
 		var pass2 = $("#confirmPwd").val();
@@ -235,5 +214,4 @@
 	        }
 	    });
 	});
-
 </script>

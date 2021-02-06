@@ -230,13 +230,19 @@ public class MyPageController {
 		
 		OrderCommand gOrder = myPageFacade.getOrderLineItems(orderNum);
 		SOrderCommand sOrder = myPageFacade.getOrderSLineItems(orderNum);
-		if(gOrder != null)
-			gOrder.getTotalPrice();
-		if(sOrder != null)
-			sOrder.getTotalPrice();
-		mv.addObject("gOrder", gOrder);
-		mv.addObject("sOrder", sOrder);
-		mv.setViewName("mypage/myOrderDetailPage");
+		
+		if (gOrder == null && sOrder == null) {
+			mv.setViewName("mypage/notFound");
+		}
+		else {
+			if(gOrder != null)
+				gOrder.getTotalPrice();
+			if(sOrder != null)
+				sOrder.getTotalPrice();
+			mv.addObject("gOrder", gOrder);
+			mv.addObject("sOrder", sOrder);
+			mv.setViewName("mypage/myOrderDetailPage");
+		}
 		return mv;
 	}
 	
@@ -297,5 +303,4 @@ public class MyPageController {
 		mv.setViewName("mypage/myLike");
 		return mv;
 	}
-	
 }

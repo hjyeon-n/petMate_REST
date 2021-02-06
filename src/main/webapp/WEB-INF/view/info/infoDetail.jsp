@@ -104,7 +104,7 @@
 	function checkLike() {
 		var boardNum = '${info.boardNum}';
 		$.ajax({
-			url : '/petMate/info-like/'+boardNum,
+			url : '${pageContext.request.contextPath}/info-like/'+boardNum,
 			type : 'post',
 			data : {'boardNum' : boardNum},
 			dataType : 'json',
