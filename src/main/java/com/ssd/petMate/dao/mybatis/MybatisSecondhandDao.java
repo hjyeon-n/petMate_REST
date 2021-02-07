@@ -6,12 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.ssd.petMate.dao.InfoDao;
 import com.ssd.petMate.dao.SecondhandDao;
-import com.ssd.petMate.dao.mybatis.mapper.InfoMapper;
 import com.ssd.petMate.dao.mybatis.mapper.SecondhandMapper;
-import com.ssd.petMate.domain.Gpurchase;
-import com.ssd.petMate.domain.Info;
 import com.ssd.petMate.domain.Secondhand;
 import com.ssd.petMate.page.BoardSearch;
 

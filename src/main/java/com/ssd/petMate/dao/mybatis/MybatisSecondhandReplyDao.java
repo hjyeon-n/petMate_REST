@@ -7,11 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.ssd.petMate.dao.GpurchaseReplyDao;
 import com.ssd.petMate.dao.SecondhandReplyDao;
-import com.ssd.petMate.dao.mybatis.mapper.GpurchaseReplyMapper;
 import com.ssd.petMate.dao.mybatis.mapper.SecondhandReplyMapper;
-import com.ssd.petMate.domain.GpurchaseReply;
 import com.ssd.petMate.domain.SecondhandReply;
 
 @Repository
