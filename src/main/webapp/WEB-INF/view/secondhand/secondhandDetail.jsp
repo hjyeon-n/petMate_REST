@@ -121,9 +121,9 @@
 </div>
 <script>
 	function checkCart() {
-		var boardNum = '${secondhand.boardNum}';
+		var boardNum = '${gpurchase.boardNum}';
 		$.ajax({
-			url : '${pageContext.request.contextPath}/secondhand-cart/'+boardNum,
+			url : '${pageContext.request.contextPath}/secondhand-cart',
 			type : 'post',
 			data : {'boardNum' : boardNum},
 			dataType : 'json',
@@ -131,6 +131,13 @@
 				var html = '';
 				if (data.count == 0) {
 					alert('장바구니에 추가되었습니다.');
+					var con_test = confirm("장바구니로 이동하시겠습니까?");
+					if(con_test == true){
+						location.href='${pageContext.request.contextPath}/secondhand-cart';
+					}
+					else if(con_test == false){
+						return false;
+					}
 				} else {
 					alert('이미 담은 상품입니다.');
 				}
