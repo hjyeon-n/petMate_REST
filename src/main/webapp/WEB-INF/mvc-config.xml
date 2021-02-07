@@ -82,7 +82,8 @@
 			<mvc:mapping path="/review/post" />
 			<mvc:mapping path="/mypage" />
 			<mvc:mapping path="/myorder" />
-			<!-- <mvc:mapping path="/myorder/*" /> -->
+			<mvc:mapping path="/secondhand-cart" />
+			<mvc:mapping path="/gpurchase-cart" />
 				<bean class="com.ssd.petMate.interceptor.LoginCheckInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
