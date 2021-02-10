@@ -1,14 +1,8 @@
 package com.ssd.petMate.dao.mybatis.mapper;
 
-import java.util.HashMap;
 import java.util.List;
-
-import com.ssd.petMate.domain.GpurchaseCart;
-import com.ssd.petMate.domain.GpurchaseCartCommand;
 import com.ssd.petMate.domain.SecondhandCart;
 import com.ssd.petMate.domain.SecondhandCartCommand;
-import com.ssd.petMate.page.BoardSearch;
-import com.ssd.petMate.page.pageMaker;
 
 public interface SecondhandCartMapper {
 	
