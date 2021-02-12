@@ -121,7 +121,7 @@
 </div>
 <script>
 	function checkCart() {
-		var boardNum = '${gpurchase.boardNum}';
+		var boardNum = '${secondhand.boardNum}';
 		$.ajax({
 			url : '${pageContext.request.contextPath}/secondhand-cart',
 			type : 'post',
