@@ -74,4 +74,9 @@
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	</bean>
+	
+	<!-- swagger -->
+    <bean id="swagger2Config" class="com.ssd.petMate.swagger.SwaggerConfig"></bean>
+    <mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"></mvc:resources>
+    <mvc:resources location="classpath:/META-INF/resources/webjars/"  mapping="/webjars/**"></mvc:resources>
 </beans>
