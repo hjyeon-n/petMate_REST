@@ -1,7 +1,5 @@
 package com.ssd.petMate.domain;
 
-import javax.validation.constraints.NotEmpty;
-
 public class Info {
 	private int boardNum;
 	private String boardDate;

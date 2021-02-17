@@ -1,6 +1,5 @@
 package com.ssd.petMate.dao.mybatis.mapper;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.ssd.petMate.domain.UserList;
