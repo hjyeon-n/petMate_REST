@@ -6,6 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -90,6 +93,7 @@ public class PetsitterFormController {
 		return -1;
 	}
 
+	@ApiOperation(value = "매칭게시판 게시글 수정")
 	@PostMapping("/petsitter/post")
 	public String petsitterInsert(@Valid @ModelAttribute("petsitter") Petsitter petsitter, BindingResult result, 
 	         SessionStatus sessionStatus, HttpServletRequest request) {
@@ -124,6 +128,7 @@ public class PetsitterFormController {
 	      return successViewName;
 	   }
 
+	@ApiOperation(value = "매칭게시판 게시글 작성")
 	@GetMapping("/petsitter/post")
 	public String petsitterUpdateForm() {
 		return formViewName;
