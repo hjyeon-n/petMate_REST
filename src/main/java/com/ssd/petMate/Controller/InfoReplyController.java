@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,6 +27,10 @@ public class InfoReplyController {
 	private InfoFacade infoFacade;
 	
 //	게시글 상세보기를 클릭했을 때 댓글 리스트 가져오기
+	@ApiOperation(value = "정보게시판 댓글 목록")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "boardNum", value = "게시글 번호", dataType = "int", paramType = "path")
+	})
 	@GetMapping(value = "/info/reply-list/{boardNum}")
 	@ResponseBody
 	public List<InfoReply> infoReplyList(ModelAndView mv,
@@ -33,6 +40,7 @@ public class InfoReplyController {
 	}	
 	
 //	댓글 입력하기
+	@ApiOperation(value = "정보게시판 댓글 등록")
 	@PostMapping(value = "/info/reply")
 	@ResponseBody
 	public void insertInfoReply(ModelAndView mv, HttpServletRequest request,
@@ -51,6 +59,11 @@ public class InfoReplyController {
 	}
 	
 //	댓글 수정
+	@ApiOperation(value = "정보게시판 댓글 수정")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "replyNum", value = "댓글 번호", dataType = "int", paramType = "path"),
+			@ApiImplicitParam(name = "replyContent", value = "덧글 내용", dataType = "string", paramType = "query")
+	})
 	@RequestMapping(value= "/info/reply/{replyNum}", method = RequestMethod.POST)
     @ResponseBody
     public void updateInfoReply(ModelAndView mv,
@@ -65,6 +78,11 @@ public class InfoReplyController {
     }
 	
 //	댓글 삭제
+	@ApiOperation(value = "정보게시판 댓글 삭제")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "replyNum", value = "댓글 번호", dataType = "int", paramType = "path"),
+			@ApiImplicitParam(name = "boardNum", value = "게시글 번호", dataType = "int", paramType = "path")
+	})
 	@DeleteMapping(value = "/info/reply/{replyNum}/{boardNum}")
 	@ResponseBody
 	public void deleteInfoReply(ModelAndView mv, HttpServletRequest request,
@@ -78,7 +96,12 @@ public class InfoReplyController {
 		info.setReplyCnt(replyCnt);
 		infoFacade.updateReplyCnt(info);
 	}
-	
+
+	@ApiOperation(value = "정보게시판 대댓글")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "replyNum", value = "댓글 번호", dataType = "int", paramType = "path"),
+			@ApiImplicitParam(name = "boardNum", value = "게시글 번호", dataType = "int", paramType = "path")
+	})
 	@PostMapping(value = "/info/re-reply/{replyNum}")
 	@ResponseBody
 	public void movieReplyComment(ModelAndView mv, HttpServletRequest request,

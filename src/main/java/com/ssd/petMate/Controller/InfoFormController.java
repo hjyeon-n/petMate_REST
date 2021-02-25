@@ -3,6 +3,7 @@ package com.ssd.petMate.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,8 @@ public class InfoFormController {
 		}
 		else return new Info();
 	}
-	
+
+	@ApiOperation(value = "정보게시판 게시글 수정")
 	@PostMapping("/info/post")
 	public String infoInsert(@Valid @ModelAttribute("info") Info info, BindingResult result, SessionStatus sessionStatus, HttpServletRequest request) {		
 		//게시글 제목 길이
@@ -66,7 +68,8 @@ public class InfoFormController {
 		}
 		return successViewName;
 	}
-	
+
+	@ApiOperation(value = "매칭게시판 게시글 작성")
 	@GetMapping("/info/post")
 	public String infoForm() {
 		return formViewName;
