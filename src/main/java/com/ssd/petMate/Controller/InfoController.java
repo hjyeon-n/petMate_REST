@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,7 +26,14 @@ public class InfoController {
 	
 	@Autowired
 	private InfoLikeFacade infoLikeFacade;
-	
+
+	@ApiOperation(value = "정보게시판 목록")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "pageNum", value = "페이지 번호", required = false, dataType = "int", paramType = "query", defaultValue = "1"),
+			@ApiImplicitParam(name = "contentNum", value = "페이지 내 번호", required = false, dataType = "int", paramType = "query", defaultValue = "10"),
+			@ApiImplicitParam(name = "searchType", value = "검색 종류", required = false, dataType = "string", paramType = "query", defaultValue = ""),
+			@ApiImplicitParam(name = "keyword", value = "검색어", required = false, dataType = "string", paramType = "query", defaultValue = "")
+	})
 	@GetMapping(value = "/info")
 	public ModelAndView infoBoard(ModelAndView mv, 
 			@RequestParam(required = false, defaultValue = "1") int pageNum,
@@ -50,13 +61,21 @@ public class InfoController {
 		mv.setViewName("info/infoList");
 		return mv;
 	}
-	
+
+	@ApiOperation(value = "정보게시판 게시글 삭제")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "boardNum", value = "게시글 번호", dataType = "int", paramType = "path")
+	})
 	@DeleteMapping(value = "/info/{boardNum}")
 	public String infoDelete(@PathVariable("boardNum") int boardNum) {
 		infoFacade.deleteBoard(boardNum);
 		return "success";
 	}
-	
+
+	@ApiOperation(value = "정보게시판 게시글 내용")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "boardNum", value = "게시글 번호", dataType = "int", paramType = "path")
+	})
 	@GetMapping(value = "/info/{boardNum}")
 	public ModelAndView infoDetail(ModelAndView mv, 
 			@PathVariable("boardNum") int boardNum) {
@@ -75,6 +94,10 @@ public class InfoController {
 	}
 	
 //	게시글 추천 기능
+	@ApiOperation(value = "정보게시판 게시글 추천")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "boardNum", value = "게시글 번호", dataType = "int", paramType = "path")
+	})
 	@PostMapping(value="/info-like/{boardNum}")
 //	@ResponseBody
 	public HashMap<String, Integer> infoLike(ModelAndView mv, HttpServletRequest request,

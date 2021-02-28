@@ -6,6 +6,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -71,6 +75,13 @@ public class PetsitterController {
 		return -1;
 	}
 
+	@ApiOperation(value = "매칭게시판 목록")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "pageNum", value = "페이지 번호", required = false, dataType = "int", paramType = "query", defaultValue = "1"),
+			@ApiImplicitParam(name = "contentNum", value = "페이지 내 번호", required = false, dataType = "int", paramType = "query", defaultValue = "10"),
+			@ApiImplicitParam(name = "searchType", value = "검색 종류", required = false, dataType = "string", paramType = "query", defaultValue = ""),
+			@ApiImplicitParam(name = "keyword", value = "검색어", required = false, dataType = "string", paramType = "query", defaultValue = "")
+	})
 	@GetMapping(value = "/petsitter")
 	public ModelAndView petsitterList(ModelAndView mv, @RequestParam(required = false, defaultValue = "1") int pageNum,
 									  @RequestParam(required = false, defaultValue = "10") int contentNum,  @RequestParam(required = false) String searchType,
@@ -92,6 +103,13 @@ public class PetsitterController {
 		return mv;
 	}
 
+	@ApiOperation(value = "매칭게시판 필터링된 목록")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "pageNum", value = "페이지 번호", dataType = "int", paramType = "query", defaultValue = "1"),
+			@ApiImplicitParam(name = "contentNum", value = "페이지 내 번호", dataType = "int", paramType = "query", defaultValue = "10"),
+			@ApiImplicitParam(name = "searchType", value = "검색 종류", dataType = "string", paramType = "query"),
+			@ApiImplicitParam(name = "keyword", value = "검색어", dataType = "string", paramType = "query")
+	})
 	@PostMapping(value="/petsitter")
 	public ModelAndView filteredList(ModelAndView mv, @RequestParam(required = false, defaultValue = "1") int pageNum,
 									 @RequestParam(required = false, defaultValue = "10") int contentNum,  @RequestParam(required = false) String searchType,
@@ -132,6 +150,10 @@ public class PetsitterController {
 }
 
 
+	@ApiOperation(value = "매칭게시판 게시글 내용")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "boardNum", value = "게시글 번호", dataType = "int", paramType = "path")
+	})
 	@GetMapping(value = "/petsitter/{boardNum}")
 	public ModelAndView petsitterDetail(ModelAndView mv, @PathVariable("boardNum") int boardNum) {
 		petsitterFacade.updateViews(boardNum);
@@ -158,6 +180,10 @@ public class PetsitterController {
 		return mv;
 	}
 
+	@ApiOperation(value = "매칭게시판 게시글 삭제")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "boardNum", value = "게시글 번호", dataType = "int", paramType = "path")
+	})
 	@DeleteMapping(value = "/petsitter/{boardNum}")
 	@ResponseBody
 	public String petsitterDelete(@PathVariable("boardNum") int boardNum) {
@@ -166,6 +192,10 @@ public class PetsitterController {
 	}
 
 	//      게시글 추천 기능
+	@ApiOperation(value = "매칭게시판 게시글 추천")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "boardNum", value = "게시글 번호", dataType = "int", paramType = "path")
+	})
 	@PostMapping(value="/petsitter-like/{boardNum}")
 	@ResponseBody
 	public HashMap<String, Integer> petsitterLike(ModelAndView mv, HttpServletRequest request,

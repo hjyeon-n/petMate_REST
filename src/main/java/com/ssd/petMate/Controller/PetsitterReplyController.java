@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,6 +27,10 @@ public class PetsitterReplyController {
 	private PetsitterFacade petsitterFacade;
 	
 //	게시글 상세보기를 클릭했을 때 댓글 리스트 가져오기
+	@ApiOperation(value = "매칭게시판 댓글 목록")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "boardNum", value = "게시글 번호", dataType = "int", paramType = "path")
+	})
 	@GetMapping(value = "/petsitter/reply-list/{boardNum}")
 	@ResponseBody
 	public List<PetsitterReply> petsitterReplyList(ModelAndView mv,
@@ -33,6 +40,7 @@ public class PetsitterReplyController {
 	}	
 	
 //	댓글 입력하기
+	@ApiOperation(value = "매칭게시판 댓글 등록")
 	@PostMapping(value = "/petsitter/reply")
 	@ResponseBody
 	public void insertPetsitterReply(ModelAndView mv, HttpServletRequest request,
@@ -51,6 +59,11 @@ public class PetsitterReplyController {
 	}
 	
 //	댓글 수정
+	@ApiOperation(value = "매칭게시판 댓글 수정")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "replyNum", value = "댓글 번호", dataType = "int", paramType = "path"),
+			@ApiImplicitParam(name = "replyContent", value = "덧글 내용", dataType = "string", paramType = "query")
+	})
 	@PostMapping(value= "/petsitter/reply/{replyNum}")
     @ResponseBody
     public void updatePetsitterReply(ModelAndView mv,
@@ -65,6 +78,11 @@ public class PetsitterReplyController {
     }
 	
 //	댓글 삭제
+	@ApiOperation(value = "매칭게시판 댓글 삭제")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "replyNum", value = "댓글 번호", dataType = "int", paramType = "path"),
+			@ApiImplicitParam(name = "boardNum", value = "게시글 번호", dataType = "int", paramType = "path")
+	})
 	@DeleteMapping(value = "/petsitter/reply/{replyNum}/{boardNum}")
 	@ResponseBody
 	public void deletePetsitterReply(ModelAndView mv, HttpServletRequest request,
@@ -78,7 +96,12 @@ public class PetsitterReplyController {
 		petsitter.setReplyCnt(replyCnt);
 		petsitterFacade.updateReplyCnt(petsitter);
 	}
-	
+
+	@ApiOperation(value = "매칭게시판 대댓글")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "replyNum", value = "댓글 번호", dataType = "int", paramType = "path"),
+			@ApiImplicitParam(name = "boardNum", value = "게시글 번호", dataType = "int", paramType = "path")
+	})
 	@PostMapping(value = "/petsitter/re-reply/{replyNum}")
 	@ResponseBody
 	public void movieReplyComment(ModelAndView mv, HttpServletRequest request,
@@ -116,7 +139,12 @@ public class PetsitterReplyController {
 		
 		petsitterFacade.updateReplyCnt(petsitter);
 	}
-	
+
+	@ApiOperation(value = "매칭게시판 댓글 선택")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "boardNum", value = "게시글 번호", dataType = "int", paramType = "path"),
+			@ApiImplicitParam(name = "replyNum", value = "댓글 번호", dataType = "int", paramType = "path")
+	})
 	@PostMapping(value="/petsitter/select/{boardNum}/{replyNum}")
 	@ResponseBody
 	public void selecetPetsitter(ModelAndView mv, HttpServletRequest request, 
